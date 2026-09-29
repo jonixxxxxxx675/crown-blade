@@ -736,3 +736,57 @@ a:focus,
     display:none !important;
   }
 }
+
+
+/* =========================================================
+   DESKTOP CORRECTION — About banner + Hero proportions.
+   ONLY min-width: 801px. Mobile is untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Remove all top navigation controls on desktop. */
+  .hero > nav{
+    display:none !important;
+  }
+
+  /* Slightly shorter hero; keep the existing desktop image and overlay copy. */
+  .hero{
+    height:560px !important;
+    min-height:560px !important;
+  }
+
+  .hero-copy{
+    padding:105px 7% 55px !important;
+  }
+
+  /* Use the exact supplied 1536×277 About banner as one clean full-width block. */
+  .desktop-about{
+    display:block !important;
+    width:100%;
+    height:auto;
+    min-height:0 !important;
+    padding:0 !important;
+    margin:0;
+    overflow:hidden;
+    background:#080807;
+    border:0;
+  }
+
+  .desktop-about-banner{
+    display:block;
+    width:100%;
+    height:auto;
+    margin:0;
+    padding:0;
+    border:0;
+  }
+
+  .desktop-about-banner img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:1536 / 277;
+    object-fit:cover;
+    border:0;
+    border-radius:0;
+  }
+}
