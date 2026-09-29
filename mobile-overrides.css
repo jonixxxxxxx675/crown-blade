@@ -400,8 +400,3 @@
   }
 }
 
-@media(max-width:800px){.mobile-page{position:relative}.mobile-page .page-lang{position:absolute;top:24px;right:18px;display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #c89d6566;border-radius:999px;background:#11100f;color:#e3b477;box-shadow:0 3px 0 #6f4e2d;font-size:9px}.mobile-page .page-lang .lang-icon{font-size:11px}}
-@media(max-width:800px){
-  .service-detail{position:relative}
-  .service-detail .page-lang{position:absolute;top:18px;right:20px;z-index:5;display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #c89d6566;border-radius:999px;background:#11100f;color:#e3b477;box-shadow:0 3px 0 #6f4e2d;font-size:9px}
-}
