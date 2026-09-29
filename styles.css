@@ -628,3 +628,111 @@ a:focus,
 @media (max-width:800px){
   .desktop-comments{display:none !important}
 }
+
+
+/* =========================================================
+   DESKTOP FINAL PATCH — isolated to min-width: 801px.
+   Mobile layout is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Remove all desktop hero menu controls. */
+  .hero nav .links,
+  .hero nav .nav-book,
+  .hero nav .hamb{
+    display:none !important;
+  }
+
+  /* Slightly reduce the desktop hero height. */
+  .hero{
+    min-height:520px;
+    height:520px;
+  }
+
+  /* About block: only visible on desktop, between Barbers and Comments. */
+  .desktop-about{
+    display:grid;
+    grid-template-columns:minmax(260px,1fr) minmax(360px,1.05fr) minmax(260px,1fr);
+    align-items:stretch;
+    gap:0;
+    min-height:300px;
+    padding:18px 4%;
+    background:#080807;
+    border-top:1px solid #ffffff12;
+    border-bottom:1px solid #ffffff12;
+  }
+
+  .desktop-about-media{
+    min-width:0;
+    overflow:hidden;
+    border:1px solid #ffffff18;
+    border-radius:18px;
+    background:#11100f;
+  }
+
+  .desktop-about-media img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  .desktop-about-media-left img{
+    filter:grayscale(1) brightness(.72);
+  }
+
+  .desktop-about-copy{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:34px 42px;
+  }
+
+  .desktop-about-copy h2{
+    margin:8px 0 16px;
+    font:500 48px/.92 "Cormorant Garamond",serif;
+    color:#f5eee5;
+    letter-spacing:-.02em;
+  }
+
+  .desktop-about-copy p{
+    max-width:520px;
+    margin:0;
+    color:#bdb4ac;
+    font-size:13px;
+    line-height:1.75;
+  }
+
+  .desktop-about-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:28px;
+    width:max-content;
+    min-width:220px;
+    margin-top:24px;
+    padding:11px 15px;
+    border:1px solid #c89d65;
+    color:#e3b477;
+    font:600 9px/1 Inter,sans-serif;
+    letter-spacing:.16em;
+    transition:background .2s ease,color .2s ease,transform .2s ease;
+  }
+
+  .desktop-about-button span{
+    font-size:17px;
+    line-height:1;
+    letter-spacing:0;
+  }
+
+  .desktop-about-button:hover{
+    background:#e3b477;
+    color:#17110b;
+    transform:translateY(-1px);
+  }
+}
+
+@media (max-width:800px){
+  .desktop-about{
+    display:none !important;
+  }
+}
