@@ -28,7 +28,17 @@
 <section class="booking" id="booking">
 <div class="step"><div class="step-title"><span>1</span><b>Choose service</b><button type="button">See all →</button></div><div class="service-row" id="service-row"></div></div>
 <div class="step"><div class="step-title"><span>2</span><b>Choose barber</b><button type="button">See all →</button></div><div class="barber-row" id="barber-row"></div></div>
-<div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month mobile-calendar" id="month-control"><button type="button" class="month-arrow" id="month-prev" aria-label="Previous month">‹</button><div class="month-scroll" id="month-scroll"></div><button type="button" class="month-arrow" id="month-next" aria-label="Next month">›</button><input type="month" id="month-picker" aria-label="Choose month and year"></div><div class="dates" id="dates"></div></div>
+<div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month mobile-calendar" id="month-control">
+  <button type="button" class="month-arrow" id="month-prev" aria-label="Previous month">‹</button>
+  <button type="button" class="month-label" id="month-label" aria-expanded="false">September 2026</button>
+  <button type="button" class="month-arrow" id="month-next" aria-label="Next month">›</button>
+  <div class="calendar-popover" id="calendar-popover" aria-hidden="true">
+    <div class="calendar-months" id="calendar-months"></div>
+    <div class="calendar-days" id="calendar-days"></div>
+  </div>
+  <input type="month" id="month-picker" aria-label="Choose month and year">
+</div>
+<div class="dates" id="dates"></div></div>
 <div class="step"><div class="step-title"><span>◷</span><b>Choose time</b></div><div class="times" id="times"></div></div>
 <button class="confirm" type="button" id="confirm">CONFIRM BOOKING <span>→</span></button>
 </section>
@@ -62,50 +72,74 @@ const barberRow=document.querySelector('#barber-row');
 barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
 let calendarMonth=new Date(2026,8,1);
 let date='28';
-const monthScroll=document.querySelector('#month-scroll');
 const monthPicker=document.querySelector('#month-picker');
 const datesEl=document.querySelector('#dates');
+const monthLabel=document.querySelector('#month-label');
+const monthPopover=document.querySelector('#calendar-popover');
+const calendarMonths=document.querySelector('#calendar-months');
+const calendarDays=document.querySelector('#calendar-days');
 const monthFormatter=new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'});
-const monthNames=new Intl.DateTimeFormat('en-US',{month:'long'});
-const weekdayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const monthList=[];
 for(let y=2026;y<=2035;y++) for(let m=0;m<12;m++) monthList.push(new Date(y,m,1));
 function monthKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function sameMonth(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()}
-function buildMonthStrip(){
-  monthScroll.innerHTML='';
-  monthList.forEach((d,i)=>{
+function daysInMonth(){return new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate()}
+function buildMonthPicker(){
+  calendarMonths.innerHTML='';
+  monthList.forEach(d=>{
     const b=document.createElement('button');
-    b.type='button';b.className='month-chip';b.dataset.index=i;b.dataset.month=monthKey(d);
+    b.type='button'; b.className='calendar-month-chip'; b.dataset.month=monthKey(d);
     b.textContent=monthFormatter.format(d);
-    b.onclick=()=>{calendarMonth=new Date(d);date=String(Math.min(Number(date),new Date(d.getFullYear(),d.getMonth()+1,0).getDate()));renderCalendar();scrollMonthIntoView(false)};
-    monthScroll.appendChild(b);
+    b.onclick=()=>{calendarMonth=new Date(d);date=String(Math.min(Number(date),daysInMonth()));renderCalendar();scrollCalendarItem(b,true)};
+    calendarMonths.appendChild(b);
   });
 }
+function buildDayPicker(){
+  calendarDays.innerHTML='';
+  for(let n=1;n<=daysInMonth();n++){
+    const b=document.createElement('button');
+    b.type='button'; b.className='calendar-day'; b.dataset.date=String(n); b.textContent=n;
+    b.onclick=()=>{date=String(n);render();renderCalendar();closeCalendar();scrollToStep('.booking .step:nth-child(4)')};
+    calendarDays.appendChild(b);
+  }
+}
 function renderCalendar(){
-  const days=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate();
+  monthLabel.textContent=monthFormatter.format(calendarMonth);
+  monthPicker.value=monthKey(calendarMonth);
+  buildDayPicker();
+  document.querySelectorAll('.calendar-month-chip').forEach(el=>el.classList.toggle('active',el.dataset.month===monthKey(calendarMonth)));
+  document.querySelectorAll('.calendar-day').forEach(el=>el.classList.toggle('active',el.dataset.date===date));
+  document.querySelectorAll('#dates button').forEach(el=>el.classList.toggle('active',el.dataset.date===date));
+  const activeMonth=calendarMonths.querySelector('.calendar-month-chip.active');
+  const activeDay=calendarDays.querySelector('.calendar-day.active');
+  if(activeMonth) activeMonth.scrollIntoView({behavior:'auto',block:'nearest',inline:'center'});
+  if(activeDay) activeDay.scrollIntoView({behavior:'auto',block:'nearest',inline:'center'});
+}
+function renderDates(){
+  const days=daysInMonth();
   datesEl.innerHTML='';
   for(let n=1;n<=days;n++){
     const d=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),n);
     const b=document.createElement('button');
-    b.type='button';b.dataset.date=String(n);b.innerHTML='<small>'+weekdayNames[d.getDay()]+'</small><b>'+n+'</b>';
+    b.type='button'; b.dataset.date=String(n);
+    b.innerHTML='<small>'+d.toLocaleDateString('en-US',{weekday:'short'})+'</small><b>'+n+'</b>';
     b.onclick=()=>{date=String(n);render();scrollDateIntoView(b);scrollToStep('.booking .step:nth-child(4)')};
     datesEl.appendChild(b);
   }
-  monthPicker.value=monthKey(calendarMonth);
-  document.querySelectorAll('.month-chip').forEach((el,i)=>el.classList.toggle('active',monthList[i]&&sameMonth(monthList[i],calendarMonth)));
-}
-function scrollMonthIntoView(smooth=true){
-  const active=monthScroll.querySelector('.month-chip.active');
-  if(active) active.scrollIntoView({behavior:smooth?'smooth':'auto',block:'nearest',inline:'center'});
 }
 function scrollDateIntoView(el){if(el) el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
-document.querySelector('#month-prev').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);date=String(Math.min(Number(date),new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate()));renderCalendar();scrollMonthIntoView()};
-document.querySelector('#month-next').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);date=String(Math.min(Number(date),new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate()));renderCalendar();scrollMonthIntoView()};
-monthPicker.onchange=()=>{const [y,m]=monthPicker.value.split('-').map(Number);if(y&&m){calendarMonth=new Date(y,m-1,1);date=String(Math.min(Number(date),new Date(y,m,0).getDate()));renderCalendar();scrollMonthIntoView()}};
-monthScroll.addEventListener('click',e=>{const chip=e.target.closest('.month-chip');if(chip&&chip.classList.contains('active')){try{monthPicker.showPicker()}catch(_){monthPicker.click()}}});
-monthScroll.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){monthScroll.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});
-buildMonthStrip();
+function scrollCalendarItem(el,smooth=true){if(el) el.scrollIntoView({behavior:smooth?'smooth':'auto',block:'nearest',inline:'center'});}
+function openCalendar(){monthPopover.classList.add('open');monthPopover.setAttribute('aria-hidden','false');monthLabel.setAttribute('aria-expanded','true');}
+function closeCalendar(){monthPopover.classList.remove('open');monthPopover.setAttribute('aria-hidden','true');monthLabel.setAttribute('aria-expanded','false');}
+monthLabel.onclick=()=>monthPopover.classList.contains('open')?closeCalendar():openCalendar();
+document.querySelector('#month-prev').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);date=String(Math.min(Number(date),daysInMonth()));renderCalendar();renderDates();openCalendar()};
+document.querySelector('#month-next').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);date=String(Math.min(Number(date),daysInMonth()));renderCalendar();renderDates();openCalendar()};
+monthPicker.onchange=()=>{const [y,m]=monthPicker.value.split('-').map(Number);if(y&&m){calendarMonth=new Date(y,m-1,1);date=String(Math.min(Number(date),daysInMonth()));renderCalendar();renderDates();}};
+monthPopover.addEventListener('click',e=>{if(e.target===monthPopover) closeCalendar()});
+document.addEventListener('click',e=>{if(isMobile()&&!document.querySelector('#month-control').contains(e.target)) closeCalendar()});
+calendarMonths.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){calendarMonths.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});
+calendarDays.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){calendarDays.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});
+buildMonthPicker();
 const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
 const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
 function render(){document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
@@ -116,8 +150,8 @@ document.querySelector('.hamb').onclick=openMenu;
 document.querySelector('.mobile-menu-close').onclick=closeMenu;
 menu.addEventListener('click',e=>{if(e.target===menu) closeMenu()});
 menu.querySelectorAll('a').forEach(a=>a.onclick=closeMenu);
+renderDates();
 renderCalendar();
-scrollMonthIntoView(false);
 render();
 document.querySelector('#confirm').onclick=()=>alert('Booking selected: '+service+' · '+barber+' · '+date+' Sep · '+time);
 </script>
