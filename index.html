@@ -72,27 +72,31 @@
   </div>
 
   <div class="desktop-barbers-grid">
-    <article class="desktop-barber-card" data-barber="Sofia" tabindex="0">
-      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-sofia.jpg" alt="Sofia — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Sofia profile">→</button></div>
-      <div class="desktop-barber-info"><span>BARBER</span><h3>Sofia</h3><p>Класичні стрижки та точна робота з формою.</p></div>
-    </article>
-
     <article class="desktop-barber-card" data-barber="Anna" tabindex="0">
       <div class="desktop-barber-photo"><img src="./assets/desktop-barber-anna.jpg" alt="Anna — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Anna profile">→</button></div>
       <div class="desktop-barber-info"><span>BARBER</span><h3>Anna</h3><p>Акуратні форми, текстура та сучасний стиль.</p></div>
     </article>
 
-    <article class="desktop-barber-card" data-barber="Alex" tabindex="0">
-      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-alex.jpg" alt="Alex — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Alex profile">→</button></div>
-      <div class="desktop-barber-info"><span>BARBER</span><h3>Alex</h3><p>Fade, текстурні стрижки та оформлення бороди.</p></div>
+    <article class="desktop-barber-card" data-barber="Sofia" tabindex="0">
+      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-sofia.jpg" alt="Sofia — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Sofia profile">→</button></div>
+      <div class="desktop-barber-info"><span>BARBER</span><h3>Sofia</h3><p>Класичні стрижки та точна робота з формою.</p></div>
+    </article>
+
+    <article class="desktop-barber-card" data-barber="Max" tabindex="0">
+      <div class="desktop-barber-photo"><img src="./assets/barber-3.jpg" alt="Max — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Max profile">→</button></div>
+      <div class="desktop-barber-info"><span>BARBER</span><h3>Max</h3><p>Сучасні текстурні стрижки та сильний характер образу.</p></div>
     </article>
 
     <article class="desktop-barber-card" data-barber="Daniel" tabindex="0">
       <div class="desktop-barber-photo"><img src="./assets/desktop-barber-daniel.jpg" alt="Daniel — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Daniel profile">→</button></div>
       <div class="desktop-barber-info"><span>BARBER</span><h3>Daniel</h3><p>Класичні чоловічі образи та бездоганна форма бороди.</p></div>
     </article>
-  </div>
-</section>
+
+    <article class="desktop-barber-card" data-barber="Alex" tabindex="0">
+      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-alex.jpg" alt="Alex — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Alex profile">→</button></div>
+      <div class="desktop-barber-info"><span>BARBER</span><h3>Alex</h3><p>Fade, текстурні стрижки та оформлення бороди.</p></div>
+    </article>
+  </div></section>
 
 <div class="desktop-barber-modal" id="desktop-barber-modal" aria-hidden="true">
   <div class="desktop-barber-modal-backdrop" data-barber-close></div>
@@ -115,6 +119,41 @@
   </a>
 </section>
 
+<section class="desktop-contact-gallery" aria-label="Contact and gallery">
+  <div class="desktop-contact">
+    <span class="eyebrow">КОНТАКТИ</span>
+    <h2>Зв’яжіться<br>з нами</h2>
+    <p>Маєте питання, хочете дізнатися більше або просто поспілкуватися? Ми завжди на зв’язку.</p>
+    <form class="desktop-contact-form">
+      <label><span>♙</span><input type="text" placeholder="Ваше ім’я"></label>
+      <label><span>✉</span><input type="text" placeholder="Email або телефон"></label>
+      <label><span>▱</span><textarea placeholder="Ваше повідомлення"></textarea></label>
+      <button type="submit">НАДІСЛАТИ ПОВІДОМЛЕННЯ <span>→</span></button>
+    </form>
+  </div>
+
+  <div class="desktop-contact-details">
+    <div><span class="contact-detail-icon">⌖</span><p>Warsaw, Poland<br>ul. Marszałkowska 123<br>00-001 Warszawa</p></div>
+    <div><span class="contact-detail-icon">◔</span><p>+48 123 456 789</p></div>
+    <div><span class="contact-detail-icon">◷</span><p>Пн – Сб: 10:00 – 21:00<br>Нд: 11:00 – 19:00</p></div>
+    <div><span class="contact-detail-icon">◎</span><p>@crown.blade</p></div>
+  </div>
+
+  <div class="desktop-gallery-work">
+    <div class="desktop-gallery-work-head">
+      <div><span class="eyebrow">НАШІ РОБОТИ</span><h2>Стиль у деталях</h2></div>
+      <a href="#barbers">ВІДКРИТИ ГАЛЕРЕЮ <span>→</span></a>
+    </div>
+    <div class="desktop-gallery-work-grid">
+      <img class="gallery-main" src="./assets/gallery-model-1.png" alt="Crown &amp; Blade haircut">
+      <img src="./assets/gallery-model-2.png" alt="Crown &amp; Blade haircut">
+      <img src="./assets/gallery-model-3.png" alt="Crown &amp; Blade haircut">
+      <img src="./assets/gallery-model-4.png" alt="Crown &amp; Blade haircut">
+      <img src="./assets/gallery-model-2.png" alt="Crown &amp; Blade haircut">
+    </div>
+  </div>
+</section>
+
 <section class="desktop-comments" id="comments" aria-label="Client comments">
   <div class="desktop-comments-head">
     <div>
@@ -124,9 +163,10 @@
     <span class="desktop-comments-kicker">CROWN &amp; BLADE CLIENTS</span>
   </div>
   <div class="desktop-comments-grid">
-    <article class="desktop-comment-card"><img src="./assets/review-maxim-1.png" alt="Client comment from Maxim"></article>
-    <article class="desktop-comment-card"><img src="./assets/review-oleh.png" alt="Client comment from Oleh"></article>
-    <article class="desktop-comment-card"><img src="./assets/review-denis.png" alt="Client comment from Denis"></article>
+    <article class="desktop-comment-card"><img src="./assets/review-maxim-1.png" alt="Client comment from Oleh"></article>
+    <article class="desktop-comment-card"><img src="./assets/review-oleh.png" alt="Client comment from Maksym"></article>
+    <article class="desktop-comment-card"><img src="./assets/review-denis.png" alt="Client comment from Andrii"></article>
+    <article class="desktop-comment-card"><img src="./assets/review-oleh.png" alt="Client comment from Vladyslav"></article>
   </div>
 </section>
 
@@ -145,6 +185,19 @@
     <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a>
   </div>
   <div class="mobile-footer-meta">WARSAW · POLAND &nbsp;·&nbsp; © 2026 CROWN &amp; BLADE</div>
+</footer>
+
+<footer class="desktop-footer" aria-label="Desktop footer">
+  <div class="desktop-footer-brand"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div>
+  <nav>
+    <a href="#top">ГОЛОВНА</a>
+    <a href="./about.html">ПРО НАС</a>
+    <a href="#barbers">ГАЛЕРЕЯ</a>
+    <a href="#comments">ВІДГУКИ</a>
+    <a href="#contact">КОНТАКТИ</a>
+  </nav>
+  <a class="desktop-footer-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">◎ @crown.blade</a>
+  <div class="desktop-footer-bottom"><span>© 2024 Crown &amp; Blade. Усі права захищені.</span><span>Створено для справжніх чоловіків.</span></div>
 </footer>
 </main>
 <script src="./mobile-i18n.js"></script>
@@ -180,6 +233,11 @@
       image: './assets/desktop-barber-daniel.jpg',
       text: 'Daniel поєднує класичний барберинг із сучасною подачею. Особливу увагу приділяє формі стрижки та акуратності бороди.',
       meta: 'CLASSIC · BEARD · FINISH'
+    },
+    Max: {
+      image: './assets/barber-3.jpg',
+      text: 'Max працює з сучасними текстурними стрижками та підбирає форму під характер і стиль клієнта.',
+      meta: 'TEXTURE · MODERN CUTS · STYLE'
     }
   };
 
@@ -421,6 +479,12 @@ document.querySelector('#confirm').onclick=async()=>{
 document.querySelector('#booking-success-close').onclick=closeBookingSuccess;
 document.querySelector('#booking-success-ok').onclick=closeBookingSuccess;
 bookingSuccess.addEventListener('click',e=>{if(e.target===bookingSuccess)closeBookingSuccess()});
+</script>
+<script>
+(() => {
+  const form = document.querySelector('.desktop-contact-form');
+  if (form) form.addEventListener('submit', e => e.preventDefault());
+})();
 </script>
 </body>
 </html>
