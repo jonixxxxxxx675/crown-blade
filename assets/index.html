@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crown & Blade — Barber House</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main>
+<header class="hero">
+<nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#">HOME</a><a href="#about">ABOUT</a><a href="#services">SERVICES</a><a href="#barbers">BARBERS</a><a href="#gallery">GALLERY</a><a href="#contact">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button">☰</button></nav>
+<div class="hero-copy"><span class="eyebrow">WARSAW · POLAND</span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2>More than a haircut.<br>It’s your standard.</h2><p>Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking">BOOK AN APPOINTMENT　→</a></div>
+</header>
+<section class="booking" id="booking">
+<div class="step"><div class="step-title"><span>1</span><b>Choose service</b><button type="button">See all →</button></div><div class="service-row" id="service-row"></div></div>
+<div class="step"><div class="step-title"><span>2</span><b>Choose barber</b><button type="button">See all →</button></div><div class="barber-row" id="barber-row"></div></div>
+<div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month">‹ <span>▣ &nbsp; September 2026</span> ›</div><div class="dates" id="dates"></div></div>
+<div class="step"><div class="step-title"><span>◷</span><b>Choose time</b></div><div class="times" id="times"></div></div>
+<button class="confirm" type="button" id="confirm">CONFIRM BOOKING <span>→</span></button>
+</section>
+<section class="services" id="services"><div class="services-intro"><span class="eyebrow">SERVICES</span><h2>Our Services</h2><p>Професійний догляд<br>для сучасних чоловіків.</p><button type="button">VIEW ALL SERVICES　→</button></div><div class="cards" id="cards"></div></section>
+<footer id="contact"><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><span>WARSAW · POLAND</span><span>© 2026 CROWN &amp; BLADE</span></footer>
+</main>
+<script>
+const services=[
+{name:'Classic Haircut',short:'Haircut',price:'80 грн',icon:'✂'},
+{name:'Hair + Beard',short:'Hair + Beard',price:'130 грн',icon:'♜'},
+{name:'Beard Trim',price:'60 грн',icon:'◈'},
+{name:'Royal Shave',price:'70 грн',icon:'⌁'},
+{name:'Kids Haircut',price:'60 грн',icon:'✦'},
+{name:'Skin Fade',price:'90 грн',icon:'◌'}];
+const barbers=['Any Barber','Alex','Mia','Daniel','Emma','Max'];
+const times=['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30'];
+let service=services[0].name, barber='Any Barber', date='28', time='10:00';
+const isMobile=()=>window.matchMedia('(max-width: 800px)').matches;
+const scrollToStep=(selector)=>{if(!isMobile()) return; const el=document.querySelector(selector); if(el) el.scrollIntoView({behavior:'smooth',block:'center'});};
+const serviceRow=document.querySelector('#service-row');
+services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong>'+s.short+'</strong><small>'+s.price+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
+const barberRow=document.querySelector('#barber-row');
+barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
+const dates=[['Mon','28'],['Tue','29'],['Wed','30'],['Thu','1'],['Fri','2'],['Sat','3'],['Sun','4']];
+const datesEl=document.querySelector('#dates');dates.forEach(([d,n])=>{const b=document.createElement('button');b.type='button';b.dataset.date=n;b.innerHTML='<small>'+d+'</small><b>'+n+'</b>';b.onclick=()=>{date=n;render();scrollToStep('.booking .step:nth-child(4)')};datesEl.appendChild(b)});
+const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
+const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render()};cards.appendChild(a)});
+function render(){document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
+render();
+document.querySelector('#confirm').onclick=()=>alert('Booking selected: '+service+' · '+barber+' · '+date+' Sep · '+time);
+</script>
+</body>
+</html>
