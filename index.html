@@ -19,6 +19,15 @@
 <div class="step"><div class="step-title"><span>◷</span><b>Choose time</b></div><div class="times" id="times"></div></div>
 <button class="confirm" type="button" id="confirm">CONFIRM BOOKING <span>→</span></button>
 </section>
+<section class="testimonials" aria-label="Відгуки клієнтів">
+  <div class="testimonials-title"><span class="eyebrow">REVIEWS</span><h2>Відгуки клієнтів</h2></div>
+  <div class="testimonial-row">
+    <img src="./assets/review-maxim-1.png" alt="Відгук Максима">
+    <img src="./assets/review-oleh.png" alt="Відгук Олега">
+    <img src="./assets/review-denis.png" alt="Відгук Дениса">
+    <img src="./assets/review-maxim-2.png" alt="Відгук Максима">
+  </div>
+</section>
 <section class="services" id="services"><div class="services-intro"><span class="eyebrow">SERVICES</span><h2>Our Services</h2><p>Професійний догляд<br>для сучасних чоловіків.</p><button type="button">VIEW ALL SERVICES　→</button></div><div class="cards" id="cards"></div></section>
 <footer id="contact"><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><span>WARSAW · POLAND</span><span>© 2026 CROWN &amp; BLADE</span></footer>
 </main>
@@ -42,7 +51,7 @@ barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='butto
 const dates=[['Mon','28'],['Tue','29'],['Wed','30'],['Thu','1'],['Fri','2'],['Sat','3'],['Sun','4']];
 const datesEl=document.querySelector('#dates');dates.forEach(([d,n])=>{const b=document.createElement('button');b.type='button';b.dataset.date=n;b.innerHTML='<small>'+d+'</small><b>'+n+'</b>';b.onclick=()=>{date=n;render();scrollToStep('.booking .step:nth-child(4)')};datesEl.appendChild(b)});
 const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
-const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render()};cards.appendChild(a)});
+const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{if(isMobile()){window.location.href='./service.html?service='+i;return}service=s.name;render()};cards.appendChild(a)});
 function render(){document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
 render();
 document.querySelector('#confirm').onclick=()=>alert('Booking selected: '+service+' · '+barber+' · '+date+' Sep · '+time);

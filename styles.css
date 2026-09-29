@@ -33,3 +33,41 @@ nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position
  .services .cards .p3{background-image:url("./assets/service-4.jpg");background-size:cover;background-position:center}
  .services .cards .p4{background-image:url("./assets/service-5.jpg");background-size:cover;background-position:center}
 }
+
+
+/* Mobile-only additions */
+@media(max-width:800px){
+  /* Remove the duplicated hero title/subtitle; the brand is already in the top logo. */
+  .hero-copy h1,
+  .hero-copy .sub{display:none}
+
+  /* Remove the first mobile "See all" control from the booking block. */
+  .booking .step:nth-child(1) .step-title button{display:none}
+
+  /* Keep service photos fully visible instead of cropping their square source images. */
+  .services .card-photo{height:auto;aspect-ratio:1/1;background-size:contain;background-repeat:no-repeat;background-color:#11100f}
+
+  /* Client reviews inserted above Our Services. */
+  .testimonials{display:block;background:#0a0908;padding:18px 0 32px;border-top:1px solid #ffffff0e}
+  .testimonials-title{padding:0 20px 14px}
+  .testimonials-title h2{font:500 30px "Cormorant Garamond";margin:5px 0 0}
+  .testimonial-row{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;padding:0 20px 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .testimonial-row::-webkit-scrollbar{display:none}
+  .testimonial-row img{flex:0 0 88%;width:88%;height:auto;display:block;border-radius:18px;scroll-snap-align:start;border:1px solid #ffffff18}
+}
+
+@media(min-width:801px){
+  .testimonials{display:none}
+}
+
+/* Individual service page: intended for the mobile flow. */
+.service-detail-page{min-height:100vh;background:#080807;color:var(--text)}
+.service-detail{max-width:760px;margin:0 auto;padding:18px 20px 40px}
+.service-detail-back{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:11px;letter-spacing:.08em;text-decoration:none;margin-bottom:18px}
+.service-detail-photo{width:100%;aspect-ratio:1/1;object-fit:cover;border:1px solid #c89d65;border-radius:14px;display:block}
+.service-detail .eyebrow{display:block;margin-top:22px}
+.service-detail h1{font-size:46px;line-height:.95;margin:8px 0 10px}
+.service-detail-price{color:var(--gold);font-size:14px;margin-bottom:20px}
+.service-detail p{font-size:13px;line-height:1.7;color:#c9c0b8;margin:0 0 18px}
+.service-detail-book{display:block;text-align:center;background:#e2b477;color:#17110b;padding:15px;border:0;font-size:11px;letter-spacing:.08em;text-decoration:none}
+@media(min-width:801px){.service-detail-page{display:none}}
