@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Crown & Blade — Barber House</title>
 <link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./mobile-overrides.css">
 </head>
 <body>
 <main>
 <header class="hero">
-<nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#">HOME</a><a href="#about">ABOUT</a><a href="#services">SERVICES</a><a href="#barbers">BARBERS</a><a href="#gallery">GALLERY</a><a href="#contact">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button">☰</button></nav>
+<nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#">HOME</a><a href="#about">ABOUT</a><a href="#services">SERVICES</a><a href="#barbers">BARBERS</a><a href="#gallery">GALLERY</a><a href="./contact.html">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button" aria-label="Open menu">☰</button></nav>
 <div class="hero-copy"><span class="eyebrow">WARSAW · POLAND</span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2>More than a haircut.<br>It’s your standard.</h2><p>Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking">BOOK AN APPOINTMENT　→</a></div>
 </header>
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
@@ -18,10 +19,10 @@
     <div class="mobile-menu-title">CROWN &amp; BLADE</div>
     <a href="#booking">Записатися</a>
     <a href="#services">Послуги</a>
-    <a href="#contact">Контакти</a>
+    <a href="./contact.html">Контакти</a>
     <div class="mobile-menu-divider"></div>
-    <button type="button" id="account-btn">Мій акаунт</button>
-    <button type="button" id="support-btn">Служба підтримки</button>
+    <a href="./account.html">Мій акаунт</a>
+    <a href="./support.html">Служба підтримки</a>
   </div>
 </div>
 <section class="booking" id="booking">
@@ -49,8 +50,7 @@ const services=[
 {name:'Hair + Beard',short:'Hair + Beard',price:'130 грн',icon:'♜'},
 {name:'Beard Trim',price:'60 грн',icon:'◈'},
 {name:'Royal Shave',price:'70 грн',icon:'⌁'},
-{name:'Kids Haircut',price:'60 грн',icon:'✦'},
-{name:'Skin Fade',price:'90 грн',icon:'◌'}];
+{name:'Kids Haircut',price:'60 грн',icon:'✦'}];
 const barbers=['Alex','Mia','Daniel','Emma','Max'];
 const times=['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30'];
 let service=services[0].name, barber='Alex', date='28', time='10:00';
@@ -63,7 +63,7 @@ barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='butto
 const dates=[['Mon','28'],['Tue','29'],['Wed','30'],['Thu','1'],['Fri','2'],['Sat','3'],['Sun','4']];
 const datesEl=document.querySelector('#dates');dates.forEach(([d,n])=>{const b=document.createElement('button');b.type='button';b.dataset.date=n;b.innerHTML='<small>'+d+'</small><b>'+n+'</b>';b.onclick=()=>{date=n;render();scrollToStep('.booking .step:nth-child(4)')};datesEl.appendChild(b)});
 const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
-const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a)});
+const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
 function render(){document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
 const menu=document.querySelector('#mobile-menu');
 const openMenu=()=>{menu.classList.add('open');menu.setAttribute('aria-hidden','false');document.body.classList.add('menu-open')};
@@ -71,8 +71,6 @@ const closeMenu=()=>{menu.classList.remove('open');menu.setAttribute('aria-hidde
 document.querySelector('.hamb').onclick=openMenu;
 document.querySelector('.mobile-menu-close').onclick=closeMenu;
 menu.addEventListener('click',e=>{if(e.target===menu) closeMenu()});
-document.querySelector('#account-btn').onclick=()=>alert('Розділ акаунта буде доступний після реєстрації.');
-document.querySelector('#support-btn').onclick=()=>alert('Служба підтримки: напишіть нам через контакти.');
 menu.querySelectorAll('a').forEach(a=>a.onclick=closeMenu);
 render();
 document.querySelector('#confirm').onclick=()=>alert('Booking selected: '+service+' · '+barber+' · '+date+' Sep · '+time);

@@ -1,0 +1,77 @@
+/* Mobile-only final pass. Desktop layout is intentionally untouched. */
+@media (max-width:800px){
+  .hero-copy{
+    transform:none !important;
+    padding-top:18px !important;
+    padding-bottom:24px !important;
+    max-width:72% !important;
+  }
+  .hero{min-height:300px !important}
+
+  .mobile-menu-panel a,.mobile-menu-panel button{cursor:pointer}
+
+  .mobile-page{
+    min-height:100vh;
+    padding:24px 18px 40px;
+    background:#080807;
+  }
+  .mobile-page-back{
+    display:inline-block;
+    color:#d8a96d;
+    font-size:12px;
+    margin-bottom:28px;
+  }
+  .mobile-page .eyebrow{display:block;margin-bottom:8px}
+  .mobile-page h1{
+    font:500 42px/1 "Cormorant Garamond";
+    letter-spacing:-.02em;
+    margin:0 0 18px;
+  }
+  .mobile-page p{color:#cfc6bd;font-size:13px;line-height:1.7}
+  .mobile-form{display:grid;gap:12px;margin-top:24px}
+  .mobile-form input,.mobile-form textarea{
+    width:100%;
+    border:1px solid #ffffff20;
+    border-radius:8px;
+    background:#11110f;
+    color:#f5eee5;
+    padding:14px;
+    outline:none;
+  }
+  .mobile-form textarea{min-height:130px;resize:vertical}
+  .mobile-form button,.mobile-page .page-action{
+    border:0;
+    background:#e2b477;
+    color:#17110b;
+    padding:14px 18px;
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+  .support-list{display:grid;gap:10px;margin-top:24px}
+  .support-item{
+    border:1px solid #ffffff16;
+    background:#11110f;
+    border-radius:8px;
+    padding:15px;
+  }
+  .support-item strong{display:block;margin-bottom:6px}
+  .support-item span{color:#aaa19a;font-size:12px;line-height:1.5}
+}
+
+/* Desktop must remain unchanged. */
+@media(min-width:801px){
+  .mobile-page{display:none}
+}
+
+/* Service detail fixes. */
+.service-detail-page{min-height:100vh;background:#080807;color:#f5eee5}
+.service-detail{max-width:760px;margin:0 auto;padding:18px 20px 40px}
+.service-detail-back{display:inline-flex;align-items:center;gap:8px;color:#d8a96d;font-size:11px;letter-spacing:.08em;text-decoration:none;margin-bottom:18px}
+.service-detail-photo-wrap{width:100%;aspect-ratio:1/1;overflow:hidden;border:1px solid #c89d65;border-radius:14px;background:#11100f}
+.service-detail-photo-wrap .service-detail-photo{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.25);border:0;border-radius:0;display:block}
+.service-detail .eyebrow{display:block;margin-top:22px}
+.service-detail h1{font-size:46px;line-height:.95;margin:8px 0 10px}
+.service-detail-price{color:#d8a96d;font-size:14px;margin-bottom:20px}
+.service-detail p{font-size:13px;line-height:1.7;color:#c9c0b8;margin:0 0 18px}
+.service-detail-book{display:block;text-align:center;background:#e2b477;color:#17110b;padding:15px;border:0;font-size:11px;letter-spacing:.08em;text-decoration:none}
+@media(min-width:801px){.service-detail-page{display:none}}

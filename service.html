@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Crown & Blade — Service</title>
 <link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./mobile-overrides.css">
 </head>
 <body class="service-detail-page">
 <main class="service-detail" id="service-detail"></main>
@@ -14,8 +15,7 @@ const services=[
  {name:'Hair + Beard',price:'130 грн',image:'service-2.jpg',text:'Комплексна процедура для волосся та бороди. Стрижка поєднується з оформленням контурів і довжини бороди, щоб уся форма виглядала цілісно та охайно.'},
  {name:'Beard Trim',price:'60 грн',image:'service-3.jpg',text:'Оформлення бороди з корекцією довжини, контурів і переходів. Майстер підкреслює природну форму та залишає чистий, доглянутий результат.'},
  {name:'Royal Shave',price:'70 грн',image:'service-4.jpg',text:'Класичне королівське гоління з підготовкою шкіри, теплою піною та ретельним проходом бритвою. Завершення процедури — чисті контури та комфортне відчуття шкіри.'},
- {name:'Kids Haircut',price:'60 грн',image:'service-5.jpg',text:'Акуратна стрижка для дітей із підбором зручної форми та довжини. Процедура виконується уважно, щоб результат був охайним і комфортним.'},
- {name:'Skin Fade',price:'90 грн',image:'service-1.jpg',text:'Плавний skin fade з поступовим переходом від шкіри до довжини зверху. Майстер ретельно пропрацьовує контури та переходи для чистого сучасного результату.'}
+ {name:'Kids Haircut',price:'60 грн',image:'service-5.jpg',text:'Акуратна стрижка для дітей із підбором зручної форми та довжини. Процедура виконується уважно, щоб результат був охайним і комфортним.'}
 ];
 const i=Math.max(0,Math.min(services.length-1,Number(new URLSearchParams(location.search).get('service'))||0));
 const s=services[i];
