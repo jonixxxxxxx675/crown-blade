@@ -28,7 +28,21 @@
 <section class="booking" id="booking">
 <div class="step"><div class="step-title"><span>1</span><b>Choose service</b><button type="button">See all →</button></div><div class="service-row" id="service-row"></div></div>
 <div class="step"><div class="step-title"><span>2</span><b>Choose barber</b><button type="button">See all →</button></div><div class="barber-row" id="barber-row"></div></div>
-<div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month">‹ <span>▣ &nbsp; September 2026</span> ›</div><div class="dates" id="dates"></div></div>
+<div class="step date-step">
+<div class="step-title"><span>3</span><b>Choose date</b></div>
+<div class="month" id="month-control">
+  <button type="button" class="month-arrow" id="month-prev" aria-label="Previous month">‹</button>
+  <button type="button" class="month-current" id="month-current" aria-haspopup="dialog" aria-expanded="false">
+    <span class="month-icon">▣</span><span id="month-label">September 2026</span>
+  </button>
+  <button type="button" class="month-arrow" id="month-next" aria-label="Next month">›</button>
+</div>
+<div class="month-picker" id="month-picker" role="dialog" aria-label="Choose month" aria-hidden="true">
+  <div class="month-picker-head"><span>Choose month</span><button type="button" id="month-close" aria-label="Close">×</button></div>
+  <div class="month-picker-list" id="month-picker-list"></div>
+</div>
+<div class="dates" id="dates"></div>
+</div>
 <div class="step"><div class="step-title"><span>◷</span><b>Choose time</b></div><div class="times" id="times"></div></div>
 <button class="confirm" type="button" id="confirm">CONFIRM BOOKING <span>→</span></button>
 </section>
@@ -66,29 +80,258 @@ const services=[
 {name:'Beard Trim',price:'60 грн',icon:'◈'},
 {name:'Royal Shave',price:'70 грн',icon:'⌁'},
 {name:'Kids Haircut',price:'60 грн',icon:'✦'}];
+
 const barbers=['Alex','Mia','Daniel','Emma','Max'];
-const times=Array.from({length:21},(_,i)=>{const m=600+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')});
-let service=services[0].name, barber='Alex', date='28', time='10:00';
+const times=Array.from({length:21},(_,i)=>{
+  const m=600+i*30;
+  return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+});
+
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WEEKDAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+let service=services[0].name;
+let barber='Alex';
+let selectedMonth=new Date(2026,8,1);
+let selectedDay=28;
+let time='10:00';
+
 const isMobile=()=>window.matchMedia('(max-width: 800px)').matches;
-const scrollToStep=(selector)=>{if(!isMobile()) return; const el=document.querySelector(selector); if(el) el.scrollIntoView({behavior:'smooth',block:'center'});};
+const scrollToStep=(selector)=>{
+  if(!isMobile()) return;
+  const el=document.querySelector(selector);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+};
+
 const serviceRow=document.querySelector('#service-row');
-services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong>'+s.short+'</strong><small>'+s.price+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
+services.slice(0,4).forEach((s)=>{
+  const b=document.createElement('button');
+  b.type='button';
+  b.className='service-choice '+(service===s.name?'active':'');
+  b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong>'+s.short+'</strong><small>'+s.price+'</small>';
+  b.onclick=()=>{
+    service=s.name;
+    render();
+    scrollToStep('.booking .step:nth-child(2)');
+  };
+  serviceRow.appendChild(b);
+});
+
 const barberRow=document.querySelector('#barber-row');
-barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
-const dates=[['Mon','28'],['Tue','29'],['Wed','30'],['Thu','1'],['Fri','2'],['Sat','3'],['Sun','4']];
-const datesEl=document.querySelector('#dates');dates.forEach(([d,n])=>{const b=document.createElement('button');b.type='button';b.dataset.date=n;b.innerHTML='<small>'+d+'</small><b>'+n+'</b>';b.onclick=()=>{date=n;render();scrollToStep('.booking .step:nth-child(4)')};datesEl.appendChild(b)});
-const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
-const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
-function render(){document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
+barbers.forEach((b,i)=>{
+  const el=document.createElement('button');
+  el.type='button';
+  el.className='barber';
+  el.dataset.name=b;
+  el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';
+  el.onclick=()=>{
+    barber=b;
+    render();
+    scrollToStep('.booking .step:nth-child(3)');
+  };
+  barberRow.appendChild(el);
+});
+
+const datesEl=document.querySelector('#dates');
+const timesEl=document.querySelector('#times');
+const monthLabel=document.querySelector('#month-label');
+const monthPicker=document.querySelector('#month-picker');
+const monthPickerList=document.querySelector('#month-picker-list');
+const monthCurrent=document.querySelector('#month-current');
+
+function monthKey(date){
+  return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0');
+}
+
+function daysInMonth(date){
+  return new Date(date.getFullYear(),date.getMonth()+1,0).getDate();
+}
+
+function renderMonthPicker(){
+  monthPickerList.innerHTML='';
+  const startYear=selectedMonth.getFullYear();
+  const endYear=Math.max(2030,startYear+4);
+
+  for(let year=2026;year<=endYear;year++){
+    const yearTitle=document.createElement('div');
+    yearTitle.className='month-picker-year';
+    yearTitle.textContent=year;
+    monthPickerList.appendChild(yearTitle);
+
+    MONTHS.forEach((name,month)=>{
+      const item=document.createElement('button');
+      item.type='button';
+      item.className='month-picker-item';
+      item.dataset.month=monthKey(new Date(year,month,1));
+      item.innerHTML='<span>'+name+' '+year+'</span><span class="month-check">✓</span>';
+
+      if(year===selectedMonth.getFullYear() && month===selectedMonth.getMonth()){
+        item.classList.add('active');
+      }
+
+      item.onclick=()=>{
+        selectedMonth=new Date(year,month,1);
+        selectedDay=Math.min(selectedDay,daysInMonth(selectedMonth));
+        closeMonthPicker();
+        render();
+        requestAnimationFrame(()=>{
+          const active=document.querySelector('#dates button.active');
+          if(active) active.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+        });
+      };
+
+      monthPickerList.appendChild(item);
+    });
+  }
+}
+
+function openMonthPicker(){
+  if(!isMobile()) return;
+  renderMonthPicker();
+  monthPicker.classList.add('open');
+  monthPicker.setAttribute('aria-hidden','false');
+  monthCurrent.setAttribute('aria-expanded','true');
+
+  requestAnimationFrame(()=>{
+    const active=monthPicker.querySelector('.month-picker-item.active');
+    if(active) active.scrollIntoView({block:'center',behavior:'instant'});
+  });
+}
+
+function closeMonthPicker(){
+  monthPicker.classList.remove('open');
+  monthPicker.setAttribute('aria-hidden','true');
+  monthCurrent.setAttribute('aria-expanded','false');
+}
+
+function moveMonth(delta){
+  selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+delta,1);
+  selectedDay=Math.min(selectedDay,daysInMonth(selectedMonth));
+  render();
+  requestAnimationFrame(()=>{
+    const active=document.querySelector('#dates button.active');
+    if(active) active.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  });
+}
+
+function renderDates(){
+  datesEl.innerHTML='';
+  const total=daysInMonth(selectedMonth);
+  const year=selectedMonth.getFullYear();
+  const month=selectedMonth.getMonth();
+
+  for(let day=1;day<=total;day++){
+    const current=new Date(year,month,day);
+    const b=document.createElement('button');
+    b.type='button';
+    b.dataset.date=String(day);
+    b.setAttribute('aria-label',WEEKDAYS[current.getDay()]+' '+day+' '+MONTHS[month]+' '+year);
+    b.innerHTML='<small>'+WEEKDAYS[current.getDay()]+'</small><b>'+day+'</b>';
+
+    if(day===selectedDay) b.classList.add('active');
+
+    b.onclick=()=>{
+      selectedDay=day;
+      renderDates();
+      b.classList.add('active');
+      requestAnimationFrame(()=>b.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}));
+      renderTimes();
+    };
+
+    datesEl.appendChild(b);
+  }
+
+  const active=datesEl.querySelector('button.active');
+  if(active && isMobile()){
+    requestAnimationFrame(()=>active.scrollIntoView({behavior:'auto',inline:'center',block:'nearest'}));
+  }
+}
+
+function renderTimes(){
+  timesEl.innerHTML='';
+  times.forEach(t=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.dataset.time=t;
+    b.textContent=t;
+    b.classList.toggle('active',t===time);
+    b.onclick=()=>{
+      time=t;
+      renderTimes();
+    };
+    timesEl.appendChild(b);
+  });
+}
+
+const cards=document.querySelector('#cards');
+services.forEach((s,i)=>{
+  const a=document.createElement('article');
+  a.className='card';
+  a.dataset.name=s.name;
+  a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';
+  a.onclick=()=>{
+    service=s.name;
+    render();
+    if(isMobile()){
+      setTimeout(()=>{window.location.href='./service.html?service='+i},180);
+    }
+  };
+  cards.appendChild(a);
+});
+
+function render(){
+  monthLabel.textContent=MONTHS[selectedMonth.getMonth()]+' '+selectedMonth.getFullYear();
+
+  document.querySelectorAll('.service-choice').forEach((e,i)=>
+    e.classList.toggle('active',services[i].name===service)
+  );
+  document.querySelectorAll('.card').forEach(e=>
+    e.classList.toggle('active',e.dataset.name===service)
+  );
+  document.querySelectorAll('.barber').forEach(e=>
+    e.classList.toggle('active',e.dataset.name===barber)
+  );
+
+  renderDates();
+  renderTimes();
+
+  if(monthPicker.classList.contains('open')) renderMonthPicker();
+}
+
+document.querySelector('#month-prev').onclick=()=>moveMonth(-1);
+document.querySelector('#month-next').onclick=()=>moveMonth(1);
+document.querySelector('#month-current').onclick=openMonthPicker;
+document.querySelector('#month-close').onclick=closeMonthPicker;
+
+monthPicker.addEventListener('click',e=>{
+  if(e.target===monthPicker) closeMonthPicker();
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeMonthPicker();
+});
+
 const menu=document.querySelector('#mobile-menu');
-const openMenu=()=>{menu.classList.add('open');menu.setAttribute('aria-hidden','false');document.body.classList.add('menu-open')};
-const closeMenu=()=>{menu.classList.remove('open');menu.setAttribute('aria-hidden','true');document.body.classList.remove('menu-open')};
+const openMenu=()=>{
+  menu.classList.add('open');
+  menu.setAttribute('aria-hidden','false');
+  document.body.classList.add('menu-open');
+};
+const closeMenu=()=>{
+  menu.classList.remove('open');
+  menu.setAttribute('aria-hidden','true');
+  document.body.classList.remove('menu-open');
+};
 document.querySelector('.hamb').onclick=openMenu;
 document.querySelector('.mobile-menu-close').onclick=closeMenu;
 menu.addEventListener('click',e=>{if(e.target===menu) closeMenu()});
 menu.querySelectorAll('a').forEach(a=>a.onclick=closeMenu);
+
 render();
-document.querySelector('#confirm').onclick=()=>alert('Booking selected: '+service+' · '+barber+' · '+date+' Sep · '+time);
+
+document.querySelector('#confirm').onclick=()=>{
+  alert('Booking selected: '+service+' · '+barber+' · '+selectedDay+' '+MONTHS[selectedMonth.getMonth()]+' '+selectedMonth.getFullYear()+' · '+time);
+};
 </script>
 </body>
 </html>
