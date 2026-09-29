@@ -231,3 +231,124 @@
     scrollbar-width:none;
   }
 }
+
+/* Final mobile polish — hero, booking spacing and confirmation feedback. */
+@media(max-width:800px){
+  /* Keep the hero copy strictly on the left so the chair stays visible. */
+  .hero-copy{
+    width:50% !important;
+    max-width:50% !important;
+    padding:70px 0 24px 22px !important;
+    margin:0 !important;
+    transform:none !important;
+    text-align:left !important;
+  }
+  .hero h2{
+    font-size:27px !important;
+    line-height:1.04 !important;
+    margin:0 0 12px !important;
+  }
+  .hero p{
+    font-size:11px !important;
+    line-height:1.55 !important;
+    margin:0 !important;
+  }
+
+  /* Visible breathing room between the hero image and Choose service. */
+  .booking{
+    margin:20px 14px 0 !important;
+  }
+
+  /* Rounded, tactile 3D booking button. */
+  .booking .confirm{
+    border:1px solid #f0c98d !important;
+    border-radius:12px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    box-shadow:0 5px 0 #8e6438,0 9px 18px #0008, inset 0 1px 0 #fff7 !important;
+    transform:translateY(0);
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+    cursor:pointer;
+  }
+  .booking .confirm:active{
+    transform:translateY(4px) !important;
+    box-shadow:0 1px 0 #8e6438,0 4px 10px #0008,inset 0 1px 0 #fff5 !important;
+    filter:brightness(.96);
+  }
+
+  /* Compact confirmation overlay. */
+  .booking-success{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:grid;
+    place-items:center;
+    padding:24px;
+    background:#0009;
+    backdrop-filter:blur(5px);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .18s ease,visibility .18s ease;
+  }
+  .booking-success.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .booking-success-card{
+    position:relative;
+    width:min(310px,88vw);
+    padding:25px 22px 20px;
+    border:1px solid #c89d6577;
+    border-radius:18px;
+    background:linear-gradient(180deg,#171513,#0d0c0b);
+    color:#f5eee5;
+    text-align:center;
+    box-shadow:0 22px 55px #000b, inset 0 1px 0 #ffffff10;
+    transform:translateY(12px) scale(.97);
+    transition:transform .2s ease;
+  }
+  .booking-success.open .booking-success-card{transform:translateY(0) scale(1)}
+  .booking-success-mark{
+    width:42px;
+    height:42px;
+    margin:0 auto 12px;
+    display:grid;
+    place-items:center;
+    border:1px solid #e3b477;
+    border-radius:50%;
+    color:#e3b477;
+    font-size:21px;
+  }
+  .booking-success-card strong{
+    display:block;
+    font:500 23px/1.05 "Cormorant Garamond";
+  }
+  .booking-success-card p{
+    margin:8px 0 17px;
+    color:#bdb4ab;
+    font:12px/1.5 Inter,sans-serif;
+  }
+  .booking-success-ok{
+    width:100%;
+    height:42px;
+    border:1px solid #f0c98d;
+    border-radius:10px;
+    background:#e2b477;
+    color:#17110b;
+    font-size:10px;
+    letter-spacing:.08em;
+  }
+  .booking-success-close{
+    position:absolute;
+    top:8px;
+    right:10px;
+    width:30px;
+    height:30px;
+    border:0;
+    background:none;
+    color:#a99f96;
+    font-size:24px;
+  }
+  body.booking-modal-open{overflow:hidden}
+}

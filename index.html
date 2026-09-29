@@ -31,6 +31,15 @@
 <div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month-picker" id="month-picker"><button class="month-arrow" type="button" id="month-prev" aria-label="Previous month">‹</button><button class="month-current" type="button" id="month-current" aria-haspopup="listbox" aria-expanded="false"><span id="month-label">September 2026</span></button><button class="month-arrow" type="button" id="month-next" aria-label="Next month">›</button><div class="month-popover" id="month-popover" role="listbox" aria-hidden="true"></div></div><div class="dates" id="dates"></div></div>
 <div class="step"><div class="step-title"><span>◷</span><b>Choose time</b></div><div class="times" id="times"></div></div>
 <button class="confirm" type="button" id="confirm">CONFIRM BOOKING <span>→</span></button>
+<div class="booking-success" id="booking-success" aria-hidden="true">
+  <div class="booking-success-card" role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
+    <button class="booking-success-close" type="button" id="booking-success-close" aria-label="Close">×</button>
+    <div class="booking-success-mark">✓</div>
+    <strong id="booking-success-title">Booking confirmed</strong>
+    <p id="booking-success-text">Your appointment has been confirmed.</p>
+    <button class="booking-success-ok" type="button" id="booking-success-ok">Done</button>
+  </div>
+</div>
 </section>
 <section class="testimonials" id="reviews" aria-label="Відгуки клієнтів">
   <div class="testimonials-title"><span class="eyebrow">REVIEWS</span><h2>Відгуки клієнтів</h2></div>
@@ -139,7 +148,18 @@ document.querySelector('.mobile-menu-close').onclick=closeMenu;
 menu.addEventListener('click',e=>{if(e.target===menu) closeMenu()});
 menu.querySelectorAll('a').forEach(a=>a.onclick=closeMenu);
 render();
-document.querySelector('#confirm').onclick=()=>alert('Booking selected: '+service+' · '+barber+' · '+date+' Sep · '+time);
+const bookingSuccess=document.querySelector('#booking-success');
+const bookingSuccessText=document.querySelector('#booking-success-text');
+const closeBookingSuccess=()=>{bookingSuccess.classList.remove('open');bookingSuccess.setAttribute('aria-hidden','true');document.body.classList.remove('booking-modal-open')};
+document.querySelector('#confirm').onclick=()=>{
+  bookingSuccessText.textContent=service+' · '+barber+' · '+date+' '+formatMonth(selectedMonth)+' · '+time;
+  bookingSuccess.classList.add('open');
+  bookingSuccess.setAttribute('aria-hidden','false');
+  document.body.classList.add('booking-modal-open');
+};
+document.querySelector('#booking-success-close').onclick=closeBookingSuccess;
+document.querySelector('#booking-success-ok').onclick=closeBookingSuccess;
+bookingSuccess.addEventListener('click',e=>{if(e.target===bookingSuccess)closeBookingSuccess()});
 </script>
 </body>
 </html>
