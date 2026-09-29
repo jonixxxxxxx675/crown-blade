@@ -20,7 +20,7 @@ const services=[
 const i=Math.max(0,Math.min(services.length-1,Number(new URLSearchParams(location.search).get('service'))||0));
 const s=services[i];
 document.title='Crown & Blade — '+s.name;
-document.querySelector('#service-detail').innerHTML=`<a class="service-detail-back" href="./index.html#services">← Повернутися до послуг</a><img class="service-detail-photo" src="./assets/${s.image}" alt="${s.name}"><span class="eyebrow">SERVICE</span><h1>${s.name}</h1><div class="service-detail-price">${s.price}</div><p>${s.text}</p><a class="service-detail-book" href="./index.html#booking">ЗАПИСАТИСЯ →</a>`;
+document.querySelector('#service-detail').innerHTML=`<a class="service-detail-back" href="./index.html#services">← Повернутися до послуг</a><div class="service-detail-photo-wrap"><img class="service-detail-photo" src="./assets/${s.image}" alt="${s.name}"></div><span class="eyebrow">SERVICE</span><h1>${s.name}</h1><div class="service-detail-price">${s.price}</div><p>${s.text}</p><a class="service-detail-book" href="./index.html#booking">ЗАПИСАТИСЯ →</a>`;
 </script>
 </body>
 </html>

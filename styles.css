@@ -6,7 +6,7 @@ nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position
 @media(max-width:800px){
  .hero{min-height:315px;background-image:linear-gradient(90deg,rgba(5,5,4,.52),rgba(5,5,4,.20)),url("./assets/hero-mobile-new.png");background-size:cover;background-position:center;background-repeat:no-repeat}
  nav{height:76px;padding:0 20px}.links,.nav-book{display:none}.hamb{display:block}.logo{font-size:17px}.logo>span{font-size:27px}
- .hero-copy{padding:48px 22px 30px;max-width:62%;text-align:left}.hero-copy .eyebrow{display:none}h1{font-size:44px;margin:0}.sub{font-size:10px;letter-spacing:.38em;margin:10px 0 24px}.hero h2{font-size:27px;margin-bottom:9px}.hero p{font-size:11px;line-height:1.55}.hero-btn{display:none}
+ .hero-copy{padding:0 22px 30px;max-width:62%;text-align:left;transform:translateY(-42px)}.hero-copy .eyebrow{display:none}h1{font-size:44px;margin:0}.sub{font-size:10px;letter-spacing:.38em;margin:10px 0 24px}.hero h2{font-size:27px;margin-bottom:9px}.hero p{font-size:11px;line-height:1.55}.hero-btn{display:none}
  .booking{display:block;margin:-1px 14px 0;padding:22px 20px 18px;background:linear-gradient(180deg,#10100f,#0b0b0a);border:1px solid #ffffff20;border-radius:20px;position:relative;z-index:3;box-shadow:0 16px 35px #0008}
  .step{margin-bottom:21px}.step-title{display:flex;align-items:center;gap:11px;margin-bottom:11px}.step-title>span{width:29px;height:29px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:"Cormorant Garamond";font-size:18px}.step-title b{font:500 20px "Cormorant Garamond"}.step-title button{margin-left:auto;border:0;background:none;color:var(--gold);font-size:10px}
  .service-row{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding-bottom:10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.service-row::-webkit-scrollbar{display:none}.service-choice{flex:0 0 150px;scroll-snap-align:start;padding:0 7px 10px;border:1px solid #ffffff13;background:#11110f;border-radius:7px;text-align:left;min-width:0}.service-choice.active{border:2px solid #e2b477;padding:0 6px 9px}.choice-img{height:67px;background:linear-gradient(135deg,#5a402c,#17120e);border-radius:5px 5px 0 0;margin-bottom:7px}.choice-icon{display:block;color:var(--gold);font-size:16px}.service-choice strong{display:block;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:5px}.service-choice small{display:block;color:var(--gold);font-size:10px;margin-top:5px}
@@ -18,20 +18,20 @@ nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position
 @media(max-width:420px){.booking{margin-left:10px;margin-right:10px;padding:20px 15px 16px}.service-row{gap:5px}.choice-img{height:58px}.service-choice{padding-left:5px;padding-right:5px}.service-choice.active{padding-left:4px;padding-right:4px}.service-choice strong{font-size:9px}.avatar{width:53px;height:53px}.step-title b{font-size:18px}}
 
 @media(max-width:800px){
- .booking .service-row .service-img-0{background-image:url("./assets/service-1.jpg");background-size:cover;background-position:center}
- .booking .service-row .service-img-1{background-image:url("./assets/service-2.jpg");background-size:cover;background-position:center}
- .booking .service-row .service-img-2{background-image:url("./assets/service-3.jpg");background-size:cover;background-position:center}
- .booking .service-row .service-img-3{background-image:url("./assets/service-4.jpg");background-size:cover;background-position:center}
+ .booking .service-row .service-img-0{background-image:url("./assets/service-1.jpg");background-size:125% 125%;background-position:center}
+ .booking .service-row .service-img-1{background-image:url("./assets/service-2.jpg");background-size:125% 125%;background-position:center}
+ .booking .service-row .service-img-2{background-image:url("./assets/service-3.jpg");background-size:125% 125%;background-position:center}
+ .booking .service-row .service-img-3{background-image:url("./assets/service-4.jpg");background-size:125% 125%;background-position:center}
  .booking .barber-row .barber:nth-child(1) .avatar{background-image:url("./assets/barber-1.jpg");background-size:cover;background-position:center}
  .booking .barber-row .barber:nth-child(2) .avatar{background-image:url("./assets/barber-2.jpg");background-size:cover;background-position:center}
  .booking .barber-row .barber:nth-child(3) .avatar{background-image:url("./assets/barber-3.jpg");background-size:cover;background-position:center}
  .booking .barber-row .barber:nth-child(4) .avatar{background-image:url("./assets/barber-4.jpg");background-size:cover;background-position:center}
  .booking .barber-row .barber:nth-child(5) .avatar{background-image:url("./assets/barber-5.jpg");background-size:cover;background-position:center}
- .services .cards .p0{background-image:url("./assets/service-1.jpg");background-size:cover;background-position:center}
- .services .cards .p1{background-image:url("./assets/service-2.jpg");background-size:cover;background-position:center}
- .services .cards .p2{background-image:url("./assets/service-3.jpg");background-size:cover;background-position:center}
- .services .cards .p3{background-image:url("./assets/service-4.jpg");background-size:cover;background-position:center}
- .services .cards .p4{background-image:url("./assets/service-5.jpg");background-size:cover;background-position:center}
+ .services .cards .p0{background-image:url("./assets/service-1.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p1{background-image:url("./assets/service-2.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p2{background-image:url("./assets/service-3.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p3{background-image:url("./assets/service-4.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p4{background-image:url("./assets/service-5.jpg");background-size:125% 125%;background-position:center}
 }
 
 
@@ -47,8 +47,8 @@ nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position
   /* Keep service photos fully visible instead of cropping their square source images. */
   .services .card{border:1px solid transparent;box-shadow:none}
   .services .card.active{border:2px solid #e3b477;box-shadow:0 0 0 1px #e3b47733}
-  .services .card-photo{height:auto;aspect-ratio:1/1;background-size:cover;background-repeat:no-repeat;background-color:#11100f}
-  .booking .choice-img{height:auto;aspect-ratio:1/1;background-size:cover;background-repeat:no-repeat;background-color:#11100f}
+  .services .card-photo{height:auto;aspect-ratio:1/1;background-size:125% 125%;background-position:center;background-repeat:no-repeat;background-color:#11100f}
+  .booking .choice-img{height:auto;aspect-ratio:1/1;background-size:125% 125%;background-position:center;background-repeat:no-repeat;background-color:#11100f}
 
   /* Client reviews inserted above Our Services. */
   .testimonials{display:block;background:#0a0908;padding:18px 0 32px;border-top:1px solid #ffffff0e}
@@ -74,6 +74,11 @@ nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position
 .service-detail p{font-size:13px;line-height:1.7;color:#c9c0b8;margin:0 0 18px}
 .service-detail-book{display:block;text-align:center;background:#e2b477;color:#17110b;padding:15px;border:0;font-size:11px;letter-spacing:.08em;text-decoration:none}
 @media(min-width:801px){.service-detail-page{display:none}}
+
+@media(max-width:800px){
+ .service-detail-photo-wrap{width:100%;aspect-ratio:1/1;overflow:hidden;border:1px solid #c89d65;border-radius:14px;background:#11100f}
+ .service-detail-photo-wrap .service-detail-photo{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.25);border:0;border-radius:0}
+}
 
 
 @media(max-width:800px){
