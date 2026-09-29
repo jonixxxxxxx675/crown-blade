@@ -115,3 +115,12 @@ a:focus,
 [role="button"]:focus {
   -webkit-tap-highlight-color: transparent;
 }
+/* DESKTOP PRESENTATION MODE — booking flow removed; mobile remains untouched. */
+@media (min-width:801px){
+  .booking,
+  .hero-btn,
+  .nav-book,
+  .testimonials{
+    display:none !important;
+  }
+}
