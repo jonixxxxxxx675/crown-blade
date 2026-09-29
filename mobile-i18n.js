@@ -84,9 +84,9 @@
   .lang-control{position:relative;display:inline-flex!important;align-items:center;justify-content:center}
   .mobile-menu-panel .lang-control{margin-top:10px}.mobile-footer-nav .lang-control{margin:0}
   .lang-control .lang-switch{margin:0!important;min-width:76px!important;height:36px!important;padding:7px 10px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;border-radius:999px!important;box-sizing:border-box!important}
-  .lang-globe{position:relative;display:inline-block;width:14px;height:14px;border:1px solid currentColor;border-radius:50%;flex:0 0 14px}
-  .lang-globe:before{content:"";position:absolute;left:2px;right:2px;top:5px;height:3px;border-top:1px solid currentColor;border-bottom:1px solid currentColor;border-radius:50%}
-  .lang-globe:after{content:"";position:absolute;top:1px;bottom:1px;left:5px;width:3px;border-left:1px solid currentColor;border-right:1px solid currentColor;border-radius:50%}
+  .lang-globe{position:relative;display:inline-block;width:18px;height:18px;border:1.8px solid currentColor;border-radius:50%;flex:0 0 18px;box-sizing:border-box}
+  .lang-globe:before{content:"";position:absolute;left:1px;right:1px;top:6px;height:4px;border-top:1.4px solid currentColor;border-bottom:1.4px solid currentColor;border-radius:50%}
+  .lang-globe:after{content:"";position:absolute;top:0px;bottom:0px;left:5px;width:6px;border-left:1.4px solid currentColor;border-right:1.4px solid currentColor;border-radius:50%}
   .lang-code{font:600 9px/1 Inter,sans-serif!important;letter-spacing:.05em!important}.lang-chevron{font:14px/1 Inter,sans-serif;transform:translateY(-1px)}
   .lang-dropdown{position:absolute;z-index:1200;right:0;top:calc(100% + 8px);width:154px;padding:5px;border:1px solid #c89d6566;border-radius:12px;background:linear-gradient(180deg,#181513,#0d0c0b);box-shadow:0 18px 38px #000b,inset 0 1px 0 #ffffff10;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-5px);transition:opacity .16s ease,transform .16s ease,visibility .16s ease}
   .lang-dropdown.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
