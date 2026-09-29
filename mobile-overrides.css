@@ -113,259 +113,121 @@
 }
 
 
-/* Final mobile booking picker — compact, scrollable, desktop untouched. */
+/* Mobile date picker — compact like the working-hours scroller. */
 @media(max-width:800px){
-  .booking .date-step{
+  .booking .month-picker{
     position:relative;
-  }
-
-  .booking .month{
-    height:36px;
-    margin:2px 0 9px;
     display:grid;
-    grid-template-columns:34px minmax(0,1fr) 34px;
+    grid-template-columns:42px minmax(0,1fr) 42px;
     align-items:center;
-    gap:4px;
+    gap:8px;
+    margin:3px 0 10px;
+    height:46px;
   }
-
   .booking .month-arrow{
-    width:34px;
-    height:34px;
-    display:grid;
-    place-items:center;
+    width:42px;
+    height:42px;
+    border:1px solid #ffffff18;
+    border-radius:6px;
+    background:#10100f;
+    color:#d8a96d;
+    font:32px/1 "Cormorant Garamond";
     padding:0;
-    border:0;
-    background:transparent;
-    color:var(--gold);
-    font:400 28px/1 "Cormorant Garamond";
   }
-
   .booking .month-current{
     min-width:0;
-    height:34px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-    padding:0 7px;
-    border:1px solid transparent;
-    border-radius:7px;
-    background:transparent;
-    color:#d7cec5;
-    font:400 14px "Cormorant Garamond";
+    height:42px;
+    border:1px solid #ffffff18;
+    border-radius:6px;
+    background:#10100f;
+    color:#d8cec5;
+    padding:0 12px;
+    font:16px "Cormorant Garamond";
     white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
-
   .booking .month-current:active,
-  .booking .month-current[aria-expanded="true"]{
-    border-color:#c89d6548;
+  .booking .month-current[aria-expanded="true"]{border-color:#e3b477;color:#e3b477}
+  .booking .month-popover{
+    position:absolute;
+    z-index:20;
+    left:50%;
+    top:50px;
+    transform:translateX(-50%);
+    width:min(250px,72vw);
+    max-height:180px;
+    padding:6px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
     background:#11100f;
+    border:1px solid #c89d6566;
+    border-radius:8px;
+    box-shadow:0 18px 35px #000b;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .16s ease,transform .16s ease,visibility .16s ease;
+  }
+  .booking .month-popover::-webkit-scrollbar{display:none}
+  .booking .month-popover.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateX(-50%) translateY(2px);
+  }
+  .booking .month-option{
+    display:block;
+    width:100%;
+    min-height:38px;
+    border:1px solid transparent;
+    border-radius:6px;
+    background:transparent;
+    color:#d8d1ca;
+    text-align:left;
+    padding:8px 11px;
+    font:14px Inter,sans-serif;
+  }
+  .booking .month-option.active{
+    border-color:#e3b477;
+    background:#d8a96d12;
+    color:#e3b477;
   }
 
-  .booking .month-icon{
-    color:var(--gold);
-    font-family:Inter,sans-serif;
-    font-size:11px;
-  }
-
+  /* Days stay in one compact horizontal strip — never a large calendar grid. */
   .booking .dates{
     display:flex;
-    gap:6px;
+    gap:7px;
     overflow-x:auto;
     overflow-y:hidden;
-    padding:1px 1px 8px;
-    margin:0;
+    padding:2px 1px 8px;
     scroll-snap-type:x proximity;
     -webkit-overflow-scrolling:touch;
     scrollbar-width:none;
   }
-
-  .booking .dates::-webkit-scrollbar{
-    display:none;
-  }
-
+  .booking .dates::-webkit-scrollbar{display:none}
   .booking .dates button{
-    flex:0 0 52px;
-    width:52px;
+    flex:0 0 58px;
+    width:58px;
     height:58px;
-    padding:7px 3px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+    padding:7px 2px;
     scroll-snap-align:center;
-    border:1px solid #ffffff16;
-    background:#10100f;
-    color:#d8d1ca;
   }
+  .booking .dates small{font-size:9px}
+  .booking .dates b{font-size:14px;margin-top:5px}
+  .booking .dates .active{border:2px solid #e3b477;color:#e3b477}
 
-  .booking .dates button small{
-    display:block;
-    font-size:8px;
-    line-height:1;
-    opacity:.75;
-  }
-
-  .booking .dates button b{
-    display:block;
-    margin-top:6px;
-    font-size:14px;
-    line-height:1;
-    font-weight:500;
-  }
-
-  .booking .dates button.active{
-    border:2px solid #e3b477;
-    color:#e3b477;
-    background:#17130f;
-    box-shadow:0 0 0 1px #e3b47722;
-  }
-
-  .booking .month-picker{
-    position:absolute;
-    left:12px;
-    right:12px;
-    top:72px;
-    z-index:20;
-    display:none;
-    overflow:hidden;
-    border:1px solid #c89d6566;
-    border-radius:12px;
-    background:#0c0b0a;
-    box-shadow:0 20px 45px #000b;
-  }
-
-  .booking .month-picker.open{
-    display:block;
-    animation:monthPickerIn .18s ease-out;
-  }
-
-  .booking .month-picker-head{
-    height:42px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 13px;
-    border-bottom:1px solid #ffffff12;
-    color:#f5eee5;
-    font:500 16px "Cormorant Garamond";
-  }
-
-  .booking .month-picker-head button{
-    width:28px;
-    height:28px;
-    border:0;
-    background:transparent;
-    color:#d8a96d;
-    font-size:22px;
-    line-height:1;
-  }
-
-  .booking .month-picker-list{
-    max-height:230px;
-    overflow-y:auto;
-    padding:7px;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-  }
-
-  .booking .month-picker-list::-webkit-scrollbar{
-    display:none;
-  }
-
-  .booking .month-picker-year{
-    padding:6px 8px 4px;
-    color:#8e847a;
-    font-size:8px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-  }
-
-  .booking .month-picker-item{
-    width:100%;
-    min-height:36px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 10px;
-    border:1px solid transparent;
-    border-radius:7px;
-    background:transparent;
-    color:#cfc6bd;
-    font:400 14px "Cormorant Garamond";
-    text-align:left;
-  }
-
-  .booking .month-picker-item + .month-picker-item{
-    margin-top:2px;
-  }
-
-  .booking .month-picker-item.active{
-    border-color:#c89d6566;
-    background:#19140f;
-    color:#e3b477;
-  }
-
-  .booking .month-check{
-    opacity:0;
-    color:#e3b477;
-    font-family:Inter,sans-serif;
-    font-size:12px;
-  }
-
-  .booking .month-picker-item.active .month-check{
-    opacity:1;
-  }
-
+  /* Keep the time selector compact and vertically scrollable. */
   .booking .times{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:6px;
-    max-height:150px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-height:148px;
     overflow-y:auto;
     overflow-x:hidden;
-    padding:1px 1px 6px;
+    padding-right:2px;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
     scrollbar-width:none;
-  }
-
-  .booking .times::-webkit-scrollbar{
-    display:none;
-  }
-
-  .booking .times button{
-    height:38px;
-    min-height:38px;
-    font-size:10px;
-  }
-
-  @keyframes monthPickerIn{
-    from{opacity:0;transform:translateY(-5px) scale(.99)}
-    to{opacity:1;transform:translateY(0) scale(1)}
-  }
-}
-
-/* Preserve the existing desktop month appearance exactly; picker controls are mobile-only. */
-@media(min-width:801px){
-  .booking .month-arrow{
-    border:0;
-    background:none;
-    padding:0;
-    color:var(--gold);
-    font:inherit;
-  }
-  .booking .month-current{
-    border:0;
-    background:none;
-    padding:0;
-    color:#d7cec5;
-    font:14px "Cormorant Garamond";
-  }
-  .booking .month-icon{
-    font-family:inherit;
-  }
-  .booking .month-picker{
-    display:none !important;
   }
 }
