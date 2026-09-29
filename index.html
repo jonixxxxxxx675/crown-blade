@@ -159,8 +159,28 @@ window.addEventListener('languagechange',()=>{renderMonths();renderDates();rende
 const bookingSuccess=document.querySelector('#booking-success');
 const bookingSuccessText=document.querySelector('#booking-success-text');
 const closeBookingSuccess=()=>{bookingSuccess.classList.remove('open');bookingSuccess.setAttribute('aria-hidden','true');document.body.classList.remove('booking-modal-open')};
+const MOBILE_BOOKINGS_DB='crown_blade_mobile_bookings';
+function saveMobileBooking(){
+  const selectedService=services.find(x=>x.name===service)||services[0];
+  const booking={
+    id:'CB-'+Date.now()+'-'+Math.random().toString(36).slice(2,8).toUpperCase(),
+    service:currentLang==='en'?selectedService.name:t('service_'+selectedService.key),
+    serviceKey:selectedService.key,
+    price:currentLang==='en'?selectedService.priceEN:selectedService.priceUA,
+    barber,
+    date:selectedMonth.getFullYear()+'-'+String(selectedMonth.getMonth()+1).padStart(2,'0')+'-'+String(selectedDay).padStart(2,'0'),
+    time,
+    language:currentLang,
+    createdAt:new Date().toISOString()
+  };
+  const existing=JSON.parse(localStorage.getItem(MOBILE_BOOKINGS_DB)||'[]');
+  existing.push(booking);
+  localStorage.setItem(MOBILE_BOOKINGS_DB,JSON.stringify(existing));
+  return booking;
+}
 document.querySelector('#confirm').onclick=()=>{
-  bookingSuccessText.textContent=(currentLang==='en'?'Appointment: ':'Запис: ')+t('service_'+services.find(x=>x.name===service).key)+' · '+barber+' · '+date+' '+formatMonth(selectedMonth)+' · '+time;
+  const booking=saveMobileBooking();
+  bookingSuccessText.textContent=(currentLang==='en'?'Appointment: ':'Запис: ')+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time;
   bookingSuccess.classList.add('open');
   bookingSuccess.setAttribute('aria-hidden','false');
   document.body.classList.add('booking-modal-open');
