@@ -443,3 +443,154 @@
 @media(max-width:800px){
   .mobile-form .form-status{min-height:16px;margin:0;color:#d8a96d;font:10px/1.4 Inter,sans-serif;text-align:center}
 }
+
+
+/* Final mobile polish: smooth service action icons and stable language control. */
+@media(max-width:800px){
+  .services .card i{
+    border-radius:999px !important;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+    width:30px !important;
+    height:30px !important;
+    line-height:1 !important;
+    bottom:9px !important;
+    right:9px !important;
+  }
+  .choice-icon{border-radius:999px;}
+  .lang-control{
+    flex:0 0 auto !important;
+    position:relative !important;
+    width:auto !important;
+    min-width:76px !important;
+    height:36px !important;
+    transform:none !important;
+  }
+  .mobile-footer-nav .lang-control{
+    margin-left:auto !important;
+    margin-right:0 !important;
+    flex-shrink:0 !important;
+  }
+  .mobile-footer-nav{
+    align-items:center !important;
+  }
+  .mobile-menu-panel .lang-control{
+    align-self:flex-start !important;
+  }
+  .mobile-account{
+    padding-bottom:48px;
+  }
+  .account-card{
+    border:1px solid #ffffff18;
+    border-radius:18px;
+    background:linear-gradient(180deg,#141210,#0d0c0b);
+    padding:18px;
+    margin:18px 0;
+    box-shadow:0 14px 32px #0007,inset 0 1px 0 #ffffff08;
+  }
+  .account-card h2{font:500 28px/1 "Cormorant Garamond";margin:0 0 8px;color:#f5eee5}
+  .account-muted{color:#9f958c;font:11px/1.5 Inter,sans-serif}
+  .account-booking{border-top:1px solid #ffffff12;padding:14px 0 0;margin-top:14px}
+  .account-booking:first-child{border-top:0;padding-top:0;margin-top:0}
+  .account-booking strong{display:block;font:500 19px/1.1 "Cormorant Garamond";color:#f5eee5}
+  .account-booking-meta{margin-top:6px;color:#c8bfb7;font:10px/1.5 Inter,sans-serif}
+  .account-booking-actions{display:flex;gap:8px;margin-top:12px}
+  .account-booking-actions button{flex:1;min-height:38px;border:1px solid #c89d6566;border-radius:999px;background:#151311;color:#e3b477;font:600 9px/1 Inter,sans-serif;letter-spacing:.05em}
+  .account-booking-actions button.primary{background:linear-gradient(180deg,#f0c98d,#dca866);color:#17110b;border-color:#f0c98d;box-shadow:0 3px 0 #8e6438}
+  .account-empty{padding:18px 0;color:#9f958c;font:11px/1.6 Inter,sans-serif;text-align:center}
+  .account-status{min-height:18px;margin:6px 0 0;color:#d8a96d;font:10px/1.4 Inter,sans-serif;text-align:center}
+}
+
+/* Mobile final lock: smooth controls, stable language control and rounded action icons. */
+@media(max-width:800px){
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  button,a,[role="button"]{touch-action:manipulation;}
+
+  /* All small service/action icons use the same soft circular treatment. */
+  .services .card i,
+  .choice-icon,
+  .booking .month-arrow,
+  .booking .month-current,
+  .booking .dates button,
+  .booking .times button{
+    border-radius:999px !important;
+  }
+  .services .card i{
+    border:1px solid #c89d65 !important;
+  }
+  .choice-icon{
+    min-width:28px;
+    min-height:28px;
+    display:inline-grid !important;
+    place-items:center !important;
+  }
+
+  /* Footer language control stays in one fixed grid cell regardless of label width. */
+  .mobile-footer-nav{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) 76px !important;
+    align-items:center !important;
+    justify-items:center !important;
+    gap:8px !important;
+    width:100%;
+  }
+  .mobile-footer-nav a{
+    min-width:0;
+    white-space:nowrap;
+  }
+  .mobile-footer-nav .lang-control{
+    grid-column:5;
+    grid-row:1;
+    width:76px !important;
+    min-width:76px !important;
+    margin:0 !important;
+    justify-self:end !important;
+    flex:none !important;
+  }
+  .mobile-footer-nav .lang-switch{
+    width:76px !important;
+    min-width:76px !important;
+  }
+
+  /* Keep the menu language control from moving when the menu text changes language. */
+  .mobile-menu-panel .lang-control{
+    width:76px !important;
+    min-width:76px !important;
+    flex:0 0 76px !important;
+  }
+  .mobile-menu-panel .lang-switch{
+    width:76px !important;
+    min-width:76px !important;
+  }
+
+  /* Smooth, lightweight card interactions without changing layout. */
+  .services .card,
+  .service-choice,
+  .barber,
+  .booking .dates button,
+  .booking .times button{
+    transition:transform .16s ease,border-color .16s ease,opacity .16s ease,box-shadow .16s ease;
+  }
+  .services .card:active,
+  .service-choice:active,
+  .barber:active{
+    transform:scale(.985);
+  }
+
+  /* Account booking status. */
+  .account-booking-status{
+    display:inline-flex;
+    align-items:center;
+    min-height:22px;
+    margin-top:8px;
+    padding:4px 9px;
+    border:1px solid #c89d6566;
+    border-radius:999px;
+    color:#e3b477;
+    background:#c89d6510;
+    font:600 8px/1 Inter,sans-serif;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+}

@@ -5,3 +5,7 @@ Bookings created by the mobile Confirm Booking button are stored in browser loca
 Each record contains: `id`, `service`, `serviceKey`, `price`, `barber`, `date`, `time`, `language`, and `createdAt`.
 
 This is a client-side staging database. The booking object is isolated in one function so it can later be sent to a real API/database without rebuilding the booking form.
+
+
+### Account fields
+Bookings may also contain `account_id` and `customer_email`. Add nullable columns with those names to the Supabase `bookings` table so account-linked bookings can be edited or cancelled remotely.

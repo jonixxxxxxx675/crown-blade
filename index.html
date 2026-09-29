@@ -80,6 +80,8 @@ const services=[
 const barbers=['Alex','Mia','Daniel','Emma','Max'];
 const times=Array.from({length:21},(_,i)=>{const m=600+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')});
 const MOBILE_BOOKINGS_DB='crown_blade_mobile_bookings';
+const ACCOUNT_KEY='crown_blade_account';
+const EDIT_BOOKING_KEY='cb-edit-booking';
 const BOOKING_API='./api/bookings';
 let remoteBookings=[];
 let remoteBookingReady=false;
@@ -97,6 +99,7 @@ const monthStart=new Date(today.getFullYear(),today.getMonth(),1);
 const monthEnd=new Date(today.getFullYear(),today.getMonth()+12,1);
 let selectedMonth=new Date(monthStart);
 let selectedDay=Math.min(today.getDate()+1,new Date(today.getFullYear(),today.getMonth()+1,0).getDate());
+try{const pending=JSON.parse(localStorage.getItem(EDIT_BOOKING_KEY)||'null');if(pending){service=(services.find(x=>x.key===pending.serviceKey)||services[0]).name;barber=pending.barber||barber;const pd=new Date(pending.date+'T00:00:00');if(!Number.isNaN(pd.getTime())){selectedMonth=new Date(pd.getFullYear(),pd.getMonth(),1);selectedDay=pd.getDate();}time=pending.time||time;}}catch(e){}
 const monthPicker=document.querySelector('#month-picker');
 const monthLabel=document.querySelector('#month-label');
 const monthPopover=document.querySelector('#month-popover');
@@ -222,34 +225,42 @@ function createMobileBooking(){
     date:selectedMonth.getFullYear()+'-'+String(selectedMonth.getMonth()+1).padStart(2,'0')+'-'+String(selectedDay).padStart(2,'0'),
     time,
     language:currentLang,
-    createdAt:new Date().toISOString()
+    createdAt:new Date().toISOString(),
+    accountId:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.id||null}catch{return null}})(),
+    customerEmail:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.email||null}catch{return null}})()
   };
 }
-function storeLocalBooking(booking){
+function storeLocalBooking(booking,editingId=''){
   const existing=getStoredBookings();
-  existing.push(booking);
-  localStorage.setItem(MOBILE_BOOKINGS_DB,JSON.stringify(existing));
+  const next=editingId?existing.map(b=>b.id===editingId?booking:b):existing.concat(booking);
+  localStorage.setItem(MOBILE_BOOKINGS_DB,JSON.stringify(next));
 }
 document.querySelector('#confirm').onclick=async()=>{
   if(!time || isSlotBooked(selectedMonth.getFullYear(),selectedMonth.getMonth(),selectedDay,time)){
     renderDates();syncAvailableTime();renderTimes();render();return;
   }
+  let editing=null;try{editing=JSON.parse(localStorage.getItem(EDIT_BOOKING_KEY)||'null')}catch(e){}
   const booking=createMobileBooking();
+  if(editing) booking.id=editing.id;
   let serverSaved=false;
   try{
-    const response=await fetch(BOOKING_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
-    if(response.ok){serverSaved=true;}
-    else if(response.status===409){
+    const response=await fetch(BOOKING_API,{method:editing?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
+    if(response.ok)serverSaved=true;
+    else if(!editing && response.status===409){
       remoteBookings.push({date:booking.date,time:booking.time,barber:booking.barber});
       renderDates();syncAvailableTime();renderTimes();render();
       bookingSuccessText.textContent=currentLang==='en'?'This time has just been booked. Please choose another slot.':'Цей час щойно забронювали. Виберіть інший час.';
       bookingSuccess.classList.add('open');bookingSuccess.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');return;
     }
   }catch(e){}
-  storeLocalBooking(booking);
-  if(serverSaved) remoteBookings.push({date:booking.date,time:booking.time,barber:booking.barber});
+  storeLocalBooking(booking,editing?editing.id:'');
+  if(serverSaved){
+    remoteBookings=remoteBookings.filter(b=>!(b.id&&b.id===booking.id));
+    remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber});
+  }
+  localStorage.removeItem(EDIT_BOOKING_KEY);
   renderDates();renderTimes();render();
-  bookingSuccessText.textContent=(currentLang==='en'?'Appointment: ':'Запис: ')+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time;
+  bookingSuccessText.textContent=(editing?(currentLang==='en'?'Booking updated: ':'Бронювання оновлено: '):(currentLang==='en'?'Appointment: ':'Запис: '))+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time;
   bookingSuccess.classList.add('open');
   bookingSuccess.setAttribute('aria-hidden','false');
   document.body.classList.add('booking-modal-open');
