@@ -11,38 +11,39 @@
 <main id="top">
 <header class="hero">
 <nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#">HOME</a><a href="#about">ABOUT</a><a href="#services">SERVICES</a><a href="#barbers">BARBERS</a><a href="#gallery">GALLERY</a><a href="./contact.html">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button" aria-label="Open menu">☰</button></nav>
-<div class="hero-copy"><span class="eyebrow">WARSAW · POLAND</span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2>More than a haircut.<br>It’s your standard.</h2><p>Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking">BOOK AN APPOINTMENT　→</a></div>
+<div class="hero-copy"><span class="eyebrow">WARSAW · POLAND</span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2 data-i18n-html="heroTitle">More than a haircut.<br>It’s your standard.</h2><p data-i18n-html="heroText">Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking" data-i18n="heroButton">BOOK AN APPOINTMENT　→</a></div>
 </header>
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
   <div class="mobile-menu-panel">
     <button class="mobile-menu-close" type="button" aria-label="Закрити меню">×</button>
     <div class="mobile-menu-title">CROWN &amp; BLADE</div>
-    <a href="#booking">Записатися</a>
-    <a href="#services">Послуги</a>
-    <a href="./contact.html">Контакти</a>
+    <a href="#booking" data-i18n="menuBook">Записатися</a>
+    <a href="#services" data-i18n="navServices">Послуги</a>
+    <a href="./contact.html" data-i18n="navContact">Контакти</a>
     <div class="mobile-menu-divider"></div>
-    <a href="./account.html">Мій акаунт</a>
-    <a href="./support.html">Служба підтримки</a>
+    <a href="./account.html" data-i18n="menuAccount">Мій акаунт</a>
+    <a href="./support.html" data-i18n="menuSupport">Служба підтримки</a>
+    <button class="lang-switch menu-lang" type="button" id="lang-switch-menu" aria-label="Change language"><span class="lang-icon">文A</span><span class="lang-code">EN</span></button>
   </div>
 </div>
 <section class="booking" id="booking">
-<div class="step"><div class="step-title"><span>1</span><b>Choose service</b><button type="button">See all →</button></div><div class="service-row" id="service-row"></div></div>
-<div class="step"><div class="step-title"><span>2</span><b>Choose barber</b><button type="button">See all →</button></div><div class="barber-row" id="barber-row"></div></div>
-<div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month-picker" id="month-picker"><button class="month-arrow" type="button" id="month-prev" aria-label="Previous month">‹</button><button class="month-current" type="button" id="month-current" aria-haspopup="listbox" aria-expanded="false"><span id="month-label">September 2026</span></button><button class="month-arrow" type="button" id="month-next" aria-label="Next month">›</button><div class="month-popover" id="month-popover" role="listbox" aria-hidden="true"></div></div><div class="dates" id="dates"></div></div>
-<div class="step"><div class="step-title"><span>◷</span><b>Choose time</b></div><div class="times" id="times"></div></div>
-<button class="confirm" type="button" id="confirm">CONFIRM BOOKING <span>→</span></button>
+<div class="step"><div class="step-title"><span>1</span><b data-i18n="chooseService">Choose service</b><button type="button" data-i18n="seeAll">See all →</button></div><div class="service-row" id="service-row"></div></div>
+<div class="step"><div class="step-title"><span>2</span><b data-i18n="chooseBarber">Choose barber</b><button type="button" data-i18n="seeAll">See all →</button></div><div class="barber-row" id="barber-row"></div></div>
+<div class="step"><div class="step-title"><span>3</span><b data-i18n="chooseDate">Choose date</b></div><div class="month-picker" id="month-picker"><button class="month-arrow" type="button" id="month-prev" aria-label="Previous month">‹</button><button class="month-current" type="button" id="month-current" aria-haspopup="listbox" aria-expanded="false"><span id="month-label">September 2026</span></button><button class="month-arrow" type="button" id="month-next" aria-label="Next month">›</button><div class="month-popover" id="month-popover" role="listbox" aria-hidden="true"></div></div><div class="dates" id="dates"></div></div>
+<div class="step"><div class="step-title"><span>◷</span><b data-i18n="chooseTime">Choose time</b></div><div class="times" id="times"></div></div>
+<button class="confirm" type="button" id="confirm"><span data-i18n="confirmBooking">CONFIRM BOOKING</span> <span>→</span></button>
 <div class="booking-success" id="booking-success" aria-hidden="true">
   <div class="booking-success-card" role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
     <button class="booking-success-close" type="button" id="booking-success-close" aria-label="Close">×</button>
     <div class="booking-success-mark">✓</div>
-    <strong id="booking-success-title">Booking confirmed</strong>
-    <p id="booking-success-text">Your appointment has been confirmed.</p>
-    <button class="booking-success-ok" type="button" id="booking-success-ok">Done</button>
+    <strong id="booking-success-title" data-i18n="bookingConfirmed">Booking confirmed</strong>
+    <p id="booking-success-text" data-i18n="bookingConfirmedText">Your appointment has been confirmed.</p>
+    <button class="booking-success-ok" type="button" id="booking-success-ok" data-i18n="done">Done</button>
   </div>
 </div>
 </section>
 <section class="testimonials" id="reviews" aria-label="Відгуки клієнтів">
-  <div class="testimonials-title"><span class="eyebrow">REVIEWS</span><h2>Відгуки клієнтів</h2></div>
+  <div class="testimonials-title"><span class="eyebrow" data-i18n="reviewsEyebrow">REVIEWS</span><h2 data-i18n="reviewsTitle">Відгуки клієнтів</h2></div>
   <div class="testimonial-row">
     <img src="./assets/review-maxim-1.png" alt="Відгук Максима">
     <img src="./assets/review-oleh.png" alt="Відгук Олега">
@@ -50,14 +51,15 @@
     <img src="./assets/review-maxim-2.png" alt="Відгук Максима">
   </div>
 </section>
-<section class="services" id="services"><div class="services-intro"><span class="eyebrow">SERVICES</span><h2>Our Services</h2><p>Професійний догляд<br>для сучасних чоловіків.</p><button type="button">VIEW ALL SERVICES　→</button></div><div class="cards" id="cards"></div></section>
+<section class="services" id="services"><div class="services-intro"><span class="eyebrow" data-i18n="servicesEyebrow">SERVICES</span><h2 data-i18n="servicesTitle">Наші послуги</h2><p data-i18n-html="servicesText">Професійний догляд<br>для сучасних чоловіків.</p><button type="button" data-i18n="viewServices">ПЕРЕГЛЯНУТИ ВСІ ПОСЛУГИ　→</button></div><div class="cards" id="cards"></div></section>
 <footer id="contact" class="mobile-footer">
   <div class="mobile-footer-brand"><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div></div>
   <nav class="mobile-footer-nav" aria-label="Footer navigation">
-    <a href="#top">Головна</a>
-    <a href="#services">Послуги</a>
-    <a href="#reviews">Відгуки</a>
-    <a href="./contact.html">Контакти</a>
+    <a href="#top" data-i18n="navHome">Головна</a>
+    <a href="#services" data-i18n="navServices">Послуги</a>
+    <a href="#reviews" data-i18n="navReviews">Відгуки</a>
+    <a href="./contact.html" data-i18n="navContact">Контакти</a>
+    <button class="lang-switch footer-lang" type="button" id="lang-switch-footer" aria-label="Change language"><span class="lang-icon">文A</span><span class="lang-code">EN</span></button>
   </nav>
   <div class="mobile-footer-socials" aria-label="Social links">
     <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
@@ -68,20 +70,22 @@
   <div class="mobile-footer-meta">WARSAW · POLAND &nbsp;·&nbsp; © 2026 CROWN &amp; BLADE</div>
 </footer>
 </main>
+<script src="./mobile-i18n.js"></script>
 <script>
 const services=[
-{name:'Classic Haircut',short:'Haircut',price:'80 грн',icon:'✂'},
-{name:'Hair + Beard',short:'Hair + Beard',price:'130 грн',icon:'♜'},
-{name:'Beard Trim',price:'60 грн',icon:'◈'},
-{name:'Royal Shave',price:'70 грн',icon:'⌁'},
-{name:'Kids Haircut',price:'60 грн',icon:'✦'}];
+{key:'classic',name:'Classic Haircut',short:'Haircut',priceUA:'80 грн',priceEN:'80 UAH',icon:'✂'},
+{key:'hairBeard',name:'Hair + Beard',short:'Hair + Beard',priceUA:'130 грн',priceEN:'130 UAH',icon:'♜'},
+{key:'beardTrim',name:'Beard Trim',priceUA:'60 грн',priceEN:'60 UAH',icon:'◈'},
+{key:'royalShave',name:'Royal Shave',priceUA:'70 грн',priceEN:'70 UAH',icon:'⌁'},
+{key:'kidsHaircut',name:'Kids Haircut',priceUA:'60 грн',priceEN:'60 UAH',icon:'✦'}];
 const barbers=['Alex','Mia','Daniel','Emma','Max'];
 const times=Array.from({length:21},(_,i)=>{const m=600+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')});
 let service=services[0].name, barber='Alex', date='28', time='10:00';
 const isMobile=()=>window.matchMedia('(max-width: 800px)').matches;
+const servicePrice=s=>currentLang==='en'?s.priceEN:s.priceUA;
 const scrollToStep=(selector)=>{if(!isMobile()) return; const el=document.querySelector(selector); if(el) el.scrollIntoView({behavior:'smooth',block:'center'});};
 const serviceRow=document.querySelector('#service-row');
-services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong>'+s.short+'</strong><small>'+s.price+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
+services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong data-service-name="'+s.key+'">'+t('service_'+s.key)+'</strong><small>'+servicePrice(s)+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
 const barberRow=document.querySelector('#barber-row');
 barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
 const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -95,7 +99,7 @@ const monthPopover=document.querySelector('#month-popover');
 const datesEl=document.querySelector('#dates');
 const monthKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
 const sameMonth=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth();
-const formatMonth=d=>monthNames[d.getMonth()]+' '+d.getFullYear();
+const formatMonth=d=>{const key='month_'+d.getMonth();return t(key)+' '+d.getFullYear()};
 function clampDay(){const max=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,0).getDate();if(selectedDay>max)selectedDay=max;date=String(selectedDay)}
 function renderMonths(){
   monthLabel.textContent=formatMonth(selectedMonth);
@@ -117,7 +121,7 @@ function renderDates(){
   datesEl.innerHTML='';
   const total=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,0).getDate();
   const first=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth(),1);
-  const weekdays=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const weekdays=t('weekdays');
   for(let n=1;n<=total;n++){
     const d=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth(),n);
     const b=document.createElement('button');
@@ -138,8 +142,12 @@ document.addEventListener('click',e=>{if(!monthPicker.contains(e.target))closeMo
 renderMonths();
 renderDates();
 const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
-const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
-function render(){document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
+const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span data-service-name="'+s.key+'">'+t('service_'+s.key)+'</span><b>'+servicePrice(s)+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
+function render(){
+  document.querySelectorAll('[data-service-name]').forEach(e=>{const k=e.dataset.serviceName;e.textContent=t('service_'+k)});
+  document.querySelectorAll('.service-choice small').forEach((e,i)=>e.textContent=servicePrice(services[i]));
+  document.querySelectorAll('.card b').forEach((e,i)=>e.textContent=servicePrice(services[i]));
+  document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
 const menu=document.querySelector('#mobile-menu');
 const openMenu=()=>{menu.classList.add('open');menu.setAttribute('aria-hidden','false');document.body.classList.add('menu-open')};
 const closeMenu=()=>{menu.classList.remove('open');menu.setAttribute('aria-hidden','true');document.body.classList.remove('menu-open')};
@@ -148,11 +156,12 @@ document.querySelector('.mobile-menu-close').onclick=closeMenu;
 menu.addEventListener('click',e=>{if(e.target===menu) closeMenu()});
 menu.querySelectorAll('a').forEach(a=>a.onclick=closeMenu);
 render();
+window.addEventListener('languagechange',()=>{renderMonths();renderDates();render();});
 const bookingSuccess=document.querySelector('#booking-success');
 const bookingSuccessText=document.querySelector('#booking-success-text');
 const closeBookingSuccess=()=>{bookingSuccess.classList.remove('open');bookingSuccess.setAttribute('aria-hidden','true');document.body.classList.remove('booking-modal-open')};
 document.querySelector('#confirm').onclick=()=>{
-  bookingSuccessText.textContent=service+' · '+barber+' · '+date+' '+formatMonth(selectedMonth)+' · '+time;
+  bookingSuccessText.textContent=(currentLang==='en'?'Appointment: ':'Запис: ')+t('service_'+services.find(x=>x.name===service).key)+' · '+barber+' · '+date+' '+formatMonth(selectedMonth)+' · '+time;
   bookingSuccess.classList.add('open');
   bookingSuccess.setAttribute('aria-hidden','false');
   document.body.classList.add('booking-modal-open');

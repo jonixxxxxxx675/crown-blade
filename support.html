@@ -9,15 +9,17 @@
 </head>
 <body>
 <main class="mobile-page">
-<a class="mobile-page-back" href="./index.html">← Назад</a>
-<span class="eyebrow">SUPPORT</span>
-<h1>Служба підтримки</h1>
-<p>Якщо виникла проблема із записом або сайтом, напишіть нам.</p>
+<a class="mobile-page-back" href="./index.html">← <span data-i18n="back">Назад</span></a>
+<button class="lang-switch page-lang" type="button" id="lang-switch-page"><span class="lang-icon">文A</span><span class="lang-code">EN</span></button>
+<span class="eyebrow" data-i18n="supportEyebrow">SUPPORT</span>
+<h1><span data-i18n="supportTitle">Служба підтримки</span></h1>
+<p><span data-i18n="supportText">Якщо виникла проблема із записом або сайтом, напишіть нам.</span></p>
 <div class="support-list">
-<div class="support-item"><strong>Проблема із записом?</strong><span>Перевірте вибрану послугу, барбера, дату та час.</span></div>
-<div class="support-item"><strong>Потрібна допомога?</strong><span>Залиште повідомлення через сторінку контактів.</span></div>
+<div class="support-item"><strong><span data-i18n="supportQ1">Проблема із записом?</span></strong><span><span data-i18n="supportA1">Перевірте вибрану послугу, барбера, дату та час.</span></span></div>
+<div class="support-item"><strong><span data-i18n="supportQ2">Потрібна допомога?</span></strong><span><span data-i18n="supportA2">Залиште повідомлення через сторінку контактів.</span></span></div>
 </div>
-<a class="page-action" href="./contact.html" style="display:block;text-align:center;margin-top:20px;text-decoration:none">НАПИСАТИ В ПІДТРИМКУ →</a>
+<a class="page-action" href="./contact.html" style="display:block;text-align:center;margin-top:20px;text-decoration:none"><span data-i18n="supportButton">НАПИСАТИ В ПІДТРИМКУ →</span></a>
 </main>
+<script src="./mobile-i18n.js"></script>
 </body>
 </html>

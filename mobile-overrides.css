@@ -352,3 +352,56 @@
   }
   body.booking-modal-open{overflow:hidden}
 }
+
+
+/* Mobile bilingual controls + tactile service actions. */
+@media(max-width:800px){
+  .mobile-menu-panel .lang-switch,
+  .mobile-footer-nav .lang-switch{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    width:auto;
+    min-width:62px;
+    min-height:34px;
+    padding:7px 11px;
+    margin:8px 0 0;
+    border:1px solid #c89d6566;
+    border-radius:999px;
+    background:linear-gradient(180deg,#191512,#0f0e0d);
+    color:#e3b477;
+    box-shadow:0 3px 0 #6f4e2d,0 7px 14px #0007,inset 0 1px 0 #fff2;
+    font-size:9px;
+    letter-spacing:.08em;
+    cursor:pointer;
+  }
+  .mobile-menu-panel .menu-lang{margin-top:10px}
+  .mobile-footer-nav .footer-lang{margin:0}
+  .lang-icon{font-size:12px;line-height:1}
+  .lang-code{font-weight:600}
+
+  .service-detail-book,
+  .mobile-form button,
+  .mobile-page .page-action{
+    border:1px solid #f0c98d !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    box-shadow:0 5px 0 #8e6438,0 10px 18px #0008,inset 0 1px 0 #fff7 !important;
+    color:#17110b !important;
+    transform:translateY(0);
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+  }
+  .service-detail-book:active,
+  .mobile-form button:active,
+  .mobile-page .page-action:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #8e6438,0 4px 10px #0008,inset 0 1px 0 #fff5 !important;
+  }
+}
+
+@media(max-width:800px){.mobile-page{position:relative}.mobile-page .page-lang{position:absolute;top:24px;right:18px;display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #c89d6566;border-radius:999px;background:#11100f;color:#e3b477;box-shadow:0 3px 0 #6f4e2d;font-size:9px}.mobile-page .page-lang .lang-icon{font-size:11px}}
+@media(max-width:800px){
+  .service-detail{position:relative}
+  .service-detail .page-lang{position:absolute;top:18px;right:20px;z-index:5;display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #c89d6566;border-radius:999px;background:#11100f;color:#e3b477;box-shadow:0 3px 0 #6f4e2d;font-size:9px}
+}

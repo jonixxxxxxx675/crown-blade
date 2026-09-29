@@ -9,15 +9,17 @@
 </head>
 <body>
 <main class="mobile-page">
-<a class="mobile-page-back" href="./index.html">← Назад</a>
-<span class="eyebrow">CONTACT</span>
-<h1>Зв’яжіться з нами</h1>
-<p>Залиште email та повідомлення. Ми зв’яжемося з вами найближчим часом.</p>
+<a class="mobile-page-back" href="./index.html">← <span data-i18n="back">Назад</span></a>
+<button class="lang-switch page-lang" type="button" id="lang-switch-page"><span class="lang-icon">文A</span><span class="lang-code">EN</span></button>
+<span class="eyebrow" data-i18n="contactEyebrow">CONTACT</span>
+<h1><span data-i18n="contactTitle">Зв’яжіться з нами</span></h1>
+<p><span data-i18n="contactText">Залиште email та повідомлення. Ми зв’яжемося з вами найближчим часом.</span></p>
 <form class="mobile-form" action="#" method="post">
-<input type="email" name="email" placeholder="Ваш email" required>
-<textarea name="message" placeholder="Ваше повідомлення" required></textarea>
-<button type="submit">ВІДПРАВИТИ →</button>
+<input type="email" name="email" placeholder="Ваш email" data-i18n-placeholder="emailPlaceholder" required>
+<textarea name="message" placeholder="Ваше повідомлення" data-i18n-placeholder="messagePlaceholder" required></textarea>
+<button type="submit"><span data-i18n="send">ВІДПРАВИТИ →</span></button>
 </form>
 </main>
+<script src="./mobile-i18n.js"></script>
 </body>
 </html>

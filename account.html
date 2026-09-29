@@ -9,16 +9,18 @@
 </head>
 <body>
 <main class="mobile-page">
-<a class="mobile-page-back" href="./index.html">← Назад</a>
-<span class="eyebrow">ACCOUNT</span>
-<h1>Створити акаунт</h1>
-<p>Зареєструйте акаунт, щоб зберігати свої записи та швидше бронювати наступний візит.</p>
+<a class="mobile-page-back" href="./index.html">← <span data-i18n="back">Назад</span></a>
+<button class="lang-switch page-lang" type="button" id="lang-switch-page"><span class="lang-icon">文A</span><span class="lang-code">EN</span></button>
+<span class="eyebrow" data-i18n="accountEyebrow">ACCOUNT</span>
+<h1><span data-i18n="accountTitle">Створити акаунт</span></h1>
+<p><span data-i18n="accountText">Зареєструйте акаунт, щоб зберігати свої записи та швидше бронювати наступний візит.</span></p>
 <form class="mobile-form" action="#" method="post">
-<input type="text" name="name" placeholder="Ім’я" required>
-<input type="email" name="email" placeholder="Email" required>
-<input type="password" name="password" placeholder="Пароль" minlength="6" required>
-<button type="submit">ЗАРЕЄСТРУВАТИСЯ →</button>
+<input type="text" name="name" placeholder="Ім’я" data-i18n-placeholder="namePlaceholder" required>
+<input type="email" name="email" placeholder="Email" data-i18n-placeholder="accountEmailPlaceholder" required>
+<input type="password" name="password" placeholder="Пароль" data-i18n-placeholder="passwordPlaceholder" minlength="6" required>
+<button type="submit"><span data-i18n="register">ЗАРЕЄСТРУВАТИСЯ →</span></button>
 </form>
 </main>
+<script src="./mobile-i18n.js"></script>
 </body>
 </html>
