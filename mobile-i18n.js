@@ -18,7 +18,7 @@
       heroTitle:'More than a haircut.<br>It’s your standard.',heroText:'Men’s haircuts, beard grooming<br>and classic barbering in a modern format.',heroButton:'BOOK AN APPOINTMENT　→',
       chooseService:'Choose service',seeAll:'See all →',chooseBarber:'Choose barber',chooseDate:'Choose date',chooseTime:'Choose time',
       reviewsEyebrow:'REVIEWS',reviewsTitle:'Client reviews',servicesEyebrow:'SERVICES',servicesTitle:'Our Services',servicesText:'Professional grooming<br>for modern men.',viewServices:'VIEW ALL SERVICES　→',
-      confirmBooking:'CONFIRM BOOKING',bookingConfirmed:'Booking confirmed',bookingConfirmedText:'Your appointment has been confirmed.',done:'Done',back:'Back',contactEyebrow:'CONTACT',accountEyebrow:'ACCOUNT',supportEyebrow:'SUPPORT',contactTitle:'Зв’яжіться з нами',contactText:'Залиште email та повідомлення. Ми зв’яжемося з вами найближчим часом.',emailPlaceholder:'Ваш email',messagePlaceholder:'Ваше повідомлення',send:'ВІДПРАВИТИ →',accountTitle:'Створити акаунт',accountText:'Зареєструйте акаунт, щоб зберігати свої записи та швидше бронювати наступний візит.',namePlaceholder:'Ім’я',accountEmailPlaceholder:'Email',passwordPlaceholder:'Пароль',register:'ЗАРЕЄСТРУВАТИСЯ →',supportTitle:'Служба підтримки',supportText:'Якщо виникла проблема із записом або сайтом, напишіть нам.',supportQ1:'Проблема із записом?',supportA1:'Перевірте вибрану послугу, барбера, дату та час.',supportQ2:'Потрібна допомога?',supportA2:'Залиште повідомлення через сторінку контактів.',supportButton:'НАПИСАТИ В ПІДТРИМКУ →',
+      confirmBooking:'CONFIRM BOOKING',bookingConfirmed:'Booking confirmed',bookingConfirmedText:'Your appointment has been confirmed.',done:'Done',back:'Back',contactEyebrow:'CONTACT',accountEyebrow:'ACCOUNT',supportEyebrow:'SUPPORT',contactTitle:'Contact us',contactText:'Leave your email and message. We will get back to you shortly.',emailPlaceholder:'Your email',messagePlaceholder:'Your message',send:'SEND →',accountTitle:'Create an account',accountText:'Create an account to save your bookings and book your next visit faster.',namePlaceholder:'Name',accountEmailPlaceholder:'Email',passwordPlaceholder:'Password',register:'CREATE ACCOUNT →',supportTitle:'Support',supportText:'If you have a problem with your booking or the website, contact us.',supportQ1:'Problem with a booking?',supportA1:'Check the selected service, barber, date and time.',supportQ2:'Need help?',supportA2:'Leave us a message through the contact page.',supportButton:'CONTACT SUPPORT →',
       service_classic:'Classic Haircut',service_hairBeard:'Hair + Beard',service_beardTrim:'Beard Trim',service_royalShave:'Royal Shave',service_kidsHaircut:'Kids Haircut',
       month_0:'January',month_1:'February',month_2:'March',month_3:'April',month_4:'May',month_5:'June',month_6:'July',month_7:'August',month_8:'September',month_9:'October',month_10:'November',month_11:'December',
       weekdays:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
@@ -35,9 +35,72 @@
     document.querySelectorAll('.lang-code').forEach(el=>el.textContent=window.currentLang==='ua'?'EN':'UA');
     window.dispatchEvent(new Event('languagechange'));
   };
-  window.toggleLanguage=function(){window.currentLang=window.currentLang==='ua'?'en':'ua';localStorage.setItem('cb-lang',window.currentLang);applyLanguage();};
+  window.setLanguage=function(lang){
+    if(lang!=='ua'&&lang!=='en')return;
+    window.currentLang=lang;
+    localStorage.setItem('cb-lang',lang);
+    document.querySelectorAll('.lang-dropdown').forEach(el=>el.classList.remove('open'));
+    document.querySelectorAll('.lang-switch').forEach(el=>el.setAttribute('aria-expanded','false'));
+    applyLanguage();
+  };
+
+  function setupLanguageControl(button){
+    if(!button||button.dataset.langReady)return;
+    button.dataset.langReady='true';
+    const wrapper=document.createElement('div');
+    wrapper.className='lang-control';
+    button.parentNode.insertBefore(wrapper,button);
+    wrapper.appendChild(button);
+    button.innerHTML='<span class="lang-globe" aria-hidden="true"></span><span class="lang-code">'+window.currentLang.toUpperCase()+'</span><span class="lang-chevron">⌄</span>';
+    button.setAttribute('aria-haspopup','listbox');
+    button.setAttribute('aria-expanded','false');
+
+    const dropdown=document.createElement('div');
+    dropdown.className='lang-dropdown';
+    dropdown.setAttribute('role','listbox');
+    dropdown.innerHTML='<button type="button" role="option" data-lang="ua"><span>UA</span><small>Українська</small></button><button type="button" role="option" data-lang="en"><span>EN</span><small>English</small></button>';
+    wrapper.appendChild(dropdown);
+
+    button.addEventListener('click',e=>{
+      e.stopPropagation();
+      const open=dropdown.classList.toggle('open');
+      button.setAttribute('aria-expanded',open?'true':'false');
+    });
+    dropdown.querySelectorAll('[data-lang]').forEach(option=>option.addEventListener('click',e=>{
+      e.stopPropagation();
+      window.setLanguage(option.dataset.lang);
+    }));
+  }
+
+  function injectMobilePolish(){
+    if(document.getElementById('cb-mobile-polish'))return;
+    const style=document.createElement('style');
+    style.id='cb-mobile-polish';
+    style.textContent=`
+@media(max-width:800px){
+  .booking .confirm{display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:calc(100% - 16px)!important;margin:18px 8px 0!important;min-height:58px!important;padding:12px 16px!important;border-radius:14px!important;text-align:center!important;white-space:nowrap!important}
+  .booking .confirm span:first-child{display:block!important;font-family:Inter,sans-serif!important;font-size:clamp(9px,2.9vw,12px)!important;line-height:1!important;letter-spacing:.055em!important;text-align:center!important}
+  .booking .confirm span:last-child{font-size:16px!important;line-height:1!important;flex:0 0 auto!important}
+  .lang-control{position:relative;display:inline-flex!important;align-items:center;justify-content:center}
+  .mobile-menu-panel .lang-control{margin-top:10px}.mobile-footer-nav .lang-control{margin:0}
+  .lang-control .lang-switch{margin:0!important;min-width:76px!important;height:36px!important;padding:7px 10px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;border-radius:999px!important;box-sizing:border-box!important}
+  .lang-globe{position:relative;display:inline-block;width:14px;height:14px;border:1px solid currentColor;border-radius:50%;flex:0 0 14px}
+  .lang-globe:before{content:"";position:absolute;left:2px;right:2px;top:5px;height:3px;border-top:1px solid currentColor;border-bottom:1px solid currentColor;border-radius:50%}
+  .lang-globe:after{content:"";position:absolute;top:1px;bottom:1px;left:5px;width:3px;border-left:1px solid currentColor;border-right:1px solid currentColor;border-radius:50%}
+  .lang-code{font:600 9px/1 Inter,sans-serif!important;letter-spacing:.05em!important}.lang-chevron{font:14px/1 Inter,sans-serif;transform:translateY(-1px)}
+  .lang-dropdown{position:absolute;z-index:1200;right:0;top:calc(100% + 8px);width:154px;padding:5px;border:1px solid #c89d6566;border-radius:12px;background:linear-gradient(180deg,#181513,#0d0c0b);box-shadow:0 18px 38px #000b,inset 0 1px 0 #ffffff10;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-5px);transition:opacity .16s ease,transform .16s ease,visibility .16s ease}
+  .lang-dropdown.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
+  .lang-dropdown button{width:100%;display:grid;grid-template-columns:32px 1fr;align-items:center;gap:8px;padding:9px 10px;border:0;border-radius:8px;background:transparent;color:#e7ded5;text-align:left}
+  .lang-dropdown button:active,.lang-dropdown button:hover{background:#d8a96d14;color:#e3b477}.lang-dropdown button span{font:600 9px/1 Inter,sans-serif;letter-spacing:.06em}.lang-dropdown button small{font:10px/1.2 Inter,sans-serif;color:#9f958c}
+}
+@media(min-width:801px){#cb-mobile-polish{display:none}}
+`;
+    document.head.appendChild(style);
+  }
   document.addEventListener('DOMContentLoaded',function(){
-    document.querySelectorAll('#lang-switch-menu,#lang-switch-footer,#lang-switch-page').forEach(b=>b.addEventListener('click',toggleLanguage));
+    injectMobilePolish();
+    document.querySelectorAll('#lang-switch-menu,#lang-switch-footer,#lang-switch-page').forEach(setupLanguageControl);
+    document.addEventListener('click',()=>document.querySelectorAll('.lang-dropdown').forEach(el=>el.classList.remove('open')));
     applyLanguage();
   });
 })();
