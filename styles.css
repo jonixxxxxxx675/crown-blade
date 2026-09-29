@@ -326,3 +326,209 @@ a:focus,
 }
 
 @media (min-width:801px){.desktop-anchor{position:relative;display:block;height:0;width:0;overflow:hidden}}
+
+
+/* =========================================================
+   DESKTOP BARBERS — isolated to min-width: 801px.
+   Mobile layout/styles are intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  .services{display:none !important}
+
+  .desktop-gallery{
+    padding:42px 3.6% 46px;
+    background:#080807;
+  }
+  .desktop-gallery-head{
+    padding:0 3.5% 22px;
+  }
+  .desktop-gallery-head h2{
+    font-size:52px;
+  }
+  .desktop-barbers-kicker{
+    color:#9b8c7d;
+    font-size:10px;
+    letter-spacing:.18em;
+    padding-bottom:8px;
+  }
+
+  .desktop-barbers-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+  }
+  .desktop-barber-card{
+    position:relative;
+    min-width:0;
+    background:#0f0e0d;
+    border:1px solid #ffffff16;
+    border-radius:4px;
+    overflow:hidden;
+    cursor:pointer;
+    outline:none;
+    transition:border-color .22s ease,transform .22s ease,box-shadow .22s ease;
+  }
+  .desktop-barber-card:hover,
+  .desktop-barber-card:focus-visible{
+    border-color:#c89d65;
+    transform:translateY(-3px);
+    box-shadow:0 14px 34px #0008;
+  }
+  .desktop-barber-photo{
+    position:relative;
+    aspect-ratio:1/1;
+    overflow:hidden;
+    background:#11100f;
+  }
+  .desktop-barber-photo img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    transition:transform .45s ease;
+  }
+  .desktop-barber-card:hover .desktop-barber-photo img,
+  .desktop-barber-card:focus-visible .desktop-barber-photo img{
+    transform:scale(1.025);
+  }
+  .desktop-barber-arrow{
+    position:absolute;
+    right:14px;
+    bottom:14px;
+    width:40px;
+    height:40px;
+    border:1px solid #c89d65;
+    border-radius:50%;
+    background:#0b0908d9;
+    color:#e3b477;
+    font-size:20px;
+    line-height:1;
+    cursor:pointer;
+    display:grid;
+    place-items:center;
+    transition:background .2s ease,color .2s ease,transform .2s ease;
+  }
+  .desktop-barber-arrow:hover{
+    background:#e3b477;
+    color:#17110b;
+    transform:translateX(2px);
+  }
+  .desktop-barber-info{
+    padding:15px 16px 18px;
+  }
+  .desktop-barber-info>span{
+    color:#b28a5b;
+    font-size:9px;
+    letter-spacing:.18em;
+  }
+  .desktop-barber-info h3{
+    margin:5px 0 6px;
+    font:500 31px/.95 "Cormorant Garamond",serif;
+    color:#f4eee7;
+  }
+  .desktop-barber-info p{
+    margin:0;
+    max-width:240px;
+    color:#a9a099;
+    font-size:11px;
+    line-height:1.5;
+  }
+
+  .desktop-barber-modal{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:grid;
+    place-items:center;
+    padding:30px;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .2s ease,visibility .2s ease;
+  }
+  .desktop-barber-modal.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .desktop-barber-modal-backdrop{
+    position:absolute;
+    inset:0;
+    background:#000b;
+    backdrop-filter:blur(7px);
+  }
+  .desktop-barber-modal-card{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:minmax(320px,470px) minmax(300px,430px);
+    width:min(900px,88vw);
+    max-height:min(680px,88vh);
+    overflow:hidden;
+    border:1px solid #c89d6570;
+    border-radius:8px;
+    background:#0d0c0b;
+    box-shadow:0 28px 80px #000d,inset 0 1px 0 #ffffff10;
+    transform:translateY(16px) scale(.985);
+    transition:transform .22s ease;
+  }
+  .desktop-barber-modal.open .desktop-barber-modal-card{
+    transform:translateY(0) scale(1);
+  }
+  .desktop-barber-modal-image{
+    min-height:420px;
+    background:#11100f;
+  }
+  .desktop-barber-modal-image img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+  }
+  .desktop-barber-modal-copy{
+    align-self:center;
+    padding:46px;
+  }
+  .desktop-barber-modal-copy h2{
+    margin:8px 0 18px;
+    font:500 58px/.9 "Cormorant Garamond",serif;
+    color:#f5eee5;
+  }
+  .desktop-barber-modal-copy p{
+    margin:0 0 24px;
+    color:#c4bbb2;
+    font-size:13px;
+    line-height:1.8;
+  }
+  .desktop-barber-modal-meta{
+    padding-top:18px;
+    border-top:1px solid #ffffff14;
+    color:#d8a96d;
+    font-size:9px;
+    letter-spacing:.16em;
+  }
+  .desktop-barber-modal-close{
+    position:absolute;
+    z-index:2;
+    top:14px;
+    right:14px;
+    width:38px;
+    height:38px;
+    border:1px solid #c89d6570;
+    border-radius:50%;
+    background:#0b0908dd;
+    color:#e3b477;
+    font-size:25px;
+    line-height:1;
+    cursor:pointer;
+  }
+  .desktop-barber-modal-close:hover{
+    background:#e3b477;
+    color:#17110b;
+  }
+  body.desktop-barber-modal-open{overflow:hidden}
+}
+
+@media (max-width:800px){
+  .desktop-barber-modal{display:none !important}
+}

@@ -10,7 +10,7 @@
 <body>
 <main id="top">
 <header class="hero">
-<nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#top">HOME</a><a href="#about">ABOUT</a><a href="#services">SERVICES</a><a href="#barbers">BARBERS</a><a href="#gallery">GALLERY</a><a href="./contact.html">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button" aria-label="Open menu">☰</button></nav>
+<nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#top">HOME</a><a href="#about">ABOUT</a><a href="./service.html">SERVICES</a><a href="#barbers">BARBERS</a><a href="#barbers">GALLERY</a><a href="./contact.html">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button" aria-label="Open menu">☰</button></nav>
 <div class="hero-copy"><span class="eyebrow">WARSAW · POLAND</span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2 data-i18n-html="heroTitle">More than a haircut.<br>It’s your standard.</h2><p data-i18n-html="heroText">Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking" data-i18n="heroButton">BOOK AN APPOINTMENT　→</a></div>
 </header>
 
@@ -61,21 +61,52 @@
 </section>
 <section class="services" id="services"><div class="services-intro"><span class="eyebrow" data-i18n="servicesEyebrow">SERVICES</span><h2 data-i18n="servicesTitle">Наші послуги</h2><p data-i18n-html="servicesText">Професійний догляд<br>для сучасних чоловіків.</p><button type="button" data-i18n="viewServices">ПЕРЕГЛЯНУТИ ВСІ ПОСЛУГИ　→</button></div><div class="cards" id="cards"></div></section>
 
-<section class="desktop-gallery" id="barbers" aria-label="Gallery">
+<section class="desktop-gallery" id="barbers" aria-label="Barbers">
   <span id="gallery" class="desktop-anchor" aria-hidden="true"></span>
   <div class="desktop-gallery-head">
-    <div><span class="eyebrow">GALLERY</span><h2>More than a haircut</h2></div>
-    <a href="#services">VIEW ALL <span>→</span></a>
+    <div>
+      <span class="eyebrow">BARBERS</span>
+      <h2>Meet our barbers</h2>
+    </div>
+    <span class="desktop-barbers-kicker">CROWN &amp; BLADE TEAM</span>
   </div>
-  <div class="desktop-gallery-grid">
-    <img src="./assets/service-1.jpg" alt="Classic haircut">
-    <img src="./assets/service-2.jpg" alt="Hair and beard">
-    <img src="./assets/service-3.jpg" alt="Beard trim">
-    <img src="./assets/service-4.jpg" alt="Royal shave">
-    <img src="./assets/service-5.jpg" alt="Kids haircut">
+
+  <div class="desktop-barbers-grid">
+    <article class="desktop-barber-card" data-barber="Sofia" tabindex="0">
+      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-sofia.jpg" alt="Sofia — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Sofia profile">→</button></div>
+      <div class="desktop-barber-info"><span>BARBER</span><h3>Sofia</h3><p>Класичні стрижки та точна робота з формою.</p></div>
+    </article>
+
+    <article class="desktop-barber-card" data-barber="Anna" tabindex="0">
+      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-anna.jpg" alt="Anna — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Anna profile">→</button></div>
+      <div class="desktop-barber-info"><span>BARBER</span><h3>Anna</h3><p>Акуратні форми, текстура та сучасний стиль.</p></div>
+    </article>
+
+    <article class="desktop-barber-card" data-barber="Alex" tabindex="0">
+      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-alex.jpg" alt="Alex — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Alex profile">→</button></div>
+      <div class="desktop-barber-info"><span>BARBER</span><h3>Alex</h3><p>Fade, текстурні стрижки та оформлення бороди.</p></div>
+    </article>
+
+    <article class="desktop-barber-card" data-barber="Daniel" tabindex="0">
+      <div class="desktop-barber-photo"><img src="./assets/desktop-barber-daniel.jpg" alt="Daniel — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Daniel profile">→</button></div>
+      <div class="desktop-barber-info"><span>BARBER</span><h3>Daniel</h3><p>Класичні чоловічі образи та бездоганна форма бороди.</p></div>
+    </article>
   </div>
-  <div class="desktop-gallery-controls" aria-hidden="true"><span>←</span><b></b><i></i><i></i><i></i><span>→</span></div>
 </section>
+
+<div class="desktop-barber-modal" id="desktop-barber-modal" aria-hidden="true">
+  <div class="desktop-barber-modal-backdrop" data-barber-close></div>
+  <div class="desktop-barber-modal-card" role="dialog" aria-modal="true" aria-labelledby="desktop-barber-modal-title">
+    <button class="desktop-barber-modal-close" type="button" aria-label="Close profile" data-barber-close>×</button>
+    <div class="desktop-barber-modal-image"><img id="desktop-barber-modal-image" src="" alt=""></div>
+    <div class="desktop-barber-modal-copy">
+      <span class="eyebrow">BARBER</span>
+      <h2 id="desktop-barber-modal-title"></h2>
+      <p id="desktop-barber-modal-text"></p>
+      <div class="desktop-barber-modal-meta" id="desktop-barber-modal-meta"></div>
+    </div>
+  </div>
+</div>
 
 <footer id="contact" class="mobile-footer">
   <div class="mobile-footer-brand"><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div></div>
@@ -95,6 +126,81 @@
 </footer>
 </main>
 <script src="./mobile-i18n.js"></script>
+<script>
+(() => {
+  if (!window.matchMedia('(min-width: 801px)').matches) return;
+
+  const modal = document.querySelector('#desktop-barber-modal');
+  if (!modal) return;
+
+  const image = document.querySelector('#desktop-barber-modal-image');
+  const title = document.querySelector('#desktop-barber-modal-title');
+  const text = document.querySelector('#desktop-barber-modal-text');
+  const meta = document.querySelector('#desktop-barber-modal-meta');
+
+  const profiles = {
+    Sofia: {
+      image: './assets/desktop-barber-sofia.jpg',
+      text: 'Sofia поєднує класичну техніку з сучасним підходом до форми. Вона уважно працює з деталями та підбирає образ під риси клієнта.',
+      meta: 'CLASSIC CUTS · SHAPE · DETAIL'
+    },
+    Anna: {
+      image: './assets/desktop-barber-anna.jpg',
+      text: 'Anna спеціалізується на чистих лініях, текстурі та сучасних чоловічих образах. Її стиль — точність без зайвого.',
+      meta: 'TEXTURE · MODERN STYLE · PRECISION'
+    },
+    Alex: {
+      image: './assets/desktop-barber-alex.jpg',
+      text: 'Alex працює з fade, текстурними стрижками та оформленням бороди. Його підхід — чітка форма та сильний характер образу.',
+      meta: 'FADE · TEXTURE · BEARD'
+    },
+    Daniel: {
+      image: './assets/desktop-barber-daniel.jpg',
+      text: 'Daniel поєднує класичний барберинг із сучасною подачею. Особливу увагу приділяє формі стрижки та акуратності бороди.',
+      meta: 'CLASSIC · BEARD · FINISH'
+    }
+  };
+
+  const close = () => {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('desktop-barber-modal-open');
+  };
+
+  const open = (name) => {
+    const profile = profiles[name];
+    if (!profile) return;
+    image.src = profile.image;
+    image.alt = name + ' — Barber';
+    title.textContent = name;
+    text.textContent = profile.text;
+    meta.textContent = profile.meta;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('desktop-barber-modal-open');
+  };
+
+  document.querySelectorAll('.desktop-barber-card').forEach(card => {
+    const name = card.dataset.barber;
+    card.addEventListener('click', () => open(name));
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open(name);
+      }
+    });
+  });
+
+  modal.querySelectorAll('[data-barber-close]').forEach(button => {
+    button.addEventListener('click', close);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+})();
+</script>
+
 <script>
 const services=[
 {key:'classic',name:'Classic Haircut',short:'Haircut',priceUA:'80 грн',priceEN:'80 UAH',icon:'✂'},
