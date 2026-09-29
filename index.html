@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="./mobile-overrides.css">
 </head>
 <body>
-<main id="top">
+<main>
 <header class="hero">
 <nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#">HOME</a><a href="#about">ABOUT</a><a href="#services">SERVICES</a><a href="#barbers">BARBERS</a><a href="#gallery">GALLERY</a><a href="./contact.html">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button" aria-label="Open menu">☰</button></nav>
 <div class="hero-copy"><span class="eyebrow">WARSAW · POLAND</span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2>More than a haircut.<br>It’s your standard.</h2><p>Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking">BOOK AN APPOINTMENT　→</a></div>
@@ -28,11 +28,11 @@
 <section class="booking" id="booking">
 <div class="step"><div class="step-title"><span>1</span><b>Choose service</b><button type="button">See all →</button></div><div class="service-row" id="service-row"></div></div>
 <div class="step"><div class="step-title"><span>2</span><b>Choose barber</b><button type="button">See all →</button></div><div class="barber-row" id="barber-row"></div></div>
-<div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month">‹ <span>▣ &nbsp; September 2026</span> ›</div><div class="dates" id="dates"></div></div>
+<div class="step"><div class="step-title"><span>3</span><b>Choose date</b></div><div class="month mobile-calendar" id="month-control"><button type="button" class="month-arrow" id="month-prev" aria-label="Previous month">‹</button><div class="month-scroll" id="month-scroll"></div><button type="button" class="month-arrow" id="month-next" aria-label="Next month">›</button><input type="month" id="month-picker" aria-label="Choose month and year"></div><div class="dates" id="dates"></div></div>
 <div class="step"><div class="step-title"><span>◷</span><b>Choose time</b></div><div class="times" id="times"></div></div>
 <button class="confirm" type="button" id="confirm">CONFIRM BOOKING <span>→</span></button>
 </section>
-<section class="testimonials" id="reviews" aria-label="Відгуки клієнтів">
+<section class="testimonials" aria-label="Відгуки клієнтів">
   <div class="testimonials-title"><span class="eyebrow">REVIEWS</span><h2>Відгуки клієнтів</h2></div>
   <div class="testimonial-row">
     <img src="./assets/review-maxim-1.png" alt="Відгук Максима">
@@ -42,22 +42,7 @@
   </div>
 </section>
 <section class="services" id="services"><div class="services-intro"><span class="eyebrow">SERVICES</span><h2>Our Services</h2><p>Професійний догляд<br>для сучасних чоловіків.</p><button type="button">VIEW ALL SERVICES　→</button></div><div class="cards" id="cards"></div></section>
-<footer id="contact" class="mobile-footer">
-  <div class="mobile-footer-brand"><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div></div>
-  <nav class="mobile-footer-nav" aria-label="Footer navigation">
-    <a href="#top">Головна</a>
-    <a href="#services">Послуги</a>
-    <a href="#reviews">Відгуки</a>
-    <a href="./contact.html">Контакти</a>
-  </nav>
-  <div class="mobile-footer-socials" aria-label="Social links">
-    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
-    <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
-    <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a>
-    <a href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="ВКонтакті">VK</a>
-  </div>
-  <div class="mobile-footer-meta">WARSAW · POLAND &nbsp;·&nbsp; © 2026 CROWN &amp; BLADE</div>
-</footer>
+<footer id="contact"><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><span>WARSAW · POLAND</span><span>© 2026 CROWN &amp; BLADE</span></footer>
 </main>
 <script>
 const services=[
@@ -67,16 +52,60 @@ const services=[
 {name:'Royal Shave',price:'70 грн',icon:'⌁'},
 {name:'Kids Haircut',price:'60 грн',icon:'✦'}];
 const barbers=['Alex','Mia','Daniel','Emma','Max'];
-const times=Array.from({length:21},(_,i)=>{const m=600+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')});
-let service=services[0].name, barber='Alex', date='28', time='10:00';
+const times=['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30'];
+let service=services[0].name, barber='Alex', time='10:00';
 const isMobile=()=>window.matchMedia('(max-width: 800px)').matches;
 const scrollToStep=(selector)=>{if(!isMobile()) return; const el=document.querySelector(selector); if(el) el.scrollIntoView({behavior:'smooth',block:'center'});};
 const serviceRow=document.querySelector('#service-row');
 services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong>'+s.short+'</strong><small>'+s.price+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
 const barberRow=document.querySelector('#barber-row');
 barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
-const dates=[['Mon','28'],['Tue','29'],['Wed','30'],['Thu','1'],['Fri','2'],['Sat','3'],['Sun','4']];
-const datesEl=document.querySelector('#dates');dates.forEach(([d,n])=>{const b=document.createElement('button');b.type='button';b.dataset.date=n;b.innerHTML='<small>'+d+'</small><b>'+n+'</b>';b.onclick=()=>{date=n;render();scrollToStep('.booking .step:nth-child(4)')};datesEl.appendChild(b)});
+let calendarMonth=new Date(2026,8,1);
+let date='28';
+const monthScroll=document.querySelector('#month-scroll');
+const monthPicker=document.querySelector('#month-picker');
+const datesEl=document.querySelector('#dates');
+const monthFormatter=new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'});
+const monthNames=new Intl.DateTimeFormat('en-US',{month:'long'});
+const weekdayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const monthList=[];
+for(let y=2026;y<=2035;y++) for(let m=0;m<12;m++) monthList.push(new Date(y,m,1));
+function monthKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function sameMonth(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()}
+function buildMonthStrip(){
+  monthScroll.innerHTML='';
+  monthList.forEach((d,i)=>{
+    const b=document.createElement('button');
+    b.type='button';b.className='month-chip';b.dataset.index=i;b.dataset.month=monthKey(d);
+    b.textContent=monthFormatter.format(d);
+    b.onclick=()=>{calendarMonth=new Date(d);date=String(Math.min(Number(date),new Date(d.getFullYear(),d.getMonth()+1,0).getDate()));renderCalendar();scrollMonthIntoView(false)};
+    monthScroll.appendChild(b);
+  });
+}
+function renderCalendar(){
+  const days=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate();
+  datesEl.innerHTML='';
+  for(let n=1;n<=days;n++){
+    const d=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),n);
+    const b=document.createElement('button');
+    b.type='button';b.dataset.date=String(n);b.innerHTML='<small>'+weekdayNames[d.getDay()]+'</small><b>'+n+'</b>';
+    b.onclick=()=>{date=String(n);render();scrollDateIntoView(b);scrollToStep('.booking .step:nth-child(4)')};
+    datesEl.appendChild(b);
+  }
+  monthPicker.value=monthKey(calendarMonth);
+  document.querySelectorAll('.month-chip').forEach((el,i)=>el.classList.toggle('active',monthList[i]&&sameMonth(monthList[i],calendarMonth)));
+}
+function scrollMonthIntoView(smooth=true){
+  const active=monthScroll.querySelector('.month-chip.active');
+  if(active) active.scrollIntoView({behavior:smooth?'smooth':'auto',block:'nearest',inline:'center'});
+}
+function scrollDateIntoView(el){if(el) el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
+document.querySelector('#month-prev').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);date=String(Math.min(Number(date),new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate()));renderCalendar();scrollMonthIntoView()};
+document.querySelector('#month-next').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);date=String(Math.min(Number(date),new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,0).getDate()));renderCalendar();scrollMonthIntoView()};
+monthPicker.onchange=()=>{const [y,m]=monthPicker.value.split('-').map(Number);if(y&&m){calendarMonth=new Date(y,m-1,1);date=String(Math.min(Number(date),new Date(y,m,0).getDate()));renderCalendar();scrollMonthIntoView()}};
+monthScroll.addEventListener('click',e=>{const chip=e.target.closest('.month-chip');if(chip&&chip.classList.contains('active')){try{monthPicker.showPicker()}catch(_){monthPicker.click()}}});
+monthScroll.addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){monthScroll.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});
+buildMonthStrip();
 const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
 const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span>'+s.name+'</span><b>'+s.price+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
 function render(){document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
@@ -87,6 +116,8 @@ document.querySelector('.hamb').onclick=openMenu;
 document.querySelector('.mobile-menu-close').onclick=closeMenu;
 menu.addEventListener('click',e=>{if(e.target===menu) closeMenu()});
 menu.querySelectorAll('a').forEach(a=>a.onclick=closeMenu);
+renderCalendar();
+scrollMonthIntoView(false);
 render();
 document.querySelector('#confirm').onclick=()=>alert('Booking selected: '+service+' · '+barber+' · '+date+' Sep · '+time);
 </script>

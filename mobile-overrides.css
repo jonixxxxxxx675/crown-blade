@@ -75,36 +75,3 @@
 .service-detail p{font-size:13px;line-height:1.7;color:#c9c0b8;margin:0 0 18px}
 .service-detail-book{display:block;text-align:center;background:#e2b477;color:#17110b;padding:15px;border:0;font-size:11px;letter-spacing:.08em;text-decoration:none}
 @media(min-width:801px){.service-detail-page{display:none}}
-
-/* Mobile-only footer and scrollable working hours. */
-@media(max-width:800px){
-  .booking .times{
-    max-height:148px;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding-right:2px;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-  }
-  .booking .times::-webkit-scrollbar{display:none}
-
-  footer.mobile-footer{
-    display:block;
-    margin:0;
-    padding:22px 20px 18px;
-    border-top:1px solid #c89d6540;
-    background:#090807;
-    color:#9c9187;
-    text-align:center;
-  }
-  .mobile-footer-brand{display:flex;justify-content:center;margin-bottom:18px}
-  .mobile-footer-brand .logo{margin:0;gap:8px;font-size:16px;color:#f5eee5}
-  .mobile-footer-brand .logo>span{font-size:25px;color:var(--gold)}
-  .mobile-footer-brand .logo small{font-size:6px;letter-spacing:.32em}
-  .mobile-footer-nav{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
-  .mobile-footer-nav a{color:#d8cfc5;text-decoration:none;font-size:9px;letter-spacing:.08em}
-  .mobile-footer-nav a:active{color:var(--gold)}
-  .mobile-footer-socials{display:flex;justify-content:center;gap:8px;margin-bottom:15px}
-  .mobile-footer-socials a{display:grid;place-items:center;min-width:42px;height:32px;padding:0 8px;border:1px solid #c89d6566;border-radius:8px;color:var(--gold);text-decoration:none;font-size:8px;letter-spacing:.04em}
-  .mobile-footer-meta{font-size:7px;letter-spacing:.12em;color:#716960}
-}
