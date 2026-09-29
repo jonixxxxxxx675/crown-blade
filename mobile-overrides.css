@@ -39,13 +39,36 @@
     outline:none;
   }
   .mobile-form textarea{min-height:130px;resize:vertical}
-  .mobile-form button,.mobile-page .page-action{
+  .mobile-form button,.mobile-page .page-action,.mobile-page .page-action{
     border:0;
     background:#e2b477;
     color:#17110b;
     padding:14px 18px;
     font-size:11px;
     letter-spacing:.08em;
+  }
+
+  /* Account logout — compact button, never inherit full-page dimensions. */
+  .mobile-account .page-action{
+    display:block;
+    width:100%;
+    min-height:0;
+    height:48px;
+    margin:18px 0 0;
+    padding:0 18px;
+    border:1px solid #f0c98d;
+    border-radius:12px;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%);
+    color:#17110b;
+    font-size:11px;
+    line-height:48px;
+    letter-spacing:.12em;
+    text-align:center;
+    box-shadow:0 4px 0 #8e6438,0 8px 16px #0007,inset 0 1px 0 #fff7;
+  }
+  .mobile-account .page-action:active{
+    transform:translateY(3px);
+    box-shadow:0 1px 0 #8e6438,0 4px 9px #0007,inset 0 1px 0 #fff5;
   }
   .support-list{display:grid;gap:10px;margin-top:24px}
   .support-item{
