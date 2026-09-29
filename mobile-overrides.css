@@ -400,3 +400,46 @@
   }
 }
 
+
+/* Mobile availability states for dates and time slots. */
+@media(max-width:800px){
+  .booking .dates button{
+    position:relative;
+    min-height:70px;
+    transition:opacity .15s ease,border-color .15s ease,transform .12s ease;
+  }
+  .booking .dates button em{
+    display:block;
+    margin-top:3px;
+    font:7px/1 Inter,sans-serif;
+    letter-spacing:.03em;
+    font-style:normal;
+    opacity:.72;
+    white-space:nowrap;
+  }
+  .booking .dates button.is-available em{color:#d8a96d}
+  .booking .dates button.is-full,
+  .booking .dates button.is-past{opacity:.32;cursor:not-allowed}
+  .booking .dates button.is-full em{color:#a99f96}
+  .booking .dates button.is-past em{color:#77716b}
+  .booking .dates button:disabled{pointer-events:none}
+
+  .booking .times button{
+    min-height:50px;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:3px!important;
+    transition:opacity .15s ease,border-color .15s ease,transform .12s ease;
+  }
+  .booking .times button span{font:13px/1 Inter,sans-serif}
+  .booking .times button small{font:7px/1 Inter,sans-serif;letter-spacing:.04em;opacity:.68}
+  .booking .times button.is-available small{color:#d8a96d}
+  .booking .times button.is-booked{opacity:.28;cursor:not-allowed;text-decoration:line-through}
+  .booking .times button.is-booked small{color:#a99f96}
+  .booking .times button.active{border-color:#e3b477!important;color:#e3b477!important}
+}
+@media(max-width:800px){
+  .mobile-form .form-status{min-height:16px;margin:0;color:#d8a96d;font:10px/1.4 Inter,sans-serif;text-align:center}
+}

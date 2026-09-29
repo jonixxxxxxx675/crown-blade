@@ -79,6 +79,10 @@ const services=[
 {key:'kidsHaircut',name:'Kids Haircut',priceUA:'60 грн',priceEN:'60 UAH',icon:'✦'}];
 const barbers=['Alex','Mia','Daniel','Emma','Max'];
 const times=Array.from({length:21},(_,i)=>{const m=600+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')});
+const MOBILE_BOOKINGS_DB='crown_blade_mobile_bookings';
+const BOOKING_API='./api/bookings';
+let remoteBookings=[];
+let remoteBookingReady=false;
 let service=services[0].name, barber='Alex', date='28', time='10:00';
 const isMobile=()=>window.matchMedia('(max-width: 800px)').matches;
 const servicePrice=s=>currentLang==='en'?s.priceEN:s.priceUA;
@@ -86,12 +90,13 @@ const scrollToStep=(selector)=>{if(!isMobile()) return; const el=document.queryS
 const serviceRow=document.querySelector('#service-row');
 services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong data-service-name="'+s.key+'">'+t('service_'+s.key)+'</strong><small>'+servicePrice(s)+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
 const barberRow=document.querySelector('#barber-row');
-barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
+barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
 const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
-const monthStart=new Date(2026,8,1);
-const monthEnd=new Date(2030,11,1);
-let selectedMonth=new Date(2026,8,1);
-let selectedDay=28;
+const today=new Date();today.setHours(0,0,0,0);
+const monthStart=new Date(today.getFullYear(),today.getMonth(),1);
+const monthEnd=new Date(today.getFullYear(),today.getMonth()+12,1);
+let selectedMonth=new Date(monthStart);
+let selectedDay=Math.min(today.getDate()+1,new Date(today.getFullYear(),today.getMonth()+1,0).getDate());
 const monthPicker=document.querySelector('#month-picker');
 const monthLabel=document.querySelector('#month-label');
 const monthPopover=document.querySelector('#month-popover');
@@ -109,38 +114,84 @@ function renderMonths(){
     const b=document.createElement('button');
     b.type='button'; b.className='month-option'+(sameMonth(d,selectedMonth)?' active':''); b.dataset.month=monthKey(d); b.textContent=formatMonth(d);
     b.setAttribute('role','option'); b.setAttribute('aria-selected',sameMonth(d,selectedMonth)?'true':'false');
-    b.onclick=()=>{selectedMonth=new Date(d);clampDay();closeMonthPicker();render();renderDates();};
+    b.onclick=()=>{selectedMonth=new Date(d);clampDay();closeMonthPicker();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings();};
     monthPopover.appendChild(b);
   });
   const active=monthPopover.querySelector('.month-option.active');
   if(active) active.scrollIntoView({block:'nearest'});
 }
+function getStoredBookings(){
+  try{return JSON.parse(localStorage.getItem(MOBILE_BOOKINGS_DB)||'[]')}catch{return []}
+}
+function bookingDateKey(year,month,day){return year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0')}
+function isSlotBooked(year,month,day,slot,forBarber=barber){
+  const key=bookingDateKey(year,month,day);
+  return getStoredBookings().some(b=>b.date===key&&b.time===slot&&b.barber===forBarber) || remoteBookings.some(b=>b.date===key&&b.time===slot&&b.barber===forBarber);
+}
+function availableTimesFor(year,month,day,forBarber=barber){
+  return times.filter(slot=>!isSlotBooked(year,month,day,slot,forBarber));
+}
+function dayAvailability(year,month,day,forBarber=barber){
+  const dayDate=new Date(year,month,day);dayDate.setHours(0,0,0,0);
+  if(dayDate<today)return {available:0,total:times.length,full:true,past:true};
+  const available=availableTimesFor(year,month,day,forBarber).length;
+  return {available,total:times.length,full:available===0,past:false};
+}
+async function loadRemoteBookings(){
+  try{
+    const month=monthKey(selectedMonth);
+    const r=await fetch(BOOKING_API+'?month='+encodeURIComponent(month)+'&barber='+encodeURIComponent(barber),{headers:{'Accept':'application/json'}});
+    if(!r.ok)throw new Error('booking-api');
+    const data=await r.json();
+    remoteBookings=Array.isArray(data.bookings)?data.bookings:[];
+    remoteBookingReady=true;
+  }catch(e){remoteBookingReady=false;remoteBookings=[];}
+  renderDates();syncAvailableTime();renderTimes();render();
+}
+
 function renderDates(){
-  clampDay();
   datesEl.innerHTML='';
-  const total=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,0).getDate();
-  const first=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth(),1);
-  const weekdays=t('weekdays');
-  for(let n=1;n<=total;n++){
-    const d=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth(),n);
+  const y=selectedMonth.getFullYear(),m=selectedMonth.getMonth();
+  const max=new Date(y,m+1,0).getDate();
+  const first=new Date(y,m,1).getDay();
+  for(let day=1;day<=max;day++){
+    const d=new Date(y,m,day), a=dayAvailability(y,m,day);
     const b=document.createElement('button');
-    b.type='button'; b.dataset.date=String(n);
-    b.innerHTML='<small>'+weekdays[d.getDay()]+'</small><b>'+n+'</b>';
-    b.onclick=()=>{selectedDay=n;date=String(n);render();};
+    b.type='button'; b.dataset.date=String(day); b.disabled=a.full;
+    b.className=(String(day)===String(selectedDay)?'active ':'')+(a.full?'is-full':'is-available');
+    if(a.past)b.classList.add('is-past');
+    const weekday=t('weekdays')[d.getDay()];
+    const status=a.past?(currentLang==='en'?'Past':'Минув'):(a.full?(currentLang==='en'?'Full':'Зайнято'):(currentLang==='en'?a.available+' free':'Вільно '+a.available));
+    b.innerHTML='<small>'+weekday+'</small><b>'+day+'</b><em>'+status+'</em>';
+    b.onclick=()=>{if(b.disabled)return;selectedDay=day;date=String(day);syncAvailableTime();renderDates();renderTimes();render();scrollToStep('.booking .step:nth-child(4)')};
     datesEl.appendChild(b);
   }
-  const active=datesEl.querySelector('[data-date="'+selectedDay+'"]');
+  const active=datesEl.querySelector('.active');
   if(active) active.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
 }
-function openMonthPicker(){renderMonths();monthPopover.classList.add('open');monthPopover.setAttribute('aria-hidden','false');document.querySelector('#month-current').setAttribute('aria-expanded','true')}
-function closeMonthPicker(){monthPopover.classList.remove('open');monthPopover.setAttribute('aria-hidden','true');document.querySelector('#month-current').setAttribute('aria-expanded','false')}
-document.querySelector('#month-current').onclick=()=>monthPopover.classList.contains('open')?closeMonthPicker():openMonthPicker();
-document.querySelector('#month-prev').onclick=()=>{if(selectedMonth<=monthStart)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()-1,1);clampDay();renderMonths();renderDates();render()};
-document.querySelector('#month-next').onclick=()=>{if(selectedMonth>=monthEnd)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,1);clampDay();renderMonths();renderDates();render()};
+function syncAvailableTime(){
+  const available=availableTimesFor(selectedMonth.getFullYear(),selectedMonth.getMonth(),selectedDay);
+  if(!available.includes(time)) time=available[0]||'';
+}
+function renderTimes(){
+  const y=selectedMonth.getFullYear(),m=selectedMonth.getMonth(),d=selectedDay;
+  const timesEl=document.querySelector('#times');
+  timesEl.innerHTML='';
+  times.forEach(ti=>{
+    const b=document.createElement('button'); b.type='button'; b.dataset.time=ti;
+    const free=!isSlotBooked(y,m,d,ti);
+    b.disabled=!free; b.className=free?'is-available':'is-booked';
+    b.innerHTML='<span>'+ti+'</span><small>'+(!free?(currentLang==='en'?'Booked':'Зайнято'):(currentLang==='en'?'Available':'Вільно'))+'</small>';
+    b.onclick=()=>{if(!free)return;time=ti;render()};
+    timesEl.appendChild(b);
+  });
+}
+document.querySelector('#month-prev').onclick=()=>{if(selectedMonth<=monthStart)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()-1,1);clampDay();renderMonths();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings()};
+document.querySelector('#month-next').onclick=()=>{if(selectedMonth>=monthEnd)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,1);clampDay();renderMonths();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings()};
 document.addEventListener('click',e=>{if(!monthPicker.contains(e.target))closeMonthPicker()});
 renderMonths();
 renderDates();
-const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
+renderTimes();
 const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span data-service-name="'+s.key+'">'+t('service_'+s.key)+'</span><b>'+servicePrice(s)+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
 function render(){
   document.querySelectorAll('[data-service-name]').forEach(e=>{const k=e.dataset.serviceName;e.textContent=t('service_'+k)});
@@ -155,14 +206,14 @@ document.querySelector('.mobile-menu-close').onclick=closeMenu;
 menu.addEventListener('click',e=>{if(e.target===menu) closeMenu()});
 menu.querySelectorAll('a').forEach(a=>a.onclick=closeMenu);
 render();
-window.addEventListener('languagechange',()=>{renderMonths();renderDates();render();});
+loadRemoteBookings();
+window.addEventListener('languagechange',()=>{renderMonths();renderDates();syncAvailableTime();renderTimes();render();});
 const bookingSuccess=document.querySelector('#booking-success');
 const bookingSuccessText=document.querySelector('#booking-success-text');
 const closeBookingSuccess=()=>{bookingSuccess.classList.remove('open');bookingSuccess.setAttribute('aria-hidden','true');document.body.classList.remove('booking-modal-open')};
-const MOBILE_BOOKINGS_DB='crown_blade_mobile_bookings';
-function saveMobileBooking(){
+function createMobileBooking(){
   const selectedService=services.find(x=>x.name===service)||services[0];
-  const booking={
+  return {
     id:'CB-'+Date.now()+'-'+Math.random().toString(36).slice(2,8).toUpperCase(),
     service:currentLang==='en'?selectedService.name:t('service_'+selectedService.key),
     serviceKey:selectedService.key,
@@ -173,13 +224,31 @@ function saveMobileBooking(){
     language:currentLang,
     createdAt:new Date().toISOString()
   };
-  const existing=JSON.parse(localStorage.getItem(MOBILE_BOOKINGS_DB)||'[]');
+}
+function storeLocalBooking(booking){
+  const existing=getStoredBookings();
   existing.push(booking);
   localStorage.setItem(MOBILE_BOOKINGS_DB,JSON.stringify(existing));
-  return booking;
 }
-document.querySelector('#confirm').onclick=()=>{
-  const booking=saveMobileBooking();
+document.querySelector('#confirm').onclick=async()=>{
+  if(!time || isSlotBooked(selectedMonth.getFullYear(),selectedMonth.getMonth(),selectedDay,time)){
+    renderDates();syncAvailableTime();renderTimes();render();return;
+  }
+  const booking=createMobileBooking();
+  let serverSaved=false;
+  try{
+    const response=await fetch(BOOKING_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
+    if(response.ok){serverSaved=true;}
+    else if(response.status===409){
+      remoteBookings.push({date:booking.date,time:booking.time,barber:booking.barber});
+      renderDates();syncAvailableTime();renderTimes();render();
+      bookingSuccessText.textContent=currentLang==='en'?'This time has just been booked. Please choose another slot.':'Цей час щойно забронювали. Виберіть інший час.';
+      bookingSuccess.classList.add('open');bookingSuccess.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');return;
+    }
+  }catch(e){}
+  storeLocalBooking(booking);
+  if(serverSaved) remoteBookings.push({date:booking.date,time:booking.time,barber:booking.barber});
+  renderDates();renderTimes();render();
   bookingSuccessText.textContent=(currentLang==='en'?'Appointment: ':'Запис: ')+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time;
   bookingSuccess.classList.add('open');
   bookingSuccess.setAttribute('aria-hidden','false');
