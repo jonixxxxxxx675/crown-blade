@@ -24,21 +24,21 @@
 </main>
 <script>
 const services=[
-{name:'Classic Haircut',short:'Haircut',price:'80 PLN',icon:'✂'},
-{name:'Hair + Beard',short:'Hair + Beard',price:'130 PLN',icon:'♜'},
-{name:'Beard Trim',price:'60 PLN',icon:'◈'},
-{name:'Royal Shave',price:'70 PLN',icon:'⌁'},
-{name:'Kids Haircut',price:'60 PLN',icon:'✦'},
-{name:'Skin Fade',price:'90 PLN',icon:'◌'}];
-const barbers=['Any Barber','Alex','Max','Daniel'];
+{name:'Classic Haircut',short:'Haircut',price:'80 грн',icon:'✂'},
+{name:'Hair + Beard',short:'Hair + Beard',price:'130 грн',icon:'♜'},
+{name:'Beard Trim',price:'60 грн',icon:'◈'},
+{name:'Royal Shave',price:'70 грн',icon:'⌁'},
+{name:'Kids Haircut',price:'60 грн',icon:'✦'},
+{name:'Skin Fade',price:'90 грн',icon:'◌'}];
+const barbers=['Any Barber','Alex','Mia','Daniel','Emma','Max'];
 const times=['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30'];
 let service=services[0].name, barber='Any Barber', date='28', time='10:00';
 const isMobile=()=>window.matchMedia('(max-width: 800px)').matches;
 const scrollToStep=(selector)=>{if(!isMobile()) return; const el=document.querySelector(selector); if(el) el.scrollIntoView({behavior:'smooth',block:'center'});};
 const serviceRow=document.querySelector('#service-row');
-services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img"></div><span class="choice-icon">'+s.icon+'</span><strong>'+s.short+'</strong><small>'+s.price+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
+services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong>'+s.short+'</strong><small>'+s.price+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
 const barberRow=document.querySelector('#barber-row');
-barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'">'+(i===0?'♕':'')+'</div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
+barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b+'</small>';el.onclick=()=>{barber=b;render();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
 const dates=[['Mon','28'],['Tue','29'],['Wed','30'],['Thu','1'],['Fri','2'],['Sat','3'],['Sun','4']];
 const datesEl=document.querySelector('#dates');dates.forEach(([d,n])=>{const b=document.createElement('button');b.type='button';b.dataset.date=n;b.innerHTML='<small>'+d+'</small><b>'+n+'</b>';b.onclick=()=>{date=n;render();scrollToStep('.booking .step:nth-child(4)')};datesEl.appendChild(b)});
 const timesEl=document.querySelector('#times');times.forEach(t=>{const b=document.createElement('button');b.type='button';b.dataset.time=t;b.textContent=t;b.onclick=()=>{time=t;render()};timesEl.appendChild(b)});
