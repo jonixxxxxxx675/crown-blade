@@ -532,3 +532,99 @@ a:focus,
 @media (max-width:800px){
   .desktop-barber-modal{display:none !important}
 }
+
+/* =========================================================
+   DESKTOP FINAL POLISH — isolated to min-width: 801px.
+   Mobile layout and mobile overrides are intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Keep the desktop hero and the highlights as separate blocks. */
+  .hero{
+    min-height:560px;
+    height:560px;
+    overflow:hidden;
+  }
+  .hero nav{
+    position:relative;
+    justify-content:center;
+    padding:0 8%;
+  }
+  .hero .links{
+    position:absolute;
+    left:50%;
+    top:0;
+    height:88px;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:34px;
+    white-space:nowrap;
+  }
+  .hero .nav-book{display:none !important}
+  .hero .hamb{
+    position:absolute;
+    right:5.8%;
+    top:50%;
+    transform:translateY(-50%);
+  }
+  .hero-copy{padding-top:72px}
+
+  .desktop-highlights{
+    position:relative;
+    z-index:1;
+    margin-top:0;
+    min-height:142px;
+  }
+
+  .desktop-gallery{
+    padding-top:46px;
+    padding-bottom:50px;
+  }
+
+  .desktop-comments{
+    display:block;
+    padding:54px 7% 62px;
+    background:#080807;
+    border-top:1px solid #ffffff12;
+    border-bottom:1px solid #ffffff12;
+  }
+  .desktop-comments-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    padding:0 1.5% 24px;
+  }
+  .desktop-comments-head h2{
+    margin:8px 0 0;
+    font:500 48px/.95 "Cormorant Garamond",serif;
+    letter-spacing:-.02em;
+  }
+  .desktop-comments-kicker{
+    color:#9b8c7d;
+    font-size:10px;
+    letter-spacing:.18em;
+    padding-bottom:7px;
+  }
+  .desktop-comments-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
+  }
+  .desktop-comment-card{
+    min-width:0;
+    overflow:hidden;
+    border:1px solid #ffffff16;
+    border-radius:5px;
+    background:#0f0e0d;
+  }
+  .desktop-comment-card img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+}
+
+@media (max-width:800px){
+  .desktop-comments{display:none !important}
+}

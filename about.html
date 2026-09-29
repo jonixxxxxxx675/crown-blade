@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — Crown &amp; Blade</title>
+<link rel="stylesheet" href="./styles.css">
+<style>
+  .about-page{min-height:100vh;background:#080807;color:#f5eee5}
+  .about-hero{position:relative;min-height:86vh;background:linear-gradient(90deg,rgba(5,4,3,.72),rgba(5,4,3,.28)),url("./assets/about-interior.png") center/cover no-repeat}
+  .about-page nav{height:88px;position:relative;z-index:2;display:flex;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent);border-bottom:1px solid rgba(255,255,255,.08)}
+  .about-page .links{position:absolute;left:50%;top:0;height:88px;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:34px;white-space:nowrap;font-size:10px;letter-spacing:.1em}
+  .about-page .links a:hover{color:#d8a96d}
+  .about-page .hamb{position:absolute;right:5.8%;top:50%;transform:translateY(-50%);color:#fff;border:0;background:none;font-size:23px}
+  .about-copy{position:absolute;left:9%;bottom:12%;max-width:700px}
+  .about-copy .eyebrow{color:#d8a96d}
+  .about-copy h1{font:500 clamp(58px,6vw,92px)/.9 "Cormorant Garamond",serif;margin:14px 0 20px}
+  .about-copy p{max-width:600px;margin:0;color:#ddd4cb;font-size:14px;line-height:1.9}
+  .about-details{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;padding:80px 9%;background:#080807}
+  .about-details h2{font:500 48px/.95 "Cormorant Garamond",serif;margin:8px 0 20px}
+  .about-details p{color:#bdb4ac;font-size:13px;line-height:1.9;max-width:720px}
+  .about-details-card{border-left:1px solid #c89d65;padding-left:32px;align-self:center}
+  .about-details-card span{display:block;color:#d8a96d;font-size:10px;letter-spacing:.18em;margin-bottom:12px}
+  .about-details-card strong{font:500 31px "Cormorant Garamond",serif}
+  @media(max-width:800px){.about-page{display:none}}
+</style>
+</head>
+<body class="about-page">
+<main>
+<section class="about-hero">
+<nav>
+  <div class="links">
+    <a href="./index.html#top">HOME</a>
+    <a href="./about.html" style="color:#d8a96d">ABOUT</a>
+    <a href="./service.html">SERVICES</a>
+    <a href="./index.html#barbers">BARBERS</a>
+    <a href="./index.html#barbers">GALLERY</a>
+    <a href="./contact.html">CONTACT</a>
+  </div>
+  <button class="hamb" type="button" aria-label="Menu">☰</button>
+</nav>
+<div class="about-copy">
+  <span class="eyebrow">ABOUT CROWN &amp; BLADE</span>
+  <h1>More than a haircut.<br>It’s your standard.</h1>
+  <p>Crown &amp; Blade is a modern barber house built around precision, atmosphere and personal style. Every detail of the space and every service is designed to make a visit feel considered from start to finish.</p>
+</div>
+</section>
+<section class="about-details">
+  <div>
+    <span class="eyebrow">OUR APPROACH</span>
+    <h2>Classic craft.<br>Modern standard.</h2>
+    <p>We combine traditional barbering with a clean contemporary approach. From the consultation and shape to the final detail, our team focuses on consistency, quality and the individual character of every client.</p>
+  </div>
+  <div class="about-details-card">
+    <span>CROWN &amp; BLADE</span>
+    <strong>WARSAW · POLAND</strong>
+  </div>
+</section>
+</main>
+</body>
+</html>
