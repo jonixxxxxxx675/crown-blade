@@ -93,3 +93,25 @@ nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position
  .mobile-menu-divider{height:12px}
 }
 @media(min-width:801px){.mobile-menu{display:none}}
+
+
+/* Clean mobile tap interaction — no blue flash/selection */
+button,
+a,
+img,
+[role="button"],
+[onclick],
+label,
+select,
+summary {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+button:focus,
+a:focus,
+[role="button"]:focus {
+  -webkit-tap-highlight-color: transparent;
+}
