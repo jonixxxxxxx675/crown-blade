@@ -4,9 +4,9 @@
 nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position:relative;z-index:2;border-bottom:1px solid #ffffff15}.logo{display:flex;align-items:center;gap:10px;margin-right:auto;font:500 20px "Cormorant Garamond";letter-spacing:.03em}.logo>span{font-size:31px;color:var(--gold)}.logo small{display:block;font:500 7px Inter;letter-spacing:.38em;color:#c9beb3;margin-top:3px}.links{display:flex;gap:27px;font-size:10px;letter-spacing:.1em}.links a:first-child{color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:12px}.nav-book,.hero-btn{border:1px solid var(--gold);padding:14px 25px;font-size:10px;letter-spacing:.13em;background:#d8a96d0b}.hamb{border:0;background:none;font-size:23px}.hero-copy{position:relative;z-index:1;padding:86px 7%;max-width:820px}.eyebrow{font-size:10px;letter-spacing:.25em;color:var(--gold)}h1{font:500 clamp(64px,7vw,104px)/.8 "Cormorant Garamond";letter-spacing:-.04em;margin:14px 0}.sub{font-size:17px;letter-spacing:.45em;margin:16px 0 31px}.hero h2{font:500 33px/1.05 "Cormorant Garamond";margin:0 0 14px}.hero p{font-size:13px;line-height:1.7;color:#ddd4cb}.hero-btn{display:inline-block;margin-top:14px;background:#e3b879;color:#16110c;border:0;padding:15px 27px}
 .booking{display:grid;grid-template-columns:1.15fr 1fr 1.1fr 1fr;gap:24px;padding:28px 5%;background:#0b0a09;border-top:1px solid #ffffff0e;border-bottom:1px solid #ffffff0e}.booking .step{min-width:0}.booking .step-title{display:flex;align-items:center;gap:10px;margin-bottom:12px}.booking .step-title>span{width:28px;height:28px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:"Cormorant Garamond"}.booking .step-title b{font:500 19px "Cormorant Garamond"}.booking .step-title button{margin-left:auto;border:0;background:none;color:var(--gold);font-size:10px}.booking .service-row,.booking .barber-row{overflow-x:auto}.booking .service-choice{flex:0 0 150px;padding:0 7px 10px;border:1px solid #ffffff13;background:#11110f;border-radius:7px;text-align:left}.booking .service-choice.active{border:2px solid #e2b477;padding:0 6px 9px}.booking .choice-img{height:67px;background:linear-gradient(135deg,#5a402c,#17120e);border-radius:5px 5px 0 0;margin-bottom:7px}.booking .choice-icon{display:block;color:var(--gold);font-size:16px}.booking .service-choice strong{display:block;font-size:10px;font-weight:500}.booking .service-choice small{display:block;color:var(--gold);font-size:10px;margin-top:5px}.booking .barber{flex:0 0 66px;border:0;background:none;text-align:center;padding:0}.booking .avatar{width:59px;height:59px;margin:auto;border:1px solid #a47b4d;border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:28px;background:radial-gradient(circle,#57402c,#0e0d0c 68%)}.booking .barber.active .avatar{border:2px solid #e3b477}.booking .barber small{display:block;margin-top:7px;font-size:10px}.booking .month{display:flex;justify-content:space-between;align-items:center;color:var(--gold);font-size:20px;margin:3px 0 10px}.booking .month span{font:14px "Cormorant Garamond";color:#d7cec5}.booking .dates{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.booking .dates button,.booking .times button{border:1px solid #ffffff16;background:#10100f;color:#d8d1ca;border-radius:6px}.booking .dates button{padding:7px 2px}.booking .dates small{display:block;font-size:9px}.booking .dates b{font-size:13px;display:block;margin-top:5px}.booking .dates .active,.booking .times .active{border:2px solid #e3b477;color:#e3b477}.booking .times{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.booking .times button{height:39px;font-size:10px}.booking .confirm{display:block;grid-column:1/-1;width:100%;height:48px;border:0;background:#e2b477;color:#17110b;font-size:11px;letter-spacing:.08em;margin-top:0}.services{background:#0d0c0b;padding:18px 4.2% 16px;display:grid;grid-template-columns:220px 1fr;gap:28px;border-top:1px solid #ffffff0e}.services-intro{padding:7px 0}.services h2{font:500 37px "Cormorant Garamond";margin:8px 0 20px}.services p{font-size:12px;line-height:1.55;color:#aaa19a}.services-intro button{background:none;border:1px solid #c89d65;padding:12px 18px;color:#d5a56c;font-size:9px;letter-spacing:.12em}.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.card{background:#11100f;border:1px solid #ffffff18;min-width:0;cursor:pointer;transition:border-color .2s,box-shadow .2s}.card.active{border:2px solid #e3b477;box-shadow:0 0 0 1px #e3b47733}.card-photo{height:180px;background:linear-gradient(135deg,#5b4029,#1a1511 55%,#0c0b0a)}.p1{background:linear-gradient(135deg,#39281c,#0c0b0a)}.p2{background:linear-gradient(135deg,#6b4b32,#17110d)}.p3{background:linear-gradient(135deg,#4b3424,#0e0c0b)}.p4{background:linear-gradient(135deg,#755339,#17110d)}.p5{background:linear-gradient(135deg,#58412f,#0d0b09)}.card>div:last-child{height:65px;padding:12px 11px;position:relative}.card span{font-size:9px;letter-spacing:.07em}.card b{display:block;color:var(--gold);font-size:11px;margin-top:8px}.card i{position:absolute;right:9px;bottom:10px;border:1px solid #c9995e;border-radius:50%;width:24px;height:24px;text-align:center;line-height:22px;font-style:normal;color:var(--gold)}footer{display:flex;align-items:center;gap:30px;padding:25px 6%;border-top:1px solid #ffffff12;color:#8e877f;font-size:9px;letter-spacing:.12em}footer .logo{color:#fff}.confirm{display:none}
 @media(max-width:800px){
- .hero{min-height:355px;background-image:linear-gradient(90deg,rgba(5,5,4,.52),rgba(5,5,4,.20)),url("./assets/hero-mobile-new.png");background-size:cover;background-position:center;background-repeat:no-repeat}
+ .hero{min-height:315px;background-image:linear-gradient(90deg,rgba(5,5,4,.52),rgba(5,5,4,.20)),url("./assets/hero-mobile-new.png");background-size:cover;background-position:center;background-repeat:no-repeat}
  nav{height:76px;padding:0 20px}.links,.nav-book{display:none}.hamb{display:block}.logo{font-size:17px}.logo>span{font-size:27px}
- .hero-copy{padding:54px 22px 38px}.hero-copy .eyebrow{display:none}h1{font-size:44px;margin:0}.sub{font-size:10px;letter-spacing:.38em;margin:10px 0 24px}.hero h2{font-size:27px;margin-bottom:9px}.hero p{font-size:11px;line-height:1.55}.hero-btn{display:none}
+ .hero-copy{padding:48px 22px 30px;max-width:62%;text-align:left}.hero-copy .eyebrow{display:none}h1{font-size:44px;margin:0}.sub{font-size:10px;letter-spacing:.38em;margin:10px 0 24px}.hero h2{font-size:27px;margin-bottom:9px}.hero p{font-size:11px;line-height:1.55}.hero-btn{display:none}
  .booking{display:block;margin:-1px 14px 0;padding:22px 20px 18px;background:linear-gradient(180deg,#10100f,#0b0b0a);border:1px solid #ffffff20;border-radius:20px;position:relative;z-index:3;box-shadow:0 16px 35px #0008}
  .step{margin-bottom:21px}.step-title{display:flex;align-items:center;gap:11px;margin-bottom:11px}.step-title>span{width:29px;height:29px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:"Cormorant Garamond";font-size:18px}.step-title b{font:500 20px "Cormorant Garamond"}.step-title button{margin-left:auto;border:0;background:none;color:var(--gold);font-size:10px}
  .service-row{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding-bottom:10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.service-row::-webkit-scrollbar{display:none}.service-choice{flex:0 0 150px;scroll-snap-align:start;padding:0 7px 10px;border:1px solid #ffffff13;background:#11110f;border-radius:7px;text-align:left;min-width:0}.service-choice.active{border:2px solid #e2b477;padding:0 6px 9px}.choice-img{height:67px;background:linear-gradient(135deg,#5a402c,#17120e);border-radius:5px 5px 0 0;margin-bottom:7px}.choice-icon{display:block;color:var(--gold);font-size:16px}.service-choice strong{display:block;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:5px}.service-choice small{display:block;color:var(--gold);font-size:10px;margin-top:5px}
@@ -22,14 +22,69 @@ nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position
  .booking .service-row .service-img-1{background-image:url("./assets/service-2.jpg");background-size:cover;background-position:center}
  .booking .service-row .service-img-2{background-image:url("./assets/service-3.jpg");background-size:cover;background-position:center}
  .booking .service-row .service-img-3{background-image:url("./assets/service-4.jpg");background-size:cover;background-position:center}
- .booking .barber-row .barber:nth-child(2) .avatar{background-image:url("./assets/barber-1.jpg");background-size:cover;background-position:center}
- .booking .barber-row .barber:nth-child(3) .avatar{background-image:url("./assets/barber-2.jpg");background-size:cover;background-position:center}
- .booking .barber-row .barber:nth-child(4) .avatar{background-image:url("./assets/barber-3.jpg");background-size:cover;background-position:center}
- .booking .barber-row .barber:nth-child(5) .avatar{background-image:url("./assets/barber-4.jpg");background-size:cover;background-position:center}
- .booking .barber-row .barber:nth-child(6) .avatar{background-image:url("./assets/barber-5.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(1) .avatar{background-image:url("./assets/barber-1.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(2) .avatar{background-image:url("./assets/barber-2.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(3) .avatar{background-image:url("./assets/barber-3.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(4) .avatar{background-image:url("./assets/barber-4.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(5) .avatar{background-image:url("./assets/barber-5.jpg");background-size:cover;background-position:center}
  .services .cards .p0{background-image:url("./assets/service-1.jpg");background-size:cover;background-position:center}
  .services .cards .p1{background-image:url("./assets/service-2.jpg");background-size:cover;background-position:center}
  .services .cards .p2{background-image:url("./assets/service-3.jpg");background-size:cover;background-position:center}
  .services .cards .p3{background-image:url("./assets/service-4.jpg");background-size:cover;background-position:center}
  .services .cards .p4{background-image:url("./assets/service-5.jpg");background-size:cover;background-position:center}
 }
+
+
+/* Mobile-only additions */
+@media(max-width:800px){
+  /* Remove the duplicated hero title/subtitle; the brand is already in the top logo. */
+  .hero-copy h1,
+  .hero-copy .sub{display:none}
+
+  /* Remove the first mobile "See all" control from the booking block. */
+  .booking .step:nth-child(1) .step-title button{display:none}
+
+  /* Keep service photos fully visible instead of cropping their square source images. */
+  .services .card{border:1px solid transparent;box-shadow:none}
+  .services .card.active{border:2px solid #e3b477;box-shadow:0 0 0 1px #e3b47733}
+  .services .card-photo{height:auto;aspect-ratio:1/1;background-size:cover;background-repeat:no-repeat;background-color:#11100f}
+  .booking .choice-img{height:auto;aspect-ratio:1/1;background-size:cover;background-repeat:no-repeat;background-color:#11100f}
+
+  /* Client reviews inserted above Our Services. */
+  .testimonials{display:block;background:#0a0908;padding:18px 0 32px;border-top:1px solid #ffffff0e}
+  .testimonials-title{padding:0 20px 14px}
+  .testimonials-title h2{font:500 30px "Cormorant Garamond";margin:5px 0 0}
+  .testimonial-row{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;padding:0 20px 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .testimonial-row::-webkit-scrollbar{display:none}
+  .testimonial-row img{flex:0 0 88%;width:88%;height:auto;display:block;object-fit:contain;border-radius:18px;scroll-snap-align:start;border:1px solid #ffffff18;background:#11100f}
+}
+
+@media(min-width:801px){
+  .testimonials{display:none}
+}
+
+/* Individual service page: intended for the mobile flow. */
+.service-detail-page{min-height:100vh;background:#080807;color:var(--text)}
+.service-detail{max-width:760px;margin:0 auto;padding:18px 20px 40px}
+.service-detail-back{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:11px;letter-spacing:.08em;text-decoration:none;margin-bottom:18px}
+.service-detail-photo{width:100%;aspect-ratio:1/1;object-fit:cover;border:1px solid #c89d65;border-radius:14px;display:block}
+.service-detail .eyebrow{display:block;margin-top:22px}
+.service-detail h1{font-size:46px;line-height:.95;margin:8px 0 10px}
+.service-detail-price{color:var(--gold);font-size:14px;margin-bottom:20px}
+.service-detail p{font-size:13px;line-height:1.7;color:#c9c0b8;margin:0 0 18px}
+.service-detail-book{display:block;text-align:center;background:#e2b477;color:#17110b;padding:15px;border:0;font-size:11px;letter-spacing:.08em;text-decoration:none}
+@media(min-width:801px){.service-detail-page{display:none}}
+
+
+@media(max-width:800px){
+ body.menu-open{overflow:hidden}
+ .mobile-menu{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.62);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
+ .mobile-menu.open{opacity:1;visibility:visible;pointer-events:auto}
+ .mobile-menu-panel{position:absolute;top:0;right:0;width:min(82vw,340px);height:100%;padding:82px 28px 30px;background:#0b0a09;border-left:1px solid #c89d6540;box-shadow:-18px 0 40px #0009;display:flex;flex-direction:column;gap:6px}
+ .mobile-menu-close{position:absolute;top:20px;right:20px;width:40px;height:40px;border:1px solid var(--gold);background:none;border-radius:50%;color:var(--gold);font-size:28px;line-height:1}
+ .mobile-menu-title{font:500 24px "Cormorant Garamond";margin-bottom:18px}
+ .mobile-menu-panel a,.mobile-menu-panel>button:not(.mobile-menu-close){display:block;width:100%;padding:14px 0;border:0;border-bottom:1px solid #ffffff12;background:none;text-align:left;color:#eee5dc;font-size:13px}
+ .mobile-menu-panel>button:not(.mobile-menu-close){cursor:pointer}
+ .mobile-menu-divider{height:12px}
+}
+@media(min-width:801px){.mobile-menu{display:none}}
