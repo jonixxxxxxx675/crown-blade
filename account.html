@@ -60,6 +60,7 @@
   <div class="account-muted" id="account-email">—</div>
   <div class="account-muted" id="account-phone">—</div>
   <div class="account-verification" id="account-verification" aria-live="polite"></div>
+  <button class="account-secondary-link" id="resend-verification" type="button" hidden>Надіслати підтвердження ще раз</button>
 </div>
 <div class="account-card">
   <h2 data-i18n="accountBookings">Мої бронювання</h2>
@@ -84,6 +85,7 @@
   const loginStatus=document.querySelector('#login-status');
   const dashStatus=document.querySelector('#account-status');
   const verification=document.querySelector('#account-verification');
+  const resendVerification=document.querySelector('#resend-verification');
 
   const getJSON=(key,fallback=null)=>{try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch{return fallback}};
   const getSession=()=>getJSON(ACCOUNT_KEY,null);
@@ -139,6 +141,19 @@
     document.querySelector('#account-phone').textContent=a.phone||'—';
     verification.textContent=a.emailVerified?t('accountEmailVerified'):t('accountEmailPending');
     verification.className='account-verification '+(a.emailVerified?'verified':'pending');
+    if(resendVerification){
+      resendVerification.hidden=Boolean(a.emailVerified);
+      resendVerification.onclick=async()=>{
+        resendVerification.disabled=true;
+        dashStatus.textContent='Надсилаємо лист підтвердження…';
+        try{
+          const response=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resend-verification',name:a.name||'',email:a.email})});
+          const data=await response.json().catch(()=>({}));
+          dashStatus.textContent=response.ok?'Лист підтвердження надіслано. Перевірте Email та Спам.':(data.error||'Не вдалося надіслати лист.');
+        }catch(e){dashStatus.textContent='Не вдалося підключитися до сервісу email.';}
+        resendVerification.disabled=false;
+      };
+    }
     const all=getBookings();
     const bookings=all.filter(b=>!b.accountId || b.accountId===a.id);
     const box=document.querySelector('#account-bookings');
@@ -173,9 +188,14 @@
     try{
       const response=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
       const data=await response.json().catch(()=>({}));
-      if(response.ok)registerStatus.textContent=t('accountVerificationSent');
-      else registerStatus.textContent=data.error||t('accountLocalSaved');
-    }catch(e){registerStatus.textContent=t('accountLocalSaved')}
+      if(response.ok){
+        registerStatus.textContent=t('accountVerificationSent');
+      }else{
+        registerStatus.textContent=data.error||'Не вдалося надіслати лист підтвердження.';
+      }
+    }catch(e){
+      registerStatus.textContent='Email-сервіс недоступний. Перевірте, що сайт відкритий з Vercel.';
+    }
     renderDashboard();
   });
 
