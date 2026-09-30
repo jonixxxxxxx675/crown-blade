@@ -617,3 +617,60 @@
     text-transform:uppercase;
   }
 }
+
+
+/* MOBILE FINAL FIXES */
+@media (max-width:800px){
+  /* Mobile must not show Maxim's review. Desktop markup remains untouched. */
+  .testimonials .testimonial-row img[alt="Відгук Максима"],
+  .testimonials .testimonial-row img[src*="review-maxim"]{display:none!important;}
+
+  /* Remove desktop-only Hero overlays that can appear as stray white blocks. */
+  .desktop-lang-switch,
+  .desktop-hero-logo,
+  .hero-logo-right{display:none!important;}
+
+  /* Account navigation hierarchy: Back is the primary 3D action; Logout is secondary. */
+  .mobile-account .mobile-page-back{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:100%!important;
+    min-height:52px!important;
+    margin:0 0 22px!important;
+    padding:0 20px!important;
+    border:1px solid #f0c98d!important;
+    border-radius:999px!important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%)!important;
+    color:#17110b!important;
+    font-size:12px!important;
+    font-weight:700!important;
+    letter-spacing:.12em!important;
+    text-decoration:none!important;
+    box-shadow:0 5px 0 #8e6438,0 10px 20px #0008,inset 0 1px 0 #fff8!important;
+  }
+  .mobile-account .mobile-page-back:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #8e6438,0 4px 10px #0007,inset 0 1px 0 #fff5!important;
+  }
+  .mobile-account .page-action#logout{
+    display:inline-flex!important;
+    width:auto!important;
+    min-width:0!important;
+    height:34px!important;
+    min-height:34px!important;
+    margin:10px 0 0 auto!important;
+    padding:0 13px!important;
+    border:1px solid #ffffff22!important;
+    border-radius:999px!important;
+    background:#151311!important;
+    color:#a99f95!important;
+    font-size:9px!important;
+    line-height:34px!important;
+    letter-spacing:.12em!important;
+    box-shadow:none!important;
+  }
+  .mobile-account .page-action#logout:active{transform:translateY(1px);}
+}
+
+@media(max-width:800px){.mobile-account #account-verification{margin-top:16px}.mobile-account #verification-code{display:block;width:100%;box-sizing:border-box;min-height:48px;padding:0 16px;border:1px solid #ffffff20;border-radius:999px;background:#111;color:#f5eee5;outline:none}.mobile-account .verify-action{margin-top:12px!important;width:100%!important;min-height:48px!important;border-radius:999px!important}}
