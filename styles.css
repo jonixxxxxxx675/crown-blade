@@ -947,3 +947,41 @@ a:focus,
     box-shadow:0 2px 0 #5f4428,0 5px 12px #0008 !important;
   }
 }
+
+/* =========================================================
+   DESKTOP PATCH — HERO BRAND MARK
+   801px+ only. Mobile remains untouched.
+   ========================================================= */
+.desktop-hero-logo{display:none;}
+
+@media (min-width:801px){
+  .desktop-hero-logo{
+    display:flex !important;
+    position:absolute;
+    right:8.5%;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    color:#f5eee5;
+    font:500 30px/1 "Cormorant Garamond",serif;
+    letter-spacing:.035em;
+    text-shadow:0 2px 18px rgba(0,0,0,.7);
+    pointer-events:none;
+  }
+  .desktop-hero-logo-crown{
+    display:block;
+    color:#d8a96d;
+    font:400 72px/1 "Times New Roman",serif;
+    margin-bottom:8px;
+  }
+  .desktop-hero-logo small{
+    display:block;
+    margin-top:7px;
+    color:#c9beb3;
+    font:500 9px/1 Inter,sans-serif;
+    letter-spacing:.42em;
+  }
+}
