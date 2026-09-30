@@ -187,6 +187,17 @@
     .about-reference-page{display:none !important}
   }
 </style>
+
+<style>
+@media (min-width:801px){
+  /* Final desktop cleanup: the supplied reference image already contains the copy/cards. */
+  body.about-reference-page{min-height:0 !important;height:auto !important;overflow-x:hidden;}
+  .about-reference-copy,
+  .about-reference-philosophy,
+  .about-reference-card{display:none !important;}
+  .about-reference-canvas{display:block;}
+}
+</style>
 </head>
 <body class="about-reference-page">
 <main>

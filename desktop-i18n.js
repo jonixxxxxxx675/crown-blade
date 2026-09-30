@@ -25,6 +25,8 @@
   const getLang=()=>localStorage.getItem('cb-lang')||'ua';
   function apply(){
     const lang=getLang(),d=dict[lang]||dict.ua;
+    const aboutCanvas=document.querySelector('.about-reference-canvas');
+    if(aboutCanvas){ aboutCanvas.style.backgroundImage=`url(\"./assets/${lang==='en'?'about-reference-base-en.png':'about-reference-base.png'}\")`; }
     document.documentElement.lang=lang;
     document.querySelectorAll('[data-desktop-i18n]').forEach(el=>{
       const key=el.dataset.desktopI18n;if(d[key]!=null)el.textContent=d[key];
