@@ -188,7 +188,6 @@
       +'<strong>'+serviceName+'</strong>'
       +'<div class="account-booking-meta">'+b.barber+' · '+b.date+' · '+b.time+'</div>'
       +'<div class="account-booking-status">'+t('accountConfirmed')+'</div>'
-      +'<div class="account-payment-row"><span>'+t('accountPaymentMethod')+': <strong>'+((b.paymentMethod||b.payment_method)===''?t('paymentCard'):t('paymentCash'))+'</strong></span>'+(((b.paymentMethod||b.payment_method)===''&&(b.paymentStatus||b.payment_status)!=='paid')?'<button type="button" class="account-pay-" data-pay-="'+String(b.id).replace(/[^A-Za-z0-9_-]/g,'')+'">'+t('paymentPay')+'</button>':'')+'</div>'
       +'<div class="account-booking-actions"><button class="primary" data-edit="'+b.id+'" type="button">'+t('accountEdit')+'</button><button data-cancel="'+b.id+'" type="button">'+t('accountCancel')+'</button></div>'
       +'</div>';
   }
@@ -222,9 +221,6 @@
     box.querySelectorAll('[data-edit]').forEach(btn=>btn.onclick=()=>{
       const booking=all.find(b=>b.id===btn.dataset.edit);if(!booking)return;
       localStorage.setItem('cb-edit-booking',JSON.stringify(booking));window.location.href='./index.html#booking';
-    });
-    box.querySelectorAll('[data-pay-]').forEach(btn=>btn.onclick=()=>{
-      dashStatus.textContent=t('paymentProviderMissing');
     });
     box.querySelectorAll('[data-cancel]').forEach(btn=>btn.onclick=async()=>{
       const id=btn.dataset.cancel;

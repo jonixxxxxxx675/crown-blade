@@ -68,20 +68,7 @@
     </form>
   </div>
 </div>
-<div class="mobile-payment" id="mobile-payment" aria-hidden="true">
-  <div class="mobile-payment-" role="dialog" aria-modal="true" aria-labelledby="mobile-payment-title">
-    <button class="mobile-payment-close" id="mobile-payment-close" type="button" aria-label="Close">×</button>
-    <span class="eyebrow" data-i18n="paymentEyebrow">ОПЛАТА</span>
-    
-    <p id="mobile-payment-summary"></p>
-    <div class="payment-methods" id="payment-methods">
-      <button class="payment-method active" type="button" data-method="cash"><span>◉</span><strong data-i18n="paymentCash">Готівка</strong><small data-i18n="paymentCashText">Оплата на місці після візиту</small></button>
-      <button class="payment-method" type="button" data-method=""><span>○</span><small data-i18n="paymentSecure">Безпечна оплата через платіжний сервіс</small></button>
-    </div>
-    <button class="booking-success-ok" id="mobile-payment-submit" type="button" data-i18n="paymentConfirm">ПІДТВЕРДИТИ →</button>
-    <div class="account-status" id="mobile-payment-status" aria-live="polite"></div>
-  </div>
-</div>
+
 </section>
 <section class="testimonials" id="reviews" aria-label="Відгуки клієнтів">
   <div class="testimonials-title"><span class="eyebrow" data-i18n="reviewsEyebrow">REVIEWS</span><h2 data-i18n="reviewsTitle">Відгуки клієнтів</h2></div>
@@ -525,8 +512,6 @@ function createMobileBooking(){
     createdAt:new Date().toISOString(),
     accountId:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.id||null}catch{return null}})(),
     customerEmail:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.email||null}catch{return null}})(),
-    paymentMethod:'cash',
-    paymentStatus:'pending'
   };
 }
 function storeLocalBooking(booking,editingId=''){
@@ -538,25 +523,28 @@ const mobileGate=document.querySelector('#mobile-account-gate');
 const mobileGateClose=document.querySelector('#mobile-account-gate-close');
 const mobileAccountForm=document.querySelector('#mobile-booking-account-form');
 const mobileAccountStatus=document.querySelector('#mobile-booking-account-status');
-const mobilePayment=document.querySelector('#mobile-payment');
-const mobilePaymentClose=document.querySelector('#mobile-payment-close');
-const mobilePaymentSubmit=document.querySelector('#mobile-payment-submit');
-const mobilePaymentSummary=document.querySelector('#mobile-payment-summary');
-const mobilePaymentStatus=document.querySelector('#mobile-payment-status');
-const paymentMethods=document.querySelector('#payment-methods');
-let selectedPaymentMethod='cash';
 let pendingMobileBooking=null;
 function getMobileAccount(){try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')}catch{return null}}
-function openMobileGate(){if(!isMobile())return;mobileGate.classList.add('open');mobileGate.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open')}
-function closeMobileGate(){mobileGate.classList.remove('open');mobileGate.setAttribute('aria-hidden','true');if(!mobilePayment.classList.contains('open'))document.body.classList.remove('booking-modal-open')}
-function openMobilePayment(booking){
-  pendingMobileBooking=booking;
-  selectedPaymentMethod=booking.paymentMethod||'cash';
-  paymentMethods?.querySelectorAll('[data-method]').forEach(x=>x.classList.toggle('active',x.dataset.method===selectedPaymentMethod));
-  mobilePaymentSummary.textContent=(currentLang==='en'?'Booking: ':'Запис: ')+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time+' · '+booking.price;
-  mobilePaymentStatus.textContent='';mobilePayment.classList.add('open');mobilePayment.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');
+function openMobileGate(){
+  if(!isMobile())return;
+  mobileGate.classList.add('open');
+  mobileGate.setAttribute('aria-hidden','false');
+  document.body.classList.add('booking-modal-open');
+  requestAnimationFrame(()=>{
+    const panel=mobileGate.querySelector('.mobile-account-gate-');
+    mobileGate.scrollTop=0;
+    if(panel) panel.scrollTop=0;
+    setTimeout(()=>{
+      mobileGate.scrollTo({top:0,left:0,behavior:'auto'});
+      if(panel) panel.scrollTo({top:0,left:0,behavior:'auto'});
+    },40);
+  });
 }
-function closeMobilePayment(){mobilePayment.classList.remove('open');mobilePayment.setAttribute('aria-hidden','true');if(!mobileGate.classList.contains('open')&&!bookingSuccess.classList.contains('open'))document.body.classList.remove('booking-modal-open')}
+function closeMobileGate(){
+  mobileGate.classList.remove('open');
+  mobileGate.setAttribute('aria-hidden','true');
+  document.body.classList.remove('booking-modal-open');
+}
 function finishMobileBooking(booking){
   let editing=null;try{editing=JSON.parse(localStorage.getItem(EDIT_BOOKING_KEY)||'null')}catch(e){}
   storeLocalBooking(booking,editing?editing.id:'');
@@ -589,13 +577,12 @@ async function continueBookingFlow(){
   if(!getMobileAccount()){
     openMobileGate();return;
   }
-  openMobilePayment(booking);
+  pendingMobileBooking=booking;
+  finishMobileBooking(booking);
 }
 document.querySelector('#confirm').onclick=()=>{if(!isMobile()){return;}continueBookingFlow()};
 mobileGateClose?.addEventListener('click',closeMobileGate);
 mobileGate?.addEventListener('click',e=>{if(e.target===mobileGate)closeMobileGate()});
-mobilePaymentClose?.addEventListener('click',closeMobilePayment);
-mobilePayment?.addEventListener('click',e=>{if(e.target===mobilePayment)closeMobilePayment()});
 mobileAccountForm?.addEventListener('submit',async e=>{
   e.preventDefault();
   if(!pendingMobileBooking)return;
@@ -608,21 +595,8 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   mobileAccountStatus.textContent=t('accountCreating');
   try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});const d=await r.json().catch(()=>({}));mobileAccountStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист підтвердження.');}catch{mobileAccountStatus.textContent='Email-сервіс недоступний.';}
   closeMobileGate();
-  openMobilePayment(pendingMobileBooking);
-});
-paymentMethods?.querySelectorAll('[data-method]').forEach(btn=>btn.addEventListener('click',()=>{
-  selectedPaymentMethod=btn.dataset.method||'cash';
-  paymentMethods.querySelectorAll('[data-method]').forEach(x=>x.classList.toggle('active',x===btn));
-}));
-mobilePaymentSubmit?.addEventListener('click',async()=>{
-  if(!pendingMobileBooking)return;
-  pendingMobileBooking.paymentMethod=selectedPaymentMethod;
-  if(selectedPaymentMethod===''){
-    mobilePaymentStatus.textContent=t('paymentProviderMissing');
-    return;
-  }
-  pendingMobileBooking.paymentStatus='pending';
-  const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);if(saved){closeMobilePayment();finishMobileBooking(pendingMobileBooking);}
+  const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);
+  if(saved)finishMobileBooking(pendingMobileBooking);
 });
 document.querySelector('#booking-success-close').onclick=closeBookingSuccess;
 document.querySelector('#booking-success-ok').onclick=closeBookingSuccess;
@@ -665,9 +639,9 @@ bookingSuccess.addEventListener('click',e=>{if(e.target===bookingSuccess)closeBo
 (() => {
   if (!window.matchMedia('(max-width: 800px)').matches) return;
   const gate = document.querySelector('#mobile-account-gate');
-  const  = gate?.querySelector('.mobile-account-gate-');
+  const panel = gate?.querySelector('.mobile-account-gate-');
   const form = gate?.querySelector('.mobile-form');
-  if (!gate || ! || !form) return;
+  if (!gate || !panel || !form) return;
 
   const reveal = (el) => {
     window.setTimeout(() => {

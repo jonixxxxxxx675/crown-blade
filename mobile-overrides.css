@@ -1189,3 +1189,25 @@
     display:none !important;
   }
 }
+
+
+/* MOBILE ONLY — registration gate opens at the top of the visible viewport. */
+@media (max-width:800px){
+  .mobile-account-gate{
+    align-items:flex-start !important;
+    justify-content:center !important;
+    min-height:100dvh !important;
+    box-sizing:border-box !important;
+    padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px)) !important;
+  }
+  .mobile-account-gate-{
+    width:min(330px,92vw) !important;
+    max-height:calc(100dvh - 24px) !important;
+    margin:0 auto !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    scroll-behavior:auto !important;
+  }
+  .mobile-account-gate- .mobile-form{overflow:visible !important;}
+}
