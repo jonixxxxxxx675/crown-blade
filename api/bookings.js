@@ -12,7 +12,7 @@ function headers(key) {
 
 async function sendBookingEmail(b) {
   if (!b.customerEmail || !process.env.RESEND_API_KEY) return;
-  const from = process.env.CONTACT_FROM || 'Crown & Blade <onboarding@resend.dev>';
+  const from = process.env.CONTACT_FROM || process.env.RESEND_FROM || 'Crown & Blade <onboarding@resend.dev>';
   const language = b.language || 'ua';
   const subject = language === 'en' ? 'Crown & Blade — booking confirmed' : 'Crown & Blade — бронювання підтверджено';
   const text = language === 'en'
@@ -37,14 +37,28 @@ export default async function handler(req, res) {
     if (!/^\d{4}-\d{2}$/.test(month)) return res.status(400).json({ ok: false, error: 'Invalid month' });
     const from = `${month}-01`;
     const [year, mon] = month.split('-').map(Number);
+    // `mon` is 1–12 here; Date expects a zero-based month.
+    // Building the next month this way also handles December correctly.
     const next = new Date(year, mon, 1);
     const to = `${next.getFullYear()}-${String(next.getMonth()+1).padStart(2,'0')}-01`;
-    let query = `select=date,time,barber&date=gte.${from}&date=lt.${to}`;
-    if (barber) query += `&barber=eq.${encodeURIComponent(barber)}`;
-    const r = await fetch(`${url}/rest/v1/${table}?${query}`, { headers: headers(key) });
-    const data = await r.json().catch(() => []);
-    if (!r.ok) return res.status(502).json({ ok: false, error: 'Database read failed' });
-    return res.status(200).json({ ok: true, bookings: data });
+    const params = new URLSearchParams({
+      select: 'date,time,barber',
+      'date': `gte.${from}`,
+      'date': `lt.${to}`
+    });
+    if (barber) params.set('barber', `eq.${barber}`);
+    let r;
+    try {
+      r = await fetch(`${url}/rest/v1/${table}?${params.toString()}`, { headers: headers(key) });
+    } catch (error) {
+      return res.status(502).json({ ok: false, error: 'Database connection failed' });
+    }
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const detail = typeof data?.message === 'string' ? data.message : (typeof data?.hint === 'string' ? data.hint : '');
+      return res.status(502).json({ ok: false, error: 'Database read failed', detail });
+    }
+    return res.status(200).json({ ok: true, bookings: Array.isArray(data) ? data : [] });
   }
 
   if (req.method === 'POST') {

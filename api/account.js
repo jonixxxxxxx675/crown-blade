@@ -33,7 +33,7 @@ function verifyToken(token) {
 
 async function sendVerificationEmail({ email, name, req }) {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM || 'Crown & Blade <onboarding@resend.dev>';
+  const from = process.env.CONTACT_FROM || process.env.RESEND_FROM || 'Crown & Blade <onboarding@resend.dev>';
   if (!apiKey) return { ok: false, error: 'Email service is not configured' };
   const token = tokenFor(email);
   if (!token) return { ok: false, error: 'AUTH_VERIFICATION_SECRET is not configured' };
