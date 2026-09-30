@@ -378,50 +378,101 @@
       try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resend-verification',name,email})});const d=await r.json().catch(()=>({}));dashStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист.');}catch{dashStatus.textContent='Email-сервіс недоступний.';}
     }else dashStatus.textContent=t('accountUpdated');
   });
+  async function getVapidPublicKey(){
+    const response=await fetch('./api/push-config');
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.publicKey)throw new Error(data.error||'VAPID public key is not configured');
+    return data.publicKey;
+  }
+
+  function urlBase64ToUint8Array(base64String){
+    const padding='='.repeat((4-base64String.length%4)%4);
+    const base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/');
+    const raw=atob(base64);
+    return Uint8Array.from([...raw].map(char=>char.charCodeAt(0)));
+  }
+
+  async function getPushRegistration(){
+    if(!('serviceWorker' in navigator)||!('PushManager' in window))return null;
+    return navigator.serviceWorker.register('/sw.js',{scope:'/'});
+  }
+
+  async function savePushSubscription(registration, account){
+    const vapidPublicKey=await getVapidPublicKey();
+    let subscription=await registration.pushManager.getSubscription();
+    if(!subscription){
+      subscription=await registration.pushManager.subscribe({
+        userVisibleOnly:true,
+        applicationServerKey:urlBase64ToUint8Array(vapidPublicKey)
+      });
+    }
+    const response=await fetch('./api/push',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        action:'subscribe',
+        accountId:account?.id||'',
+        email:account?.email||'',
+        subscription:subscription.toJSON()
+      })
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.error||'Push subscription failed');
+    return subscription;
+  }
+
   function updateNotificationStatus(){
-    if(!notificationStatus||!('Notification' in window))return;
+    if(!notificationStatus)return;
+    if(!('Notification' in window)||!('serviceWorker' in navigator)||!('PushManager' in window)){
+      notificationStatus.textContent=t('notificationsUnsupported');
+      return;
+    }
     if(Notification.permission==='granted') notificationStatus.textContent=t('notificationsEnabled');
     else if(Notification.permission==='denied') notificationStatus.textContent=t('notificationsBlockedHelp');
     else notificationStatus.textContent='';
   }
 
   async function enableNotifications(){
-    if(!('Notification' in window)){notificationStatus.textContent=t('notificationsUnsupported');return;}
+    if(!('Notification' in window)||!('serviceWorker' in navigator)||!('PushManager' in window)){
+      notificationStatus.textContent=t('notificationsUnsupported');return;
+    }
     if(!window.isSecureContext){notificationStatus.textContent=t('notificationsSecureRequired');return;}
     if(Notification.permission==='denied'){
       notificationStatus.textContent=t('notificationsBlockedHelp');
       return;
     }
-    if(Notification.permission==='granted'){
-      notificationStatus.textContent=t('notificationsEnabled');
-      const a=getSession();
-      if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}
-      return;
-    }
     try{
-      const permission=await Notification.requestPermission();
-      notificationStatus.textContent=permission==='granted'?t('notificationsEnabled'):t('notificationsDenied');
-      if(permission==='granted'){const a=getSession();if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}}
-    }catch(e){
-      notificationStatus.textContent=t('notificationsDenied');
+      notificationStatus.textContent='';
+      const permission=Notification.permission==='granted'?'granted':await Notification.requestPermission();
+      if(permission!=='granted'){
+        notificationStatus.textContent=t('notificationsDenied');
+        return;
+      }
+      const account=getSession();
+      if(!account){notificationStatus.textContent='Спочатку увійдіть в акаунт.';return;}
+      const registration=await getPushRegistration();
+      await savePushSubscription(registration,account);
+      account.notificationsEnabled=true;
+      saveSessionProfile(account);
+      notificationStatus.textContent=t('notificationsEnabled');
+    }catch(error){
+      console.error('Push setup failed:',error);
+      notificationStatus.textContent='Не вдалося підключити сповіщення. Перевірте HTTPS, Vercel API та базу даних.';
     }
   }
   enableAppNotifications?.addEventListener('click',enableNotifications);
   updateNotificationStatus();
   [reminder24,reminder2,reminderCancel,reminderApp24,reminderApp2].forEach(input=>input?.addEventListener('change',()=>{
-    const a=getSession();if(!a)return;a.reminders=Object.assign({reminder24:true,reminder2:true,reminderCancel:true,app24:true,app2:true},a.reminders||{}, {reminder24:!!reminder24?.checked,reminder2:!!reminder2?.checked,reminderCancel:!!reminderCancel?.checked,app24:!!reminderApp24?.checked,app2:!!reminderApp2?.checked});saveSessionProfile(a);scheduleAppReminders();
-  }));
-  const reminderTimers=new Map();
-  function scheduleAppReminders(){
-    reminderTimers.forEach(id=>clearTimeout(id));reminderTimers.clear();
-    const a=getSession();if(!a?.notificationsEnabled||!('Notification' in window)||Notification.permission!=='granted')return;
-    const bookings=getBookings().filter(b=>b.accountId===a.id||!b.accountId);
-    const settings=Object.assign({app24:true,app2:true},a.reminders||{});
-    bookings.forEach(b=>{
-      const at=Date.parse((b.date||'')+'T'+(b.time||'00:00')+':00');if(!Number.isFinite(at))return;
-      [['app24',24*60*60*1000],['app2',2*60*60*1000]].forEach(([key,offset])=>{if(!settings[key])return;const delay=at-offset-Date.now();if(delay<=0||delay>2147483647)return;const timer=setTimeout(()=>{new Notification('Crown & Blade',{body:(currentLang==='en'?'Your appointment is in '+(key==='app24'?'24 hours':'2 hours')+'. ':'Ваш запис через '+(key==='app24'?'24 години':'2 години')+'. ')+(b.service||'')+' · '+(b.time||''),tag:'cb-'+b.id+'-'+key});},delay);reminderTimers.set(b.id+'-'+key,timer);});
+    const a=getSession();if(!a)return;
+    a.reminders=Object.assign({reminder24:true,reminder2:true,reminderCancel:true,app24:true,app2:true},a.reminders||{}, {
+      reminder24:!!reminder24?.checked,
+      reminder2:!!reminder2?.checked,
+      app24:!!reminderApp24?.checked,
+      app2:!!reminderApp2?.checked,
+      reminderCancel:!!reminderCancel?.checked
     });
-  }
+    saveSessionProfile(a);
+  }));
 
   const originalRegisterSubmit=registerForm?.onsubmit;
   applyProfileExtras();
@@ -432,7 +483,6 @@
   handleVerification();
   window.addEventListener('languagechange',renderDashboard);
   renderDashboard();
-  scheduleAppReminders();
 })();
 </script>
 </body>
