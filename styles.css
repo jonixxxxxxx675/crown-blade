@@ -1,3 +1,5 @@
+
+.hero-logo-right{display:none}
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
 :root{--bg:#080807;--gold:#d8a96d;--text:#f5eee5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif}button,a{font:inherit;color:inherit}button{cursor:pointer}a{text-decoration:none}
 .hero{min-height:690px;position:relative;background-image:linear-gradient(90deg,rgba(7,6,5,.52),rgba(7,6,5,.20) 48%,rgba(7,6,5,.08)),url("./assets/hero-desktop-new.png");background-size:cover;background-position:center;background-repeat:no-repeat;overflow:hidden}
@@ -268,6 +270,12 @@ a:focus,
     color:#ddd4cb !important;
   }
   .hero-copy .hero-btn{display:none !important}
+
+  /* Desktop-only hero logo */
+  .hero-logo-right{position:absolute;top:50%;right:9.2%;transform:translateY(-42%);display:flex;align-items:center;gap:12px;color:#f5eee5;text-shadow:0 2px 18px rgba(0,0,0,.65);z-index:2}
+  .hero-logo-right>span{color:#d8a96d;font-size:44px;line-height:1}
+  .hero-logo-right>div{font:500 28px/1 "Cormorant Garamond",serif;letter-spacing:.03em}
+  .hero-logo-right small{display:block;margin-top:5px;font:500 8px/1 Inter,sans-serif;letter-spacing:.38em;color:#c9beb3}
 
   /* BARBERS */
   .desktop-gallery{
@@ -985,3 +993,72 @@ a:focus,
     letter-spacing:.42em;
   }
 }
+
+/* =========================================================
+   DESKTOP LANGUAGE + CENTERED HERO — 801px+ ONLY.
+   Mobile layout/styles remain untouched.
+   ========================================================= */
+@media (min-width:801px){
+  .desktop-lang-switch{
+    position:absolute;top:24px;right:4.2%;z-index:20;
+    min-width:54px;height:30px;padding:0 13px;
+    border:1px solid #c89d6575;border-radius:999px;
+    background:#080706aa;color:#f2e8dd;
+    font:600 9px/1 Inter,sans-serif;letter-spacing:.12em;
+    cursor:pointer;backdrop-filter:blur(8px);
+    box-shadow:0 4px 16px #0006,inset 0 1px 0 #ffffff12;
+    transition:.18s ease;
+  }
+  .desktop-lang-switch:hover{background:#d8a96d;color:#17110b;border-color:#e7bd84;transform:translateY(-1px)}
+
+  .hero{
+    height:430px !important;min-height:430px !important;
+  }
+  .hero-copy{
+    position:absolute !important;left:50% !important;top:57% !important;
+    transform:translate(-50%,-50%) !important;
+    width:min(760px,86%) !important;max-width:760px !important;
+    padding:0 !important;text-align:center !important;z-index:3 !important;
+  }
+  .hero-copy .eyebrow{display:block !important;font-size:9px !important;margin:0 0 12px !important;letter-spacing:.24em !important}
+  .hero-copy h2{font-size:40px !important;line-height:.96 !important;max-width:none !important;margin:0 0 12px !important}
+  .hero-copy p{max-width:520px !important;margin:0 auto !important;font-size:12px !important;line-height:1.5 !important}
+
+  .desktop-hero-logo{
+    right:auto !important;left:50% !important;top:31% !important;
+    transform:translate(-50%,-50%) !important;
+    align-items:center !important;text-align:center !important;
+    z-index:4 !important;
+  }
+  .desktop-hero-logo-crown{font-size:94px !important;margin-bottom:5px !important}
+  .desktop-hero-logo{font-size:39px !important}
+  .desktop-hero-logo small{font-size:10px !important;letter-spacing:.46em !important;margin-top:8px !important}
+}
+
+/* =========================================================
+   DESKTOP ABOUT PAGE REFERENCE — 801px+ ONLY.
+   ========================================================= */
+@media (min-width:801px){
+  .about-reference-page{min-height:100vh;background:#050504;color:#f5eee5;overflow-x:hidden}
+  .about-reference-canvas{position:relative;width:100%;max-width:1600px;margin:0 auto;line-height:1}
+  .about-reference-image{display:block;width:100%;height:auto}
+  .about-reference-copy,.about-reference-philosophy,.about-reference-card,.about-reference-back,.about-reference-lang{position:absolute;z-index:2}
+  .about-reference-copy{left:8%;top:4.2%;width:38%;line-height:1.15}
+  .about-reference-copy .eyebrow,.about-reference-philosophy .eyebrow{display:block;color:#d8a96d;font:600 12px/1 Inter,sans-serif;letter-spacing:.22em;margin-bottom:20px}
+  .about-reference-copy h1{margin:0 0 20px;font:500 clamp(48px,5vw,82px)/.86 "Cormorant Garamond",serif;color:#f5eee5}
+  .about-reference-copy h1::first-line{color:#e2b477}
+  .about-reference-copy p{margin:0;max-width:600px;color:#eee7df;font:400 clamp(13px,1.15vw,18px)/1.45 Inter,sans-serif}
+  .about-reference-philosophy{left:55%;top:39.8%;width:38%}
+  .about-reference-philosophy h2{margin:0 0 22px;font:500 clamp(40px,4.1vw,68px)/.9 "Cormorant Garamond",serif;color:#f5eee5}
+  .about-reference-philosophy p{margin:0;max-width:610px;color:#eee7df;font:400 clamp(13px,1.05vw,17px)/1.55 Inter,sans-serif}
+  .about-reference-card{top:84.5%;width:17.8%;line-height:1.1}
+  .about-reference-card.card1{left:5.3%}.about-reference-card.card2{left:30.7%}.about-reference-card.card3{left:55.5%}.about-reference-card.card4{left:80.5%}
+  .about-reference-card .num{display:block;color:#e2b477;font:500 18px/1 "Cormorant Garamond",serif;margin-bottom:14px}
+  .about-reference-card strong{display:block;color:#f5eee5;font:600 16px/1 Inter,sans-serif;letter-spacing:.06em;margin-bottom:8px}
+  .about-reference-card p{margin:0;color:#eee7df;font:400 13px/1.45 Inter,sans-serif}
+  .about-reference-back{top:24px;right:4.2%;height:38px;padding:0 16px;border:1px solid #c89d6575;border-radius:999px;background:#080706cc;color:#f5eee5;text-decoration:none;display:flex;align-items:center;gap:8px;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;box-shadow:0 5px 18px #0008,inset 0 1px 0 #ffffff12;transition:.18s ease}
+  .about-reference-back:hover{background:#e2b477;color:#17110b;border-color:#e2b477;transform:translateY(-1px)}
+  .about-reference-lang{top:24px;right:17%;height:38px;min-width:50px;padding:0 13px;border:1px solid #c89d6575;border-radius:999px;background:#080706cc;color:#f5eee5;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;cursor:pointer}
+  .about-reference-lang:hover{background:#e2b477;color:#17110b;border-color:#e2b477}
+}
+@media (max-width:800px){.about-reference-page{display:none !important}}
