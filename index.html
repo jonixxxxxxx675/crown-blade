@@ -52,6 +52,33 @@
     <button class="booking-success-ok" type="button" id="booking-success-ok" data-i18n="done">Done</button>
   </div>
 </div>
+<div class="mobile-account-gate" id="mobile-account-gate" aria-hidden="true">
+  <div class="mobile-account-gate-card" role="dialog" aria-modal="true" aria-labelledby="mobile-account-gate-title">
+    <button class="mobile-account-gate-close" id="mobile-account-gate-close" type="button" aria-label="Close">×</button>
+    <span class="eyebrow" data-i18n="accountEyebrow">АКАУНТ</span>
+    <h2 id="mobile-account-gate-title" data-i18n="bookingAccountRequired">Створіть акаунт перед бронюванням</h2>
+    <p data-i18n="bookingAccountRequiredText">Це потрібно, щоб зберегти запис і надіслати підтвердження та нагадування.</p>
+    <form id="mobile-booking-account-form" class="mobile-form">
+      <input name="name" type="text" placeholder="Ім’я" data-i18n-placeholder="namePlaceholder" autocomplete="name" required>
+      <input name="email" type="email" placeholder="Email" data-i18n-placeholder="accountEmailPlaceholder" autocomplete="email" required>
+      <input name="phone" type="tel" placeholder="Номер телефону" data-i18n-placeholder="phonePlaceholder" autocomplete="tel" required>
+      <input name="password" type="password" placeholder="Пароль" data-i18n-placeholder="passwordPlaceholder" autocomplete="new-password" minlength="6" required>
+      <button class="account-primary-action" type="submit" data-i18n="register">ЗАРЕЄСТРУВАТИСЯ →</button>
+      <div class="account-status" id="mobile-booking-account-status" aria-live="polite"></div>
+    </form>
+  </div>
+</div>
+<div class="mobile-payment" id="mobile-payment" aria-hidden="true">
+  <div class="mobile-payment-card" role="dialog" aria-modal="true" aria-labelledby="mobile-payment-title">
+    <button class="mobile-payment-close" id="mobile-payment-close" type="button" aria-label="Close">×</button>
+    <span class="eyebrow" data-i18n="paymentEyebrow">ОПЛАТА</span>
+    <h2 id="mobile-payment-title" data-i18n="paymentTitle">Онлайн-оплата</h2>
+    <p id="mobile-payment-summary"></p>
+    <div class="payment-method active"><span>◉</span><strong data-i18n="paymentCard">Банківська картка</strong><small data-i18n="paymentSecure">Безпечна оплата через платіжний сервіс</small></div>
+    <button class="booking-success-ok" id="mobile-payment-submit" type="button" data-i18n="paymentPay">ОПЛАТИТИ →</button>
+    <div class="account-status" id="mobile-payment-status" aria-live="polite"></div>
+  </div>
+</div>
 </section>
 <section class="testimonials" id="reviews" aria-label="Відгуки клієнтів">
   <div class="testimonials-title"><span class="eyebrow" data-i18n="reviewsEyebrow">REVIEWS</span><h2 data-i18n="reviewsTitle">Відгуки клієнтів</h2></div>
@@ -502,36 +529,86 @@ function storeLocalBooking(booking,editingId=''){
   const next=editingId?existing.map(b=>b.id===editingId?booking:b):existing.concat(booking);
   localStorage.setItem(MOBILE_BOOKINGS_DB,JSON.stringify(next));
 }
-document.querySelector('#confirm').onclick=async()=>{
+const mobileGate=document.querySelector('#mobile-account-gate');
+const mobileGateClose=document.querySelector('#mobile-account-gate-close');
+const mobileAccountForm=document.querySelector('#mobile-booking-account-form');
+const mobileAccountStatus=document.querySelector('#mobile-booking-account-status');
+const mobilePayment=document.querySelector('#mobile-payment');
+const mobilePaymentClose=document.querySelector('#mobile-payment-close');
+const mobilePaymentSubmit=document.querySelector('#mobile-payment-submit');
+const mobilePaymentSummary=document.querySelector('#mobile-payment-summary');
+const mobilePaymentStatus=document.querySelector('#mobile-payment-status');
+let pendingMobileBooking=null;
+function getMobileAccount(){try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')}catch{return null}}
+function openMobileGate(){if(!isMobile())return;mobileGate.classList.add('open');mobileGate.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open')}
+function closeMobileGate(){mobileGate.classList.remove('open');mobileGate.setAttribute('aria-hidden','true');if(!mobilePayment.classList.contains('open'))document.body.classList.remove('booking-modal-open')}
+function openMobilePayment(booking){
+  pendingMobileBooking=booking;
+  mobilePaymentSummary.textContent=(currentLang==='en'?'Booking: ':'Запис: ')+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time+' · '+booking.price;
+  mobilePaymentStatus.textContent='';mobilePayment.classList.add('open');mobilePayment.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');
+}
+function closeMobilePayment(){mobilePayment.classList.remove('open');mobilePayment.setAttribute('aria-hidden','true');if(!mobileGate.classList.contains('open')&&!bookingSuccess.classList.contains('open'))document.body.classList.remove('booking-modal-open')}
+function finishMobileBooking(booking){
+  let editing=null;try{editing=JSON.parse(localStorage.getItem(EDIT_BOOKING_KEY)||'null')}catch(e){}
+  storeLocalBooking(booking,editing?editing.id:'');
+  localStorage.removeItem(EDIT_BOOKING_KEY);
+  remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber});
+  renderDates();renderTimes();render();
+  bookingSuccessText.textContent=(editing?(currentLang==='en'?'Booking updated: ':'Бронювання оновлено: '):(currentLang==='en'?'Appointment: ':'Запис: '))+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time;
+  bookingSuccess.classList.add('open');bookingSuccess.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');
+}
+async function saveMobileBookingAfterAccount(booking){
+  let serverSaved=false;
+  try{
+    const response=await fetch(BOOKING_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
+    if(response.ok)serverSaved=true;
+    else if(response.status===409){
+      mobileAccountStatus.textContent=currentLang==='en'?'This time is already booked.':'Цей час уже заброньований.';return false;
+    }
+  }catch(e){}
+  if(serverSaved){remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber})}
+  return true;
+}
+async function continueBookingFlow(){
   if(!time || isSlotBooked(selectedMonth.getFullYear(),selectedMonth.getMonth(),selectedDay,time)){
     renderDates();syncAvailableTime();renderTimes();render();return;
   }
   let editing=null;try{editing=JSON.parse(localStorage.getItem(EDIT_BOOKING_KEY)||'null')}catch(e){}
-  const booking=createMobileBooking();
-  if(editing) booking.id=editing.id;
-  let serverSaved=false;
-  try{
-    const response=await fetch(BOOKING_API,{method:editing?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
-    if(response.ok)serverSaved=true;
-    else if(!editing && response.status===409){
-      remoteBookings.push({date:booking.date,time:booking.time,barber:booking.barber});
-      renderDates();syncAvailableTime();renderTimes();render();
-      bookingSuccessText.textContent=currentLang==='en'?'This time has just been booked. Please choose another slot.':'Цей час щойно забронювали. Виберіть інший час.';
-      bookingSuccess.classList.add('open');bookingSuccess.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');return;
-    }
-  }catch(e){}
-  storeLocalBooking(booking,editing?editing.id:'');
-  if(serverSaved){
-    remoteBookings=remoteBookings.filter(b=>!(b.id&&b.id===booking.id));
-    remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber});
+  const booking=createMobileBooking();if(editing)booking.id=editing.id;
+  pendingMobileBooking=booking;
+  // Account is mandatory on mobile before a booking can be confirmed.
+  if(!getMobileAccount()){
+    openMobileGate();return;
   }
-  localStorage.removeItem(EDIT_BOOKING_KEY);
-  renderDates();renderTimes();render();
-  bookingSuccessText.textContent=(editing?(currentLang==='en'?'Booking updated: ':'Бронювання оновлено: '):(currentLang==='en'?'Appointment: ':'Запис: '))+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time;
-  bookingSuccess.classList.add('open');
-  bookingSuccess.setAttribute('aria-hidden','false');
-  document.body.classList.add('booking-modal-open');
-};
+  // Online-payment flow is prepared for a provider-backed endpoint; until a provider is configured,
+  // keep the existing confirmation path usable instead of inventing a fake transaction.
+  const saved=await saveMobileBookingAfterAccount(booking);if(!saved)return;
+  finishMobileBooking(booking);
+}
+document.querySelector('#confirm').onclick=()=>{if(!isMobile()){return;}continueBookingFlow()};
+mobileGateClose?.addEventListener('click',closeMobileGate);
+mobileGate?.addEventListener('click',e=>{if(e.target===mobileGate)closeMobileGate()});
+mobilePaymentClose?.addEventListener('click',closeMobilePayment);
+mobilePayment?.addEventListener('click',e=>{if(e.target===mobilePayment)closeMobilePayment()});
+mobileAccountForm?.addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!pendingMobileBooking)return;
+  const fd=new FormData(mobileAccountForm);const name=String(fd.get('name')||'').trim();const email=String(fd.get('email')||'').trim().toLowerCase();const phone=String(fd.get('phone')||'').trim();const password=String(fd.get('password')||'');
+  if(!/^\+?[0-9 ()-]{9,20}$/.test(phone)){mobileAccountStatus.textContent=t('accountPhoneInvalid');return;}
+  if(password.length<6){mobileAccountStatus.textContent=t('accountPasswordShort');return;}
+  const digest=await (async()=>{const data=new TextEncoder().encode(password);if(window.crypto?.subtle){const d=await crypto.subtle.digest('SHA-256',data);return Array.from(new Uint8Array(d)).map(b=>b.toString(16).padStart(2,'0')).join('')}let h=0;for(let i=0;i<password.length;i++)h=((h<<5)-h)+password.charCodeAt(i)|0;return String(h)})();
+  const account={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash:digest,emailVerified:false,createdAt:new Date().toISOString(),reminders:{reminder24:true,reminder2:true,reminderCancel:true}};
+  localStorage.setItem(ACCOUNT_KEY,JSON.stringify(account));localStorage.setItem('crown_blade_account_profile',JSON.stringify(account));
+  mobileAccountStatus.textContent=t('accountCreating');
+  try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});const d=await r.json().catch(()=>({}));mobileAccountStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист підтвердження.');}catch{mobileAccountStatus.textContent='Email-сервіс недоступний.';}
+  closeMobileGate();
+  const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);if(saved)finishMobileBooking(pendingMobileBooking);
+});
+mobilePaymentSubmit?.addEventListener('click',async()=>{
+  // Provider-ready hook. A real card transaction is only started when the server has payment credentials.
+  if(!pendingMobileBooking)return;
+  mobilePaymentStatus.textContent=currentLang==='en'?'Online payment is not configured yet.':'Онлайн-оплата ще не підключена.';
+});
 document.querySelector('#booking-success-close').onclick=closeBookingSuccess;
 document.querySelector('#booking-success-ok').onclick=closeBookingSuccess;
 bookingSuccess.addEventListener('click',e=>{if(e.target===bookingSuccess)closeBookingSuccess()});
