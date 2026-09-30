@@ -762,6 +762,35 @@
   }
   .mobile-account .account-secondary-actions button:last-child{color:#8f877f !important;font-size:9px !important;letter-spacing:.02em !important;text-transform:none}
   .mobile-account .account-status{min-height:18px;margin-top:4px}
+  .mobile-account .account-secondary-link{
+    display:block !important;
+    width:auto !important;
+    min-height:0 !important;
+    margin:10px 0 0 !important;
+    padding:2px 0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:#d8a96d !important;
+    box-shadow:none !important;
+    font:600 10px/1.4 Inter,sans-serif !important;
+    letter-spacing:.07em !important;
+    text-transform:uppercase;
+    text-align:left;
+    cursor:pointer;
+  }
+  .mobile-account .account-secondary-link:hover,
+  .mobile-account .account-secondary-link:focus-visible{
+    color:#f0c98d !important;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    outline:none;
+  }
+  .mobile-account .account-secondary-link:disabled{
+    opacity:.55;
+    cursor:default;
+    text-decoration:none;
+  }
   .mobile-account .compact-logout{
     position:absolute !important;
     top:18px;
