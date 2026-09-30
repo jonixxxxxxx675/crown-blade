@@ -379,10 +379,40 @@
     }else dashStatus.textContent=t('accountUpdated');
   });
   async function enableNotifications(){
-    if(!('Notification' in window)){notificationStatus.textContent=t('notificationsUnsupported');return;}
-    const permission=await Notification.requestPermission();
-    notificationStatus.textContent=permission==='granted'?t('notificationsEnabled'):t('notificationsDenied');
-    if(permission==='granted'){const a=getSession();if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}}
+    if(!('Notification' in window)){
+      notificationStatus.textContent=t('notificationsUnsupported');
+      return;
+    }
+
+    // The request must happen directly from the user's tap so the browser can
+    // show its native notification permission dialog.
+    if(!window.isSecureContext){
+      notificationStatus.textContent='Сповіщення доступні лише через HTTPS.';
+      return;
+    }
+
+    if(Notification.permission==='granted'){
+      notificationStatus.textContent=t('notificationsEnabled');
+      const a=getSession();
+      if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}
+      return;
+    }
+
+    if(Notification.permission==='denied'){
+      notificationStatus.textContent='Сповіщення заблоковані. Дозволь їх у налаштуваннях цього сайту.';
+      return;
+    }
+
+    try{
+      const permission=await Notification.requestPermission();
+      notificationStatus.textContent=permission==='granted'?t('notificationsEnabled'):t('notificationsDenied');
+      if(permission==='granted'){
+        const a=getSession();
+        if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}
+      }
+    }catch{
+      notificationStatus.textContent=t('notificationsDenied');
+    }
   }
   enableAppNotifications?.addEventListener('click',enableNotifications);
   [reminder24,reminder2,reminderCancel,reminderApp24,reminderApp2].forEach(input=>input?.addEventListener('change',()=>{

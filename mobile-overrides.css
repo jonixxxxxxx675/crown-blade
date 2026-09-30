@@ -1018,8 +1018,8 @@
 
 /* Mobile account + booking workflow — functional layer, visual style preserved. */
 @media(max-width:800px){
-  .account-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 16px;padding:4px;border:1px solid #ffffff12;border-radius:999px;background:#0e0d0c}
-  .account-tab{min-height:34px!important;padding:5px 4px!important;border:0!important;border-radius:999px!important;background:transparent!important;color:#8f877f!important;box-shadow:none!important;font:600 8px/1 Inter,sans-serif!important;letter-spacing:.05em!important}
+  .account-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 16px;padding:4px;border:1px solid #ffffff12;border-radius:18px;background:#0e0d0c}
+  .account-tab{min-height:34px!important;padding:5px 4px!important;border:0!important;border-radius:12px!important;background:transparent!important;color:#8f877f!important;box-shadow:none!important;font:600 8px/1 Inter,sans-serif!important;letter-spacing:.05em!important}
   .account-tab.active{background:#c89d6518!important;color:#e3b477!important;border:1px solid #c89d6544!important}
   .account-tab-panel{animation:cb-mobile-rise .22s ease both}
   .account-profile-head{display:flex;align-items:center;gap:14px}
@@ -1377,6 +1377,10 @@
     min-height:0 !important;
   }
 
+  .mobile-account .account-tabs{
+    border-radius:18px !important;
+  }
+
   .mobile-account .account-tab{
     width:100% !important;
     min-width:0 !important;
@@ -1387,6 +1391,7 @@
     justify-content:center !important;
     white-space:normal !important;
     overflow:visible !important;
+    border-radius:12px !important;
     line-height:1.25 !important;
   }
 
