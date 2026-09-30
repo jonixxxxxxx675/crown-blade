@@ -190,12 +190,23 @@
 
 <style>
 @media (min-width:801px){
-  /* Final desktop cleanup: the supplied reference image already contains the copy/cards. */
-  body.about-reference-page{min-height:0 !important;height:auto !important;overflow-x:hidden;}
+  /* Desktop final fix: restore the live copy/cards over the reference image. */
+  body.about-reference-page{min-height:100vh !important;height:auto !important;overflow-x:hidden;}
+  .about-reference-canvas{
+    display:block;
+    min-height:760px;
+    aspect-ratio:auto;
+    background-size:100% 100%;
+  }
   .about-reference-copy,
   .about-reference-philosophy,
-  .about-reference-card{display:none !important;}
-  .about-reference-canvas{display:block;}
+  .about-reference-card{display:block;}
+  .about-reference-back{
+    min-width:150px;
+    height:42px;
+    top:24px;
+    justify-content:center;
+  }
 }
 </style>
 </head>
