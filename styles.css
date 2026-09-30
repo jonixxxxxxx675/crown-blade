@@ -245,7 +245,8 @@ a:focus,
     padding:10px 0 0 9.2% !important;
     text-shadow:0 2px 18px rgba(0,0,0,.55);
   }
-  .hero-copy .eyebrow{font-size:9px}
+  .hero-copy .eyebrow{font-size:0 !important;letter-spacing:.2em !important}
+  .hero-copy .eyebrow::after{content:"ЛЬВІВ · УКРАЇНА";font-size:9px;letter-spacing:.2em}
   .hero-copy h1,.hero-copy .sub{display:none !important}
   .hero-copy h2{
     margin:9px 0 10px !important;
@@ -421,18 +422,17 @@ a:focus,
   /* CONTACT + GALLERY */
   .desktop-contact-gallery{
     display:grid !important;
-    grid-template-columns:1.02fr 1.45fr !important;
-    grid-template-rows:auto 1fr !important;
+    grid-template-columns:1.05fr 1.45fr !important;
+    grid-template-rows:1fr !important;
     min-height:320px !important;
-    background:
-      linear-gradient(90deg,rgba(7,6,5,.94),rgba(7,6,5,.78)),
-      url("./assets/desktop.png") center/cover no-repeat !important;
+    background:#080807 !important;
     border-bottom:1px solid #c89d6545 !important;
   }
   .desktop-contact{
-    grid-row:1 / span 2 !important;
+    grid-column:1 !important;
+    grid-row:1 !important;
     display:grid !important;
-    grid-template-columns:1fr 1fr !important;
+    grid-template-columns:minmax(0,1.15fr) minmax(170px,.85fr) !important;
     column-gap:24px !important;
     align-content:center !important;
     padding:34px 38px 34px 5.5% !important;
@@ -440,8 +440,9 @@ a:focus,
   }
   .desktop-contact>.eyebrow,
   .desktop-contact>h2,
-  .desktop-contact>p,
-  .desktop-contact>form{grid-column:1}
+  .desktop-contact>p{grid-column:1 / -1}
+  .desktop-contact>.desktop-contact-form{grid-column:1}
+  .desktop-contact>.desktop-contact-details{grid-column:2;grid-row:4}
   .desktop-contact h2{
     margin:6px 0 12px !important;
     font:500 48px/.88 "Cormorant Garamond",serif !important;
@@ -496,18 +497,18 @@ a:focus,
   }
   .desktop-contact-form button span{float:right;font-size:14px}
   .desktop-contact-details{
-    grid-column:2;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px 26px;
-    padding:30px 38px 8px;
-    align-content:center;
-    border-bottom:1px solid #ffffff18;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+    padding:0 !important;
+    align-content:start !important;
+    border:0 !important;
+    margin-top:0 !important;
   }
   .desktop-contact-details>div{display:flex;align-items:flex-start;gap:10px}
   .contact-detail-icon{color:#d8a96d;font-size:19px;line-height:1}
   .desktop-contact-details p{margin:0;color:#ddd4cb;font-size:9px;line-height:1.5}
-  .desktop-gallery-work{grid-column:2;padding:20px 38px 24px}
+  .desktop-gallery-work{grid-column:2;grid-row:1;padding:28px 38px 24px}
   .desktop-gallery-work-head{
     display:flex;
     justify-content:space-between;
@@ -518,6 +519,8 @@ a:focus,
   .desktop-gallery-work-head h2{margin:5px 0 0;font:500 35px/.92 "Cormorant Garamond",serif}
   .desktop-gallery-work-head a{
     min-width:150px;
+    cursor:pointer;
+    transition:background .2s ease,color .2s ease,border-color .2s ease;
     padding:10px 12px;
     border:1px solid #c89d65;
     color:#e3b477;
@@ -526,6 +529,7 @@ a:focus,
     display:flex;
     justify-content:space-between;
   }
+  .desktop-gallery-work-head a:hover{background:#e3b477;color:#17110b;border-color:#e3b477}
   .desktop-gallery-work-grid{
     display:grid;
     grid-template-columns:1.35fr 1fr 1fr;
@@ -697,3 +701,107 @@ a:focus,
   .desktop-highlights,.desktop-gallery,.desktop-about,.desktop-contact-gallery,.desktop-comments,.desktop-footer{display:none !important}
 }
 
+
+/* Desktop location label — mobile markup remains visually unchanged. */
+@media (min-width:801px){
+  .hero-copy .eyebrow .desktop-location{display:inline}
+  .hero-copy .eyebrow .mobile-location{display:none}
+}
+@media (max-width:800px){
+  .hero-copy .eyebrow .desktop-location{display:none}
+  .hero-copy .eyebrow .mobile-location{display:inline}
+}
+@media (min-width:801px){
+  .hero-copy .eyebrow{font-size:9px !important}
+  .hero-copy .eyebrow::after{display:none !important;content:none !important}
+}
+
+
+/* =========================================================
+   DESKTOP FINAL FIX — 801px+ ONLY
+   Mobile CSS/files are intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Hero: compact, matching the approved desktop composition. */
+  .hero{
+    min-height:450px !important;
+    height:450px !important;
+    background-size:cover !important;
+    background-position:center !important;
+  }
+  .hero>nav{height:0 !important;min-height:0 !important;padding:0 !important;border:0 !important;overflow:hidden !important;}
+  .hero>nav .logo,.hero>nav .links,.hero>nav .nav-book,.hero>nav .hamb{display:none !important}
+  .hero-copy{
+    max-width:540px !important;
+    padding:72px 0 0 9.2% !important;
+  }
+  .hero-copy .eyebrow .desktop-location{display:inline !important;font-size:9px !important;}
+  .hero-copy h2::after{content:none !important}
+  .hero-copy h2{
+    font-size:36px !important;
+    line-height:.96 !important;
+    margin:12px 0 12px !important;
+  }
+  .hero-copy p{font-size:12px !important;line-height:1.5 !important;max-width:370px !important}
+  .hero-copy .hero-btn{display:none !important}
+
+  /* Barbers: five cards, immediately after the hero. */
+  .desktop-gallery{
+    padding:20px 3.8% 22px !important;
+    border-bottom:0 !important;
+  }
+  .desktop-gallery-head{padding-bottom:12px !important}
+  .desktop-gallery-head h2{font-size:40px !important}
+  .desktop-barbers-grid{grid-template-columns:repeat(5,minmax(0,1fr)) !important;gap:10px !important}
+  .desktop-barber-photo{aspect-ratio:1.18/1 !important}
+  .desktop-barber-info,.desktop-barber-arrow{display:none !important}
+
+  /* Values: remove the unexplained image background. */
+  .desktop-highlights{
+    height:96px !important;
+    min-height:96px !important;
+    background:#090807 !important;
+  }
+
+  /* About: keep the exact supplied banner. */
+  .desktop-about{background:#080807 !important}
+  .desktop-about-banner img{
+    width:100% !important;
+    height:auto !important;
+    aspect-ratio:1536/277 !important;
+    object-fit:cover !important;
+  }
+
+  /* Contact + gallery: balanced 50/50 split, clean background, address stays in contact column. */
+  .desktop-contact-gallery{
+    grid-template-columns:1fr 1fr !important;
+    min-height:330px !important;
+    background:#080807 !important;
+    background-image:none !important;
+  }
+  .desktop-contact-gallery::before,
+  .desktop-contact-gallery::after{display:none !important;content:none !important}
+  .desktop-contact{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    grid-template-columns:minmax(0,1.15fr) minmax(150px,.85fr) !important;
+    padding:32px 34px 28px 5.5% !important;
+    background:#080807 !important;
+    background-image:none !important;
+  }
+  .desktop-contact-details{
+    grid-column:2 !important;
+    grid-row:4 !important;
+    align-content:start !important;
+    margin:0 !important;
+    padding-top:2px !important;
+  }
+  .desktop-contact-details p{font-size:10px !important;line-height:1.45 !important;color:#ddd4cb !important}
+  .desktop-gallery-work{grid-column:2 !important;grid-row:1 !important;padding:28px 38px 24px !important;background:#080807 !important}
+
+  /* Comments. */
+  .desktop-comments{background:#080807 !important}
+
+  /* Footer. */
+  .desktop-footer{background:#080807 !important}
+}

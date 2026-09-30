@@ -11,7 +11,7 @@
 <main id="top">
 <header class="hero">
 <nav><div class="logo"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div><div class="links"><a href="#top">HOME</a><a href="./about.html">ABOUT</a><a href="./service.html">SERVICES</a><a href="#barbers">BARBERS</a><a href="#barbers">GALLERY</a><a href="./contact.html">CONTACT</a></div><a class="nav-book" href="#booking">BOOK NOW　→</a><button class="hamb" type="button" aria-label="Open menu">☰</button></nav>
-<div class="hero-copy"><span class="eyebrow">WARSAW · POLAND</span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2 data-i18n-html="heroTitle">More than a haircut.<br>It’s your standard.</h2><p data-i18n-html="heroText">Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking" data-i18n="heroButton">BOOK AN APPOINTMENT　→</a></div>
+<div class="hero-copy"><span class="eyebrow"><span class="desktop-location">ЛЬВІВ · УКРАЇНА</span><span class="mobile-location">WARSAW · POLAND</span></span><h1>CROWN &amp; BLADE</h1><div class="sub">BARBER HOUSE</div><h2 data-i18n-html="heroTitle">More than a haircut.<br>It’s your standard.</h2><p data-i18n-html="heroText">Чоловічі стрижки, оформлення бороди<br>та класичний барберинг у сучасному форматі.</p><a class="hero-btn" href="#booking" data-i18n="heroButton">BOOK AN APPOINTMENT　→</a></div>
 </header>
 
 <section class="desktop-highlights" id="about" aria-label="Crown and Blade values">
@@ -130,19 +130,19 @@
       <label><span>▱</span><textarea placeholder="Ваше повідомлення"></textarea></label>
       <button type="submit">НАДІСЛАТИ ПОВІДОМЛЕННЯ <span>→</span></button>
     </form>
-  </div>
 
-  <div class="desktop-contact-details">
-    <div><span class="contact-detail-icon">⌖</span><p>Warsaw, Poland<br>ul. Marszałkowska 123<br>00-001 Warszawa</p></div>
-    <div><span class="contact-detail-icon">◔</span><p>+48 123 456 789</p></div>
-    <div><span class="contact-detail-icon">◷</span><p>Пн – Сб: 10:00 – 21:00<br>Нд: 11:00 – 19:00</p></div>
-    <div><span class="contact-detail-icon">◎</span><p>@crown.blade</p></div>
+    <div class="desktop-contact-details">
+      <div><span class="contact-detail-icon">⌖</span><p>Львів, Україна</p></div>
+      <div><span class="contact-detail-icon">◔</span><p>+380 XX XXX XX XX</p></div>
+      <div><span class="contact-detail-icon">◷</span><p>Пн – Сб: 10:00 – 21:00<br>Нд: 11:00 – 19:00</p></div>
+      <div><span class="contact-detail-icon">◎</span><p>@crown.blade</p></div>
+    </div>
   </div>
 
   <div class="desktop-gallery-work">
     <div class="desktop-gallery-work-head">
       <div><span class="eyebrow">НАШІ РОБОТИ</span><h2>Стиль у деталях</h2></div>
-      <a href="#barbers">ВІДКРИТИ ГАЛЕРЕЮ <span>→</span></a>
+      <a href="#gallery">ВІДКРИТИ ГАЛЕРЕЮ <span>→</span></a>
     </div>
     <div class="desktop-gallery-work-grid">
       <img class="gallery-main" src="./assets/gallery-model-1.png" alt="Crown &amp; Blade haircut">
@@ -482,8 +482,22 @@ bookingSuccess.addEventListener('click',e=>{if(e.target===bookingSuccess)closeBo
 </script>
 <script>
 (() => {
+  if (!window.matchMedia('(min-width: 801px)').matches) return;
   const form = document.querySelector('.desktop-contact-form');
-  if (form) form.addEventListener('submit', e => e.preventDefault());
+  if (!form) return;
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const button = form.querySelector('button');
+    if (!button) return;
+    const original = button.innerHTML;
+    button.innerHTML = 'ПОВІДОМЛЕННЯ НАДІСЛАНО <span>✓</span>';
+    button.disabled = true;
+    window.setTimeout(() => {
+      form.reset();
+      button.innerHTML = original;
+      button.disabled = false;
+    }, 2200);
+  });
 })();
 </script>
 </body>
