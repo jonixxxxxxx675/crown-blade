@@ -64,8 +64,17 @@ export default async function handler(req, res) {
 
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
   const { action = 'register', name = '', email = '', phone = '' } = req.body || {};
-  if (action !== 'register') return res.status(400).json({ ok: false, error: 'Unsupported action' });
-  if (!name.trim() || !email.trim() || !phone.trim()) return res.status(400).json({ ok: false, error: 'Name, email and phone are required' });
+  if (action !== 'register' && action !== 'resend-verification') {
+    return res.status(400).json({ ok: false, error: 'Unsupported action' });
+  }
+  if (!name.trim() || !email.trim() || (action === 'register' && !phone.trim())) {
+    return res.status(400).json({
+      ok: false,
+      error: action === 'resend-verification'
+        ? 'Name and email are required'
+        : 'Name, email and phone are required'
+    });
+  }
   const result = await sendVerificationEmail({ name: name.trim(), email: email.trim().toLowerCase(), req });
   if (!result.ok) return res.status(503).json(result);
   return res.status(200).json({ ok: true, verificationSent: true, id: result.id });
