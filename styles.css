@@ -1039,8 +1039,8 @@ a:focus,
    DESKTOP ABOUT PAGE REFERENCE — 801px+ ONLY.
    ========================================================= */
 @media (min-width:801px){
-  .about-reference-page{min-height:100vh;background:#050504;color:#f5eee5;overflow-x:hidden}
-  .about-reference-canvas{position:relative;width:100%;max-width:1600px;margin:0 auto;line-height:1}
+  .about-reference-page{min-height:0;background:#050504;color:#f5eee5;overflow-x:hidden}
+  .about-reference-canvas{position:relative;width:100%;max-width:1600px;margin:0 auto;line-height:1;aspect-ratio:1536 / 1024;overflow:hidden}
   .about-reference-image{display:block;width:100%;height:auto}
   .about-reference-copy,.about-reference-philosophy,.about-reference-card,.about-reference-back,.about-reference-lang{position:absolute;z-index:2}
   .about-reference-copy{left:8%;top:4.2%;width:38%;line-height:1.15}

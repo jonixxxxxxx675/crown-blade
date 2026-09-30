@@ -190,23 +190,12 @@
 
 <style>
 @media (min-width:801px){
-  /* Desktop final fix: restore the live copy/cards over the reference image. */
-  body.about-reference-page{min-height:100vh !important;height:auto !important;overflow-x:hidden;}
-  .about-reference-canvas{
-    display:block;
-    min-height:760px;
-    aspect-ratio:auto;
-    background-size:100% 100%;
-  }
+  /* Final desktop correction: keep the live copy/cards visible. */
+  body.about-reference-page{min-height:0 !important;height:auto !important;overflow-x:hidden;}
   .about-reference-copy,
   .about-reference-philosophy,
-  .about-reference-card{display:block;}
-  .about-reference-back{
-    min-width:150px;
-    height:42px;
-    top:24px;
-    justify-content:center;
-  }
+  .about-reference-card{display:block !important;}
+  .about-reference-canvas{display:block; width:100%; max-width:1600px; min-height:0; aspect-ratio:1536 / 1024;}
 }
 </style>
 </head>
