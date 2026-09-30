@@ -356,12 +356,19 @@ function renderMonths(){
 }
 const monthCurrent=document.querySelector('#month-current');
 if(monthCurrent){
-  monthCurrent.addEventListener('click',e=>{
+  const toggleMonthPicker=e=>{
     if(!isMobile())return;
+    e.preventDefault();
     e.stopPropagation();
     const isOpen=monthPopover.classList.contains('open');
     if(isOpen)closeMonthPicker();else openMonthPicker();
-  });
+  };
+  monthCurrent.addEventListener('click',toggleMonthPicker);
+  monthCurrent.addEventListener('pointerup',toggleMonthPicker);
+}
+if(monthPopover){
+  monthPopover.addEventListener('click',e=>e.stopPropagation());
+  monthPopover.addEventListener('pointerup',e=>e.stopPropagation());
 }
 function getStoredBookings(){
   try{return JSON.parse(localStorage.getItem(MOBILE_BOOKINGS_DB)||'[]')}catch{return []}

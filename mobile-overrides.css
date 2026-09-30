@@ -810,3 +810,23 @@
   }
   .mobile-account .compact-logout:active{transform:translateY(1px);box-shadow:none !important}
 }
+
+
+/* Mobile-only final picker interaction lock. Desktop is intentionally untouched. */
+@media(max-width:800px){
+  .booking .month-picker{isolation:isolate;z-index:30;position:relative}
+  .booking .month-current,
+  .booking .month-arrow{position:relative;z-index:31;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .booking .month-popover{z-index:100;pointer-events:none}
+  .booking .month-popover.open{pointer-events:auto}
+  .booking .month-option{position:relative;z-index:101;pointer-events:auto;cursor:pointer;touch-action:manipulation}
+
+  .mobile-account .account-secondary-link{
+    display:inline-block !important;
+    position:relative !important;
+    z-index:5 !important;
+    pointer-events:auto !important;
+    cursor:pointer !important;
+    -webkit-tap-highlight-color:transparent;
+  }
+}
