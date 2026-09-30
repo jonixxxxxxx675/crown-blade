@@ -10,6 +10,23 @@ function headers(key) {
   return { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' };
 }
 
+async function sendBookingEmail(b) {
+  if (!b.customerEmail || !process.env.RESEND_API_KEY) return;
+  const from = process.env.CONTACT_FROM || 'Crown & Blade <onboarding@resend.dev>';
+  const language = b.language || 'ua';
+  const subject = language === 'en' ? 'Crown & Blade — booking confirmed' : 'Crown & Blade — бронювання підтверджено';
+  const text = language === 'en'
+    ? `Your appointment is confirmed.\n\nService: ${b.service || b.serviceKey}\nBarber: ${b.barber}\nDate: ${b.date}\nTime: ${b.time}`
+    : `Ваш запис підтверджено.\n\nПослуга: ${b.service || b.serviceKey}\nБарбер: ${b.barber}\nДата: ${b.date}\nЧас: ${b.time}`;
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [b.customerEmail], subject, text })
+    });
+  } catch {}
+}
+
 export default async function handler(req, res) {
   const { url, key, table } = config();
   if (!url || !key) return res.status(503).json({ ok: false, error: 'Booking database is not configured' });
@@ -51,7 +68,8 @@ export default async function handler(req, res) {
     });
     const data = await r.json().catch(() => ({}));
     if (!r.ok) return res.status(409).json({ ok: false, error: 'That time may already be booked' });
-    return res.status(201).json({ ok: true, booking: Array.isArray(data) ? data[0] : data });
+    await sendBookingEmail(b);
+    return res.status(201).json({ ok: true, booking: Array.isArray(data) ? data[0] : data, emailSent: Boolean(b.customerEmail && process.env.RESEND_API_KEY) });
   }
 
   return res.status(405).json({ ok: false, error: 'Method not allowed' });
