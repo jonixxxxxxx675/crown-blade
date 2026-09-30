@@ -496,8 +496,8 @@ const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=do
 function render(){
   document.querySelectorAll('[data-service-name]').forEach(e=>{const k=e.dataset.serviceName;e.textContent=t('service_'+k)});
   document.querySelectorAll('.service-choice small').forEach((e,i)=>e.textContent=servicePrice(services[i]));
-  document.querySelectorAll('. b').forEach((e,i)=>e.textContent=servicePrice(services[i]));
-  document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
+  document.querySelectorAll('#cards article b').forEach((e,i)=>e.textContent=servicePrice(services[i]));
+  document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('#cards article').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
 const menu=document.querySelector('#mobile-menu');
 const openMenu=()=>{menu.classList.add('open');menu.setAttribute('aria-hidden','false');document.body.classList.add('menu-open')};
 const closeMenu=()=>{menu.classList.remove('open');menu.setAttribute('aria-hidden','true');document.body.classList.remove('menu-open')};

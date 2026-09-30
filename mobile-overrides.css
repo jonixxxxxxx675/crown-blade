@@ -1170,3 +1170,22 @@
   .account-notification-enable{width:100%;margin:0 0 4px}
   #notification-status{margin-bottom:8px}
 }
+
+
+/* MOBILE ONLY — hide the desktop language control that otherwise renders as a default white button. */
+@media (max-width:800px){
+  .desktop-lang-switch{
+    display:none !important;
+  }
+
+  /* Service cards stay swipeable, but each card itself remains a real tap target. */
+  .services .cards article{
+    cursor:pointer !important;
+    touch-action:manipulation;
+  }
+
+  /* Prices are shown in the booking selector, not in the lower service cards. */
+  .services .cards article b{
+    display:none !important;
+  }
+}
