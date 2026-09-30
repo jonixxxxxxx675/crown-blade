@@ -1062,3 +1062,140 @@ a:focus,
   .about-reference-lang:hover{background:#e2b477;color:#17110b;border-color:#e2b477}
 }
 @media (max-width:800px){.about-reference-page{display:none !important}}
+
+
+/* =========================================================
+   DESKTOP FINAL CLEANUP — 801px+ ONLY
+   Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* HERO: one centered brand mark, one centered copy block. */
+  .hero-copy > h1,
+  .hero-copy > .sub{
+    display:none !important;
+  }
+  .hero-copy{
+    top:63% !important;
+    width:min(720px,84%) !important;
+    max-width:720px !important;
+  }
+  .hero-copy .eyebrow{
+    margin-bottom:8px !important;
+  }
+  .hero-copy h2{
+    font-size:34px !important;
+    line-height:1 !important;
+    margin-bottom:9px !important;
+    text-shadow:0 2px 16px #000b;
+  }
+  .hero-copy p{
+    max-width:500px !important;
+    font-size:10px !important;
+    line-height:1.45 !important;
+    text-shadow:0 1px 8px #000b;
+  }
+  .hero-btn{
+    display:none !important;
+  }
+  .desktop-hero-logo{
+    top:34% !important;
+    left:50% !important;
+    right:auto !important;
+    transform:translate(-50%,-50%) !important;
+    font-size:34px !important;
+  }
+  .desktop-hero-logo-crown{
+    font-size:82px !important;
+    margin-bottom:2px !important;
+  }
+  .desktop-hero-logo small{
+    font-size:9px !important;
+    margin-top:6px !important;
+  }
+  .hero-logo-right{
+    display:none !important;
+  }
+
+  /* ABOUT banner CTA: clickable 3D pill over the supplied banner. */
+  .desktop-about-banner{
+    position:relative !important;
+    overflow:hidden !important;
+    cursor:pointer !important;
+  }
+  .desktop-about-cta{
+    position:absolute;
+    left:8%;
+    bottom:12%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:28px;
+    min-width:145px;
+    height:38px;
+    padding:0 15px;
+    border:1px solid #f0c98d;
+    border-radius:999px;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%);
+    color:#17110b;
+    font:600 8px/1 Inter,sans-serif;
+    letter-spacing:.12em;
+    box-shadow:0 5px 0 #8e6438,0 10px 18px #0008,inset 0 1px 0 #fff8;
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+    pointer-events:none;
+  }
+  .desktop-about-cta span{font-size:13px}
+  .desktop-about-banner:hover .desktop-about-cta{
+    transform:translateY(-2px);
+    box-shadow:0 7px 0 #8e6438,0 13px 22px #0009,inset 0 1px 0 #fff8;
+  }
+  .desktop-about-banner:active .desktop-about-cta{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #8e6438,0 4px 9px #0008,inset 0 1px 0 #fff5;
+  }
+
+  /* WORK GALLERY: remove the large empty lower area. */
+  .desktop-contact-gallery{
+    min-height:380px !important;
+  }
+  .desktop-gallery-work{
+    padding:28px 38px 28px !important;
+  }
+  .desktop-gallery-work-grid{
+    grid-template-rows:115px 115px !important;
+    height:236px !important;
+    gap:8px !important;
+  }
+  .desktop-gallery-work-grid img{
+    border-radius:5px !important;
+  }
+
+  /* CONTACT controls: cleaner tactile desktop treatment. */
+  .desktop-contact-form label{
+    border-radius:999px !important;
+    overflow:hidden !important;
+  }
+  .desktop-contact-form textarea{
+    min-height:50px !important;
+  }
+  .desktop-contact-form button{
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    box-shadow:0 4px 0 #8e6438,0 8px 16px #0007,inset 0 1px 0 #fff7 !important;
+    transition:transform .12s ease,box-shadow .12s ease !important;
+    cursor:pointer !important;
+  }
+  .desktop-contact-form button:active{
+    transform:translateY(3px);
+    box-shadow:0 1px 0 #8e6438,0 4px 9px #0007,inset 0 1px 0 #fff5 !important;
+  }
+
+  /* Gallery CTA stays clickable and tactile. */
+  .desktop-gallery-work-head a{
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#17130f 0%,#0c0a08 100%) !important;
+    box-shadow:0 4px 0 #5f4428,0 8px 16px #0008,inset 0 1px 0 #ffffff16 !important;
+  }
+}
+@media (max-width:800px){
+  .desktop-about-cta{display:none !important}
+}
