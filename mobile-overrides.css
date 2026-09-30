@@ -880,3 +880,111 @@
     appearance:none !important;
   }
 }
+
+/* Mobile-only premium motion layer — visual design unchanged. */
+@media (max-width:800px){
+  @keyframes cb-mobile-rise{
+    from{opacity:0;transform:translate3d(0,14px,0)}
+    to{opacity:1;transform:translate3d(0,0,0)}
+  }
+  @keyframes cb-mobile-soft-glow{
+    0%,100%{box-shadow:0 0 0 rgba(226,180,119,0)}
+    50%{box-shadow:0 0 18px rgba(226,180,119,.10)}
+  }
+
+  /* Subtle entrance motion; no dimensions, colors or layout are changed. */
+  .booking,
+  .services,
+  .mobile-page,
+  .service-detail-page,
+  footer.mobile-footer{
+    animation:cb-mobile-rise .55s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .booking .service-choice,
+  .booking .barber,
+  .booking .dates button,
+  .booking .times button,
+  .card,
+  .support-item{
+    transition:transform .18s cubic-bezier(.22,1,.36,1),
+                border-color .18s ease,
+                box-shadow .18s ease,
+                filter .18s ease;
+  }
+
+  /* Tactile mobile interaction without changing the existing design. */
+  .booking .service-choice:active,
+  .booking .barber:active,
+  .booking .dates button:active,
+  .booking .times button:active,
+  .card:active,
+  .support-item:active{
+    transform:translateY(-2px) scale(.992);
+    filter:brightness(1.05);
+  }
+
+  .booking .service-choice.active,
+  .booking .barber.active .avatar,
+  .booking .dates button.active,
+  .booking .times button.active,
+  .card.active{
+    animation:cb-mobile-soft-glow 2.4s ease-in-out infinite;
+  }
+
+  .booking button,
+  .mobile-page button,
+  .mobile-page a.page-action,
+  .service-detail-book,
+  .mobile-footer a{
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .booking .confirm,
+  .mobile-page .page-action,
+  .service-detail-book{
+    transition:transform .16s ease,box-shadow .18s ease,filter .18s ease;
+  }
+
+  .booking .confirm:active,
+  .mobile-page .page-action:active,
+  .service-detail-book:active{
+    transform:translateY(2px) scale(.995);
+    filter:brightness(1.06);
+  }
+
+  /* Gold focus treatment for keyboard/accessibility without altering layout. */
+  .booking button:focus-visible,
+  .mobile-page button:focus-visible,
+  .mobile-page a:focus-visible,
+  .service-detail-book:focus-visible{
+    outline:1px solid #d8a96d;
+    outline-offset:3px;
+  }
+}
+
+@media (max-width:800px) and (prefers-reduced-motion:reduce){
+  .booking,
+  .services,
+  .mobile-page,
+  .service-detail-page,
+  footer.mobile-footer,
+  .booking .service-choice.active,
+  .booking .barber.active .avatar,
+  .booking .dates button.active,
+  .booking .times button.active,
+  .card.active{
+    animation:none !important;
+  }
+  .booking .service-choice,
+  .booking .barber,
+  .booking .dates button,
+  .booking .times button,
+  .card,
+  .support-item,
+  .booking .confirm,
+  .mobile-page .page-action,
+  .service-detail-book{
+    transition:none !important;
+  }
+}
