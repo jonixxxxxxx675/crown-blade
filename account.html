@@ -378,43 +378,36 @@
       try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resend-verification',name,email})});const d=await r.json().catch(()=>({}));dashStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист.');}catch{dashStatus.textContent='Email-сервіс недоступний.';}
     }else dashStatus.textContent=t('accountUpdated');
   });
+  function updateNotificationStatus(){
+    if(!notificationStatus||!('Notification' in window))return;
+    if(Notification.permission==='granted') notificationStatus.textContent=t('notificationsEnabled');
+    else if(Notification.permission==='denied') notificationStatus.textContent=t('notificationsBlockedHelp');
+    else notificationStatus.textContent='';
+  }
+
   async function enableNotifications(){
-    if(!('Notification' in window)){
-      notificationStatus.textContent=t('notificationsUnsupported');
+    if(!('Notification' in window)){notificationStatus.textContent=t('notificationsUnsupported');return;}
+    if(!window.isSecureContext){notificationStatus.textContent=t('notificationsSecureRequired');return;}
+    if(Notification.permission==='denied'){
+      notificationStatus.textContent=t('notificationsBlockedHelp');
       return;
     }
-
-    // The request must happen directly from the user's tap so the browser can
-    // show its native notification permission dialog.
-    if(!window.isSecureContext){
-      notificationStatus.textContent='Сповіщення доступні лише через HTTPS.';
-      return;
-    }
-
     if(Notification.permission==='granted'){
       notificationStatus.textContent=t('notificationsEnabled');
       const a=getSession();
       if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}
       return;
     }
-
-    if(Notification.permission==='denied'){
-      notificationStatus.textContent='Сповіщення заблоковані. Дозволь їх у налаштуваннях цього сайту.';
-      return;
-    }
-
     try{
       const permission=await Notification.requestPermission();
       notificationStatus.textContent=permission==='granted'?t('notificationsEnabled'):t('notificationsDenied');
-      if(permission==='granted'){
-        const a=getSession();
-        if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}
-      }
-    }catch{
+      if(permission==='granted'){const a=getSession();if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}}
+    }catch(e){
       notificationStatus.textContent=t('notificationsDenied');
     }
   }
   enableAppNotifications?.addEventListener('click',enableNotifications);
+  updateNotificationStatus();
   [reminder24,reminder2,reminderCancel,reminderApp24,reminderApp2].forEach(input=>input?.addEventListener('change',()=>{
     const a=getSession();if(!a)return;a.reminders=Object.assign({reminder24:true,reminder2:true,reminderCancel:true,app24:true,app2:true},a.reminders||{}, {reminder24:!!reminder24?.checked,reminder2:!!reminder2?.checked,reminderCancel:!!reminderCancel?.checked,app24:!!reminderApp24?.checked,app2:!!reminderApp2?.checked});saveSessionProfile(a);scheduleAppReminders();
   }));

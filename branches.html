@@ -7,31 +7,45 @@
 <link rel="stylesheet" href="./styles.css">
 <link rel="stylesheet" href="./mobile-overrides.css">
 <style>
-.branches-page{min-height:100vh;background:#080807;color:#f5eee5}
-.branches-wrap{max-width:760px;margin:0 auto;padding:24px 18px 48px}
-.branches-back{display:inline-block;color:#d8a96d;text-decoration:none;font-size:12px;letter-spacing:.04em;margin-bottom:30px}
-.branches-page .eyebrow{display:block;margin-bottom:8px}
-.branches-title{font:500 46px/1 "Cormorant Garamond",serif;margin:0 0 28px}
-.branches-list{display:grid;gap:12px}
-.branch-card{border:1px solid #ffffff16;border-radius:14px;background:#11110f;padding:20px}
-.branch-number{display:block;color:#d8a96d;font-size:10px;letter-spacing:.16em;margin-bottom:9px}
-.branch-card h2{font:500 27px/1.05 "Cormorant Garamond",serif;margin:0 0 9px}
-.branch-address{margin:0;color:#aaa19a;font-size:13px;line-height:1.6}
-@media(min-width:801px){.branches-page{display:none}}
+  .mobile-branches{padding-bottom:40px}
+  .branches-header{margin-bottom:28px}
+  .branches-header h1{max-width:330px}
+  .branches-list{display:grid;gap:14px}
+  .branch-card{padding:24px 20px;border:1px solid #ffffff12;border-radius:22px;background:linear-gradient(180deg,#121110,#0d0c0b);box-shadow:0 16px 40px #0007,inset 0 1px 0 #ffffff08}
+  .branch-number{display:block;margin-bottom:8px;color:#d8a96d;font:600 9px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase}
+  .branch-card h2{margin:0 0 10px;color:#f5eee5;font:500 31px/1.05 "Cormorant Garamond",serif}
+  .branch-address{margin:0;color:#a69d95;font:12px/1.5 Inter,sans-serif}
+  .branch-map{display:inline-block;margin-top:16px;color:#d8a96d;font:600 9px/1 Inter,sans-serif;letter-spacing:.08em;text-decoration:none;text-transform:uppercase}
 </style>
 </head>
 <body>
-<main class="branches-page">
-  <div class="branches-wrap">
-    <a class="branches-back" href="./index.html">← Назад</a>
-    <span class="eyebrow">ВІДДІЛЕННЯ</span>
-    <h1 class="branches-title">Наші відділення</h1>
-    <section class="branches-list" aria-label="Наші відділення">
-      <article class="branch-card"><span class="branch-number">ВІДДІЛЕННЯ 01</span><h2>Центральне відділення</h2><p class="branch-address">Адреса буде додана</p></article>
-      <article class="branch-card"><span class="branch-number">ВІДДІЛЕННЯ 02</span><h2>Південне відділення</h2><p class="branch-address">Адреса буде додана</p></article>
-      <article class="branch-card"><span class="branch-number">ВІДДІЛЕННЯ 03</span><h2>Forum Lviv</h2><p class="branch-address">Адреса буде додана</p></article>
-    </section>
-  </div>
+<main class="mobile-page mobile-branches">
+<a class="mobile-page-back compact-back" href="./index.html">← <span data-i18n="back">Назад</span></a>
+<section class="branches-header">
+  <span class="eyebrow">ВІДДІЛЕННЯ</span>
+  <h1>Наші<br>відділення</h1>
+</section>
+<section class="branches-list" aria-label="Наші відділення">
+  <article class="branch-card">
+    <span class="branch-number">ВІДДІЛЕННЯ 01</span>
+    <h2>Центральне<br>відділення</h2>
+    <p class="branch-address">вул. Князя Романа, 24, Львів</p>
+    <a class="branch-map" href="https://www.google.com/maps/search/?api=1&query=вул.+Князя+Романа,+24,+Львів" target="_blank" rel="noopener noreferrer">ВІДКРИТИ НА КАРТІ →</a>
+  </article>
+  <article class="branch-card">
+    <span class="branch-number">ВІДДІЛЕННЯ 02</span>
+    <h2>Південне<br>відділення</h2>
+    <p class="branch-address">вул. Івана Франка, 33, Львів</p>
+    <a class="branch-map" href="https://www.google.com/maps/search/?api=1&query=вул.+Івана+Франка,+33,+Львів" target="_blank" rel="noopener noreferrer">ВІДКРИТИ НА КАРТІ →</a>
+  </article>
+  <article class="branch-card">
+    <span class="branch-number">ВІДДІЛЕННЯ 03</span>
+    <h2>Forum Lviv</h2>
+    <p class="branch-address">вул. Під Дубом, 7Б, Львів</p>
+    <a class="branch-map" href="https://www.google.com/maps/search/?api=1&query=Forum+Lviv,+вул.+Під+Дубом,+7Б,+Львів" target="_blank" rel="noopener noreferrer">ВІДКРИТИ НА КАРТІ →</a>
+  </article>
+</section>
 </main>
+<script src="./mobile-i18n.js"></script>
 </body>
 </html>
