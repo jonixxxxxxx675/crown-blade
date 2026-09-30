@@ -282,10 +282,10 @@
     document.body.classList.add('desktop-barber-modal-open');
   };
 
-  document.querySelectorAll('.desktop-barber-').forEach( => {
-    const name = .dataset.barber;
-    .addEventListener('click', () => open(name));
-    .addEventListener('keydown', event => {
+  document.querySelectorAll('.desktop-barber-').forEach(card => {
+    const name = card.dataset.barber;
+    card.addEventListener('click', () => open(name));
+    card.addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         open(name);
@@ -479,7 +479,28 @@ document.addEventListener('click',e=>{
 renderMonths();
 renderDates();
 renderTimes();
-const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='';a.dataset.name=s.name;a.innerHTML='<div class="-photo p'+i+'"></div><div><span data-service-name="'+s.key+'">'+t('service_'+s.key)+'</span><b>'+servicePrice(s)+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
+const cards=document.querySelector('#cards');
+services.forEach((s,i)=>{
+  const a=document.createElement('article');
+  a.className='service-card';
+  a.dataset.name=s.name;
+  a.dataset.serviceIndex=String(i);
+  a.setAttribute('role','button');
+  a.setAttribute('tabindex','0');
+  a.setAttribute('aria-label',t('service_'+s.key));
+  a.innerHTML='<div class="service-card-photo p'+i+'"></div><div class="service-card-copy"><span data-service-name="'+s.key+'">'+t('service_'+s.key)+'</span><i aria-hidden="true">→</i></div>';
+  const openService=()=>{
+    service=s.name;
+    render();
+    if(isMobile()){
+      a.classList.add('is-tapped');
+      setTimeout(()=>{window.location.href='./service.html?service='+i},180);
+    }
+  };
+  a.addEventListener('click',openService);
+  a.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openService();}});
+  cards.appendChild(a);
+});
 function render(){
   document.querySelectorAll('[data-service-name]').forEach(e=>{const k=e.dataset.serviceName;e.textContent=t('service_'+k)});
   document.querySelectorAll('.service-choice small').forEach((e,i)=>e.textContent=servicePrice(services[i]));

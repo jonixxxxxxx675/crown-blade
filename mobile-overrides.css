@@ -1234,3 +1234,132 @@
     overflow:hidden !important;
   }
 }
+
+
+/* MOBILE FINAL — services are real tap targets; no prices in the lower service cards. */
+@media (max-width:800px){
+  .services .cards{
+    position:relative !important;
+    z-index:2 !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    pointer-events:auto !important;
+  }
+  .services .cards .service-card{
+    position:relative !important;
+    display:block !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:1px solid #ffffff18 !important;
+    border-radius:8px !important;
+    background:#11100f !important;
+    color:#f5eee5 !important;
+    cursor:pointer !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent !important;
+    transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease !important;
+  }
+  .services .cards .service-card .service-card-photo{
+    width:100% !important;
+    aspect-ratio:1/1 !important;
+    height:auto !important;
+    background-size:125% 125% !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+    background-color:#11100f !important;
+  }
+  .services .cards .service-card-copy{
+    position:relative !important;
+    min-height:58px !important;
+    height:auto !important;
+    box-sizing:border-box !important;
+    padding:12px 40px 12px 11px !important;
+    display:flex !important;
+    align-items:center !important;
+  }
+  .services .cards .service-card-copy span{
+    display:block !important;
+    margin:0 !important;
+    color:#f5eee5 !important;
+    font:500 12px/1.25 Inter,sans-serif !important;
+    letter-spacing:0 !important;
+  }
+  .services .cards .service-card-copy b{display:none !important;}
+  .services .cards .service-card-copy i{
+    position:absolute !important;
+    right:10px !important;
+    top:50% !important;
+    bottom:auto !important;
+    transform:translateY(-50%) !important;
+    width:24px !important;
+    height:24px !important;
+    display:grid !important;
+    place-items:center !important;
+    box-sizing:border-box !important;
+    border:1px solid #c9995e !important;
+    border-radius:50% !important;
+    color:#e3b477 !important;
+    font:400 13px/1 Inter,sans-serif !important;
+    font-style:normal !important;
+  }
+  .services .cards .service-card.active,
+  .services .cards .service-card.is-tapped,
+  .services .cards .service-card:focus-visible{
+    border:2px solid #e3b477 !important;
+    box-shadow:0 0 0 1px #e3b47733 !important;
+    outline:none !important;
+  }
+  .services .cards .service-card:active{
+    transform:translateY(1px) scale(.995) !important;
+    filter:brightness(1.05) !important;
+  }
+
+  /* Keep every booking selector above decorative layers and actually tappable. */
+  .booking .service-row,
+  .booking .barber-row,
+  .booking .dates,
+  .booking .times{
+    position:relative !important;
+    z-index:20 !important;
+    pointer-events:auto !important;
+  }
+  .booking .service-choice,
+  .booking .barber,
+  .booking .dates button,
+  .booking .times button{
+    position:relative !important;
+    z-index:21 !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent !important;
+  }
+}
+
+/* MOBILE FINAL — permanently suppress the stray desktop language/default button artifact. */
+@media (max-width:800px){
+  .desktop-lang-switch,
+  button.desktop-lang-switch,
+  .hero > .desktop-lang-switch{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    position:absolute !important;
+    width:0 !important;
+    height:0 !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:0 !important;
+    max-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+    overflow:hidden !important;
+  }
+}
