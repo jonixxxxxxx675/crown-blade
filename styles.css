@@ -832,3 +832,118 @@ a:focus,
     border:1px solid #c89d6545 !important;
   }
 }
+
+/* =========================================================
+   DESKTOP PATCH — HERO / GALLERY / CONTACT CONTROLS
+   801px+ ONLY. Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Hero copy: move the text upward and tighten the composition. */
+  .hero-copy{
+    padding-top:48px !important;
+    max-width:560px !important;
+  }
+  .hero-copy .eyebrow{margin-bottom:2px !important;display:block !important}
+  .hero-copy h2{
+    font-size:42px !important;
+    line-height:.94 !important;
+    margin:8px 0 10px !important;
+    max-width:430px !important;
+  }
+  .hero-copy p{
+    font-size:12px !important;
+    line-height:1.45 !important;
+    max-width:390px !important;
+    margin:0 !important;
+  }
+
+  /* Gallery: make the work images visibly larger and reduce empty space. */
+  .desktop-gallery-work{
+    padding:28px 30px 28px !important;
+  }
+  .desktop-gallery-work-head{
+    margin-bottom:14px !important;
+  }
+  .desktop-gallery-work-head h2{
+    font-size:38px !important;
+  }
+  .desktop-gallery-work-grid{
+    grid-template-rows:92px 92px !important;
+    gap:8px !important;
+    height:192px !important;
+  }
+  .desktop-gallery-work-grid img{
+    border-radius:6px !important;
+  }
+
+  /* Contact fields: pill-shaped. */
+  .desktop-contact-form{
+    gap:8px !important;
+  }
+  .desktop-contact-form label{
+    min-height:38px !important;
+    border-radius:999px !important;
+    overflow:hidden !important;
+    border-color:#c89d6560 !important;
+    background:#090807 !important;
+  }
+  .desktop-contact-form label span{
+    width:38px !important;
+    height:26px !important;
+    margin-left:5px !important;
+    display:grid !important;
+    place-items:center !important;
+    border-right:1px solid #c89d6538 !important;
+  }
+  .desktop-contact-form textarea{
+    height:52px !important;
+    padding-top:10px !important;
+    padding-bottom:10px !important;
+  }
+  .desktop-contact-form label:has(textarea){
+    border-radius:24px !important;
+  }
+
+  /* Contact submit: premium 3D pill. */
+  .desktop-contact-form button{
+    height:42px !important;
+    border-radius:999px !important;
+    padding:0 18px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca965 100%) !important;
+    box-shadow:0 4px 0 #8f6738,0 8px 18px #0008,inset 0 1px 0 #fff8 !important;
+    font-size:8px !important;
+    font-weight:600 !important;
+    transition:transform .16s ease,box-shadow .16s ease !important;
+  }
+  .desktop-contact-form button:hover{
+    transform:translateY(-2px) !important;
+    box-shadow:0 6px 0 #8f6738,0 12px 22px #0009,inset 0 1px 0 #fff8 !important;
+  }
+  .desktop-contact-form button:active{
+    transform:translateY(2px) !important;
+    box-shadow:0 2px 0 #8f6738,0 5px 12px #0008,inset 0 1px 0 #fff8 !important;
+  }
+
+  /* Gallery CTA: premium 3D pill. */
+  .desktop-gallery-work-head a{
+    min-width:160px !important;
+    height:40px !important;
+    padding:0 16px !important;
+    align-items:center !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#17130f 0%,#0c0a08 100%) !important;
+    box-shadow:0 4px 0 #5f4428,0 8px 16px #0008,inset 0 1px 0 #ffffff16 !important;
+    transition:transform .16s ease,box-shadow .16s ease,background .16s ease !important;
+  }
+  .desktop-gallery-work-head a:hover{
+    transform:translateY(-2px) !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca965 100%) !important;
+    color:#17110b !important;
+    border-color:#e3b477 !important;
+    box-shadow:0 6px 0 #8f6738,0 12px 22px #0009,inset 0 1px 0 #fff8 !important;
+  }
+  .desktop-gallery-work-head a:active{
+    transform:translateY(2px) !important;
+    box-shadow:0 2px 0 #5f4428,0 5px 12px #0008 !important;
+  }
+}
