@@ -805,3 +805,30 @@ a:focus,
   /* Footer. */
   .desktop-footer{background:#080807 !important}
 }
+
+/* =========================================================
+   DESKTOP PATCH — TOP GHOST MENU + CONTACT BLOCK SPACING
+   Desktop only. Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Remove the unstyled mobile menu markup from the desktop layout. */
+  .mobile-menu{display:none !important;}
+
+  /* Keep the contact area clean black and separate the two lower panels. */
+  .desktop-contact-gallery{
+    gap:18px !important;
+    background:#080807 !important;
+    background-image:none !important;
+    border-bottom:0 !important;
+  }
+  .desktop-contact{
+    background:#080807 !important;
+    background-image:none !important;
+    border:1px solid #c89d6545 !important;
+    border-right:1px solid #c89d6545 !important;
+  }
+  .desktop-gallery-work{
+    background:#080807 !important;
+    border:1px solid #c89d6545 !important;
+  }
+}
