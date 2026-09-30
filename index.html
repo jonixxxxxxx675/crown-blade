@@ -348,19 +348,6 @@ function renderMonths(){
     const b=document.createElement('button');
     b.type='button'; b.className='month-option'+(sameMonth(d,selectedMonth)?' active':''); b.dataset.month=monthKey(d); b.textContent=formatMonth(d);
     b.setAttribute('role','option'); b.setAttribute('aria-selected',sameMonth(d,selectedMonth)?'true':'false');
-    b.addEventListener('click',event=>{
-      event.preventDefault();
-      event.stopPropagation();
-      selectedMonth=new Date(d);
-      clampDay();
-      closeMonthPicker();
-      renderMonths();
-      renderDates();
-      syncAvailableTime();
-      renderTimes();
-      render();
-      loadRemoteBookings();
-    });
     monthPopover.appendChild(b);
   });
   const active=monthPopover.querySelector('.month-option.active');
@@ -368,12 +355,35 @@ function renderMonths(){
 }
 const monthCurrent=document.querySelector('#month-current');
 if(monthCurrent){
-  monthCurrent.addEventListener('click',e=>{
+  const toggleMonthPicker=(e)=>{
     if(!isMobile())return;
     e.preventDefault();
     e.stopPropagation();
     const isOpen=monthPopover.classList.contains('open');
     if(isOpen)closeMonthPicker();else openMonthPicker();
+  };
+  monthCurrent.addEventListener('click',toggleMonthPicker,{passive:false});
+}
+if(monthPopover){
+  // Event delegation keeps month selection stable even after renderMonths()
+  // rebuilds the list of buttons.
+  monthPopover.addEventListener('click',e=>{
+    const option=e.target.closest('.month-option');
+    if(!option || !monthPopover.contains(option) || !isMobile())return;
+    e.preventDefault();
+    e.stopPropagation();
+    const key=option.dataset.month||'';
+    const [y,m]=key.split('-').map(Number);
+    if(!y || !m)return;
+    selectedMonth=new Date(y,m-1,1);
+    clampDay();
+    closeMonthPicker();
+    renderMonths();
+    renderDates();
+    syncAvailableTime();
+    renderTimes();
+    render();
+    loadRemoteBookings();
   },{passive:false});
 }
 function getStoredBookings(){
