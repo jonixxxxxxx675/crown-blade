@@ -76,11 +76,6 @@
   const ACCOUNT_KEY='crown_blade_account';
   const PROFILE_KEY='crown_blade_account_profile';
   const BOOKINGS_KEY='crown_blade_mobile_bookings';
-  // Mobile-only API routing: GitHub Pages has no /api serverless functions.
-  // Keep Vercel as the backend while preserving the same-origin API on Vercel.
-  const ACCOUNT_API=(location.hostname.endsWith('.github.io')||location.hostname==='github.io')
-    ? 'https://crown-blade-murex.vercel.app/api/account'
-    : './api/account';
   const accountRegister=document.querySelector('#account-register');
   const accountLogin=document.querySelector('#account-login');
   const accountDashboard=document.querySelector('#account-dashboard');
@@ -152,7 +147,7 @@
         resendVerification.disabled=true;
         dashStatus.textContent='Надсилаємо лист підтвердження…';
         try{
-          const response=await fetch(ACCOUNT_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resend-verification',name:a.name||'',email:a.email})});
+          const response=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resend-verification',name:a.name||'',email:a.email})});
           const data=await response.json().catch(()=>({}));
           dashStatus.textContent=response.ok?'Лист підтвердження надіслано. Перевірте Email та Спам.':(data.error||'Не вдалося надіслати лист.');
         }catch(e){dashStatus.textContent='Не вдалося підключитися до сервісу email.';}
@@ -191,7 +186,7 @@
     saveSession(profile);
     registerStatus.textContent=t('accountCreating');
     try{
-      const response=await fetch(ACCOUNT_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
+      const response=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
       const data=await response.json().catch(()=>({}));
       if(response.ok){
         registerStatus.textContent=t('accountVerificationSent');

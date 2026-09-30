@@ -348,7 +348,19 @@ function renderMonths(){
     const b=document.createElement('button');
     b.type='button'; b.className='month-option'+(sameMonth(d,selectedMonth)?' active':''); b.dataset.month=monthKey(d); b.textContent=formatMonth(d);
     b.setAttribute('role','option'); b.setAttribute('aria-selected',sameMonth(d,selectedMonth)?'true':'false');
-    b.onclick=()=>{selectedMonth=new Date(d);clampDay();closeMonthPicker();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings();};
+    b.addEventListener('click',event=>{
+      event.preventDefault();
+      event.stopPropagation();
+      selectedMonth=new Date(d);
+      clampDay();
+      closeMonthPicker();
+      renderMonths();
+      renderDates();
+      syncAvailableTime();
+      renderTimes();
+      render();
+      loadRemoteBookings();
+    });
     monthPopover.appendChild(b);
   });
   const active=monthPopover.querySelector('.month-option.active');
@@ -356,19 +368,13 @@ function renderMonths(){
 }
 const monthCurrent=document.querySelector('#month-current');
 if(monthCurrent){
-  const toggleMonthPicker=e=>{
+  monthCurrent.addEventListener('click',e=>{
     if(!isMobile())return;
     e.preventDefault();
     e.stopPropagation();
     const isOpen=monthPopover.classList.contains('open');
     if(isOpen)closeMonthPicker();else openMonthPicker();
-  };
-  monthCurrent.addEventListener('click',toggleMonthPicker);
-  monthCurrent.addEventListener('pointerup',toggleMonthPicker);
-}
-if(monthPopover){
-  monthPopover.addEventListener('click',e=>e.stopPropagation());
-  monthPopover.addEventListener('pointerup',e=>e.stopPropagation());
+  },{passive:false});
 }
 function getStoredBookings(){
   try{return JSON.parse(localStorage.getItem(MOBILE_BOOKINGS_DB)||'[]')}catch{return []}
@@ -438,7 +444,11 @@ function renderTimes(){
 }
 document.querySelector('#month-prev').onclick=()=>{if(selectedMonth<=monthStart)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()-1,1);clampDay();renderMonths();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings()};
 document.querySelector('#month-next').onclick=()=>{if(selectedMonth>=monthEnd)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,1);clampDay();renderMonths();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings()};
-document.addEventListener('click',e=>{if(isMobile()&&!monthPicker.contains(e.target))closeMonthPicker()});
+document.addEventListener('click',e=>{
+  if(!isMobile()||!monthPicker)return;
+  if(monthPicker.contains(e.target))return;
+  closeMonthPicker();
+});
 renderMonths();
 renderDates();
 renderTimes();

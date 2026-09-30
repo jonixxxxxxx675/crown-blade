@@ -201,6 +201,13 @@
     pointer-events:auto;
     transform:translateX(-50%) translateY(2px);
   }
+  /* Mobile calendar picker must stay above the booking content and accept taps. */
+  .booking .month-picker{isolation:isolate;z-index:50;}
+  .booking .month-current,
+  .booking .month-arrow{position:relative;z-index:51;pointer-events:auto;cursor:pointer;}
+  .booking .month-popover{z-index:9999;pointer-events:none;}
+  .booking .month-popover.open{pointer-events:auto;}
+  .booking .month-option{position:relative;z-index:10000;pointer-events:auto;cursor:pointer;}
   .booking .month-option{
     display:block;
     width:100%;
@@ -762,6 +769,9 @@
   }
   .mobile-account .account-secondary-actions button:last-child{color:#8f877f !important;font-size:9px !important;letter-spacing:.02em !important;text-transform:none}
   .mobile-account .account-status{min-height:18px;margin-top:4px}
+  /* The hidden resend control must remain truly hidden; otherwise the browser
+     renders an empty white button because the base mobile button rule is broad. */
+  .mobile-account .account-secondary-link[hidden]{display:none !important;}
   .mobile-account .account-secondary-link{
     display:block !important;
     width:auto !important;
@@ -809,24 +819,4 @@
     letter-spacing:.08em !important;
   }
   .mobile-account .compact-logout:active{transform:translateY(1px);box-shadow:none !important}
-}
-
-
-/* Mobile-only final picker interaction lock. Desktop is intentionally untouched. */
-@media(max-width:800px){
-  .booking .month-picker{isolation:isolate;z-index:30;position:relative}
-  .booking .month-current,
-  .booking .month-arrow{position:relative;z-index:31;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
-  .booking .month-popover{z-index:100;pointer-events:none}
-  .booking .month-popover.open{pointer-events:auto}
-  .booking .month-option{position:relative;z-index:101;pointer-events:auto;cursor:pointer;touch-action:manipulation}
-
-  .mobile-account .account-secondary-link{
-    display:inline-block !important;
-    position:relative !important;
-    z-index:5 !important;
-    pointer-events:auto !important;
-    cursor:pointer !important;
-    -webkit-tap-highlight-color:transparent;
-  }
 }
