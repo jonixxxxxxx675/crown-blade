@@ -1199,3 +1199,34 @@ a:focus,
 @media (max-width:800px){
   .desktop-about-cta{display:none !important}
 }
+
+/* =========================================================
+   DESKTOP FINAL — ABOUT CTA OVERLAY
+   Covers the baked-in banner CTA with the new clickable 3D pill.
+   Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  .desktop-about-cta{
+    left:43.8% !important;
+    bottom:7.5% !important;
+    min-width:222px !important;
+    height:38px !important;
+    padding:0 16px !important;
+    border:1px solid #f0c98d !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    color:#17110b !important;
+    box-shadow:0 5px 0 #8e6438,0 10px 18px #0008,inset 0 1px 0 #fff8 !important;
+    z-index:5 !important;
+    pointer-events:none !important;
+  }
+  .desktop-about-cta span{font-size:13px !important}
+  .desktop-about-banner:hover .desktop-about-cta{
+    transform:translateY(-2px) !important;
+    box-shadow:0 7px 0 #8e6438,0 13px 22px #0009,inset 0 1px 0 #fff8 !important;
+  }
+  .desktop-about-banner:active .desktop-about-cta{
+    transform:translateY(3px) !important;
+    box-shadow:0 2px 0 #8e6438,0 5px 12px #0008,inset 0 1px 0 #fff5 !important;
+  }
+}

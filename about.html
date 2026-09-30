@@ -1,61 +1,245 @@
 <!doctype html>
-<html lang="en">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>About — Crown &amp; Blade</title>
 <link rel="stylesheet" href="./styles.css">
 <style>
-  .about-page{min-height:100vh;background:#080807;color:#f5eee5}
-  .about-hero{position:relative;min-height:86vh;background:linear-gradient(90deg,rgba(5,4,3,.72),rgba(5,4,3,.28)),url("./assets/about-interior.png") center/cover no-repeat}
-  .about-page nav{height:88px;position:relative;z-index:2;display:flex;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent);border-bottom:1px solid rgba(255,255,255,.08)}
-  .about-page .links{position:absolute;left:50%;top:0;height:88px;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:34px;white-space:nowrap;font-size:10px;letter-spacing:.1em}
-  .about-page .links a:hover{color:#d8a96d}
-  .about-page .hamb{position:absolute;right:5.8%;top:50%;transform:translateY(-50%);color:#fff;border:0;background:none;font-size:23px}
-  .about-copy{position:absolute;left:9%;bottom:12%;max-width:700px}
-  .about-copy .eyebrow{color:#d8a96d}
-  .about-copy h1{font:500 clamp(58px,6vw,92px)/.9 "Cormorant Garamond",serif;margin:14px 0 20px}
-  .about-copy p{max-width:600px;margin:0;color:#ddd4cb;font-size:14px;line-height:1.9}
-  .about-details{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;padding:80px 9%;background:#080807}
-  .about-details h2{font:500 48px/.95 "Cormorant Garamond",serif;margin:8px 0 20px}
-  .about-details p{color:#bdb4ac;font-size:13px;line-height:1.9;max-width:720px}
-  .about-details-card{border-left:1px solid #c89d65;padding-left:32px;align-self:center}
-  .about-details-card span{display:block;color:#d8a96d;font-size:10px;letter-spacing:.18em;margin-bottom:12px}
-  .about-details-card strong{font:500 31px "Cormorant Garamond",serif}
-  @media(max-width:800px){.about-page{display:none}}
+  /* =========================================================
+     ABOUT PAGE — DESKTOP ONLY
+     Mobile is intentionally hidden and not modified.
+     ========================================================= */
+  .about-reference-page{display:none}
+  @media (min-width:801px){
+    .about-reference-page{
+      display:block;
+      min-width:801px;
+      min-height:100vh;
+      overflow-x:hidden;
+      background:#050504;
+      color:#f5eee5;
+    }
+    .about-reference-canvas{
+      position:relative;
+      width:min(100%,1536px);
+      aspect-ratio:1536 / 1024;
+      margin:0 auto;
+      background:url("./assets/about-reference-base.png") center/100% 100% no-repeat;
+      overflow:hidden;
+    }
+
+    .about-reference-copy,
+    .about-reference-philosophy,
+    .about-reference-card,
+    .about-reference-back,
+    .about-reference-lang{
+      position:absolute;
+      z-index:3;
+    }
+
+    .about-reference-copy{
+      left:8.1%;
+      top:4.3%;
+      width:34%;
+    }
+    .about-reference-copy .eyebrow,
+    .about-reference-philosophy .eyebrow{
+      display:block;
+      margin-bottom:16px;
+      color:#d8a96d;
+      font:600 clamp(9px,.78vw,12px)/1 Inter,sans-serif;
+      letter-spacing:.22em;
+    }
+    .about-reference-copy h1{
+      margin:0 0 18px;
+      color:#f5eee5;
+      font:500 clamp(38px,4.15vw,64px)/.88 "Cormorant Garamond",serif;
+      letter-spacing:-.025em;
+    }
+    .about-reference-copy h1::first-line{color:#e2b477}
+    .about-reference-copy p{
+      margin:0;
+      max-width:560px;
+      color:#eee7df;
+      font:400 clamp(10px,.95vw,15px)/1.5 Inter,sans-serif;
+    }
+
+    .about-reference-philosophy{
+      left:55.1%;
+      top:41.1%;
+      width:36.5%;
+    }
+    .about-reference-philosophy h2{
+      margin:0 0 17px;
+      color:#f5eee5;
+      font:500 clamp(34px,3.55vw,55px)/.9 "Cormorant Garamond",serif;
+      letter-spacing:-.02em;
+    }
+    .about-reference-philosophy p{
+      margin:0;
+      max-width:570px;
+      color:#eee7df;
+      font:400 clamp(10px,.9vw,14px)/1.55 Inter,sans-serif;
+    }
+
+    .about-reference-card{
+      top:84.8%;
+      width:18%;
+      line-height:1.15;
+    }
+    .about-reference-card.card1{left:5.25%}
+    .about-reference-card.card2{left:30.6%}
+    .about-reference-card.card3{left:55.5%}
+    .about-reference-card.card4{left:80.5%}
+    .about-reference-card .num{
+      display:block;
+      margin-bottom:13px;
+      color:#e2b477;
+      font:500 clamp(12px,1.1vw,18px)/1 "Cormorant Garamond",serif;
+    }
+    .about-reference-card strong{
+      display:block;
+      margin-bottom:7px;
+      color:#f5eee5;
+      font:600 clamp(11px,.95vw,15px)/1 Inter,sans-serif;
+      letter-spacing:.06em;
+    }
+    .about-reference-card p{
+      margin:0;
+      color:#eee7df;
+      font:400 clamp(9px,.78vw,13px)/1.45 Inter,sans-serif;
+    }
+
+    .about-reference-back,
+    .about-reference-lang{
+      top:24px;
+      height:38px;
+      border:1px solid #c89d6575;
+      border-radius:999px;
+      background:#080706d9;
+      color:#f5eee5;
+      box-shadow:0 5px 18px #0008,inset 0 1px 0 #ffffff12;
+      backdrop-filter:blur(8px);
+      font:600 9px/1 Inter,sans-serif;
+      letter-spacing:.1em;
+      transition:.18s ease;
+    }
+    .about-reference-back{
+      right:4.2%;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:0 16px;
+      text-decoration:none;
+    }
+    .about-reference-lang{
+      right:17%;
+      min-width:50px;
+      padding:0 13px;
+      cursor:pointer;
+    }
+    .about-reference-back:hover,
+    .about-reference-lang:hover{
+      background:#e2b477;
+      color:#17110b;
+      border-color:#e2b477;
+      transform:translateY(-1px);
+    }
+
+    .about-reference-footer{
+      display:flex;
+      align-items:center;
+      gap:34px;
+      min-height:88px;
+      padding:22px 5.5%;
+      border-top:1px solid #c89d6540;
+      background:#080807;
+      color:#8e877f;
+      font:500 9px/1.4 Inter,sans-serif;
+      letter-spacing:.11em;
+    }
+    .about-reference-footer-brand{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-right:auto;
+      color:#f5eee5;
+      font:500 18px/1 "Cormorant Garamond",serif;
+      letter-spacing:.03em;
+    }
+    .about-reference-footer-brand>span{color:#d8a96d;font-size:27px}
+    .about-reference-footer-brand small{
+      display:block;
+      margin-top:4px;
+      color:#c9beb3;
+      font:500 6px/1 Inter,sans-serif;
+      letter-spacing:.38em;
+    }
+    .about-reference-footer nav{display:flex;align-items:center;gap:26px;height:auto;padding:0;border:0}
+    .about-reference-footer nav a{color:#8e877f;text-decoration:none;font-size:8px}
+    .about-reference-footer nav a:hover{color:#d8a96d}
+    .about-reference-footer .instagram{color:#8e877f;text-decoration:none;font-size:8px}
+    .about-reference-footer .instagram:hover{color:#d8a96d}
+  }
+
+  @media (max-width:800px){
+    .about-reference-page{display:none !important}
+  }
 </style>
 </head>
-<body class="about-page">
+<body class="about-reference-page">
 <main>
-<section class="about-hero">
-<nav>
-  <div class="links">
-    <a href="./index.html#top">HOME</a>
-    <a href="./about.html" style="color:#d8a96d">ABOUT</a>
-    <a href="./service.html">SERVICES</a>
-    <a href="./index.html#barbers">BARBERS</a>
-    <a href="./index.html#barbers">GALLERY</a>
-    <a href="./contact.html">CONTACT</a>
-  </div>
-  <button class="hamb" type="button" aria-label="Menu">☰</button>
-</nav>
-<div class="about-copy">
-  <span class="eyebrow">ABOUT CROWN &amp; BLADE</span>
-  <h1>More than a haircut.<br>It’s your standard.</h1>
-  <p>Crown &amp; Blade is a modern barber house built around precision, atmosphere and personal style. Every detail of the space and every service is designed to make a visit feel considered from start to finish.</p>
-</div>
-</section>
-<section class="about-details">
-  <div>
-    <span class="eyebrow">OUR APPROACH</span>
-    <h2>Classic craft.<br>Modern standard.</h2>
-    <p>We combine traditional barbering with a clean contemporary approach. From the consultation and shape to the final detail, our team focuses on consistency, quality and the individual character of every client.</p>
-  </div>
-  <div class="about-details-card">
-    <span>CROWN &amp; BLADE</span>
-    <strong>ЛЬВІВ · УКРАЇНА</strong>
-  </div>
-</section>
+  <section class="about-reference-canvas" aria-label="Crown &amp; Blade About">
+    <a class="about-reference-back" href="./index.html#top" data-desktop-i18n="back">← НАЗАД ДО ГОЛОВНОЇ</a>
+    <button class="about-reference-lang desktop-lang-switch" type="button" aria-label="Switch language">EN</button>
+
+    <div class="about-reference-copy">
+      <span class="eyebrow" data-desktop-i18n="aboutEyebrow">ПРО НАС</span>
+      <h1 data-desktop-i18n-html="aboutTitle">Більше, ніж<br>просто стрижка</h1>
+      <p data-desktop-i18n="aboutText">Crown &amp; Blade — це місце, де класичні традиції барберингу зустрічаються із сучасним стилем. Ми створюємо не просто стрижки, а впевненість, характер і ваш унікальний образ.</p>
+    </div>
+
+    <div class="about-reference-philosophy">
+      <span class="eyebrow" data-desktop-i18n="aboutPhilosophy">НАША ФІЛОСОФІЯ</span>
+      <h2 data-desktop-i18n="aboutPhilosophyTitle">Стиль у деталях</h2>
+      <p data-desktop-i18n="aboutPhilosophyText">Ми віримо, що кожна деталь має значення — від першого візиту до останнього штриха. У Crown &amp; Blade ми створюємо простір, де ви можете відчути себе впевнено, відпочити і отримати більше, ніж просто стрижку.</p>
+    </div>
+
+    <article class="about-reference-card card1">
+      <span class="num">01</span>
+      <strong data-desktop-i18n="card1">ЯКІСТЬ</strong>
+      <p data-desktop-i18n-html="card1Text">Професійна косметика<br>та інструменти</p>
+    </article>
+    <article class="about-reference-card card2">
+      <span class="num">02</span>
+      <strong data-desktop-i18n="card2">АТМОСФЕРА</strong>
+      <p data-desktop-i18n-html="card2Text">Комфортний простір<br>для справжніх чоловіків</p>
+    </article>
+    <article class="about-reference-card card3">
+      <span class="num">03</span>
+      <strong data-desktop-i18n="card3">ДЕТАЛІ</strong>
+      <p data-desktop-i18n-html="card3Text">Увага до кожного<br>клієнта</p>
+    </article>
+    <article class="about-reference-card card4">
+      <span class="num">04</span>
+      <strong data-desktop-i18n="card4">СТИЛЬ</strong>
+      <p data-desktop-i18n-html="card4Text">Допомагаємо підкреслити<br>індивідуальність</p>
+    </article>
+  </section>
+
+  <footer class="about-reference-footer">
+    <div class="about-reference-footer-brand"><span>♕</span><div>CROWN &amp; BLADE<small>BARBER HOUSE</small></div></div>
+    <nav aria-label="About footer navigation">
+      <a href="./index.html#top">ГОЛОВНА</a>
+      <a href="./about.html" data-desktop-i18n="footerAbout">ПРО НАС</a>
+      <a href="./index.html#barbers" data-desktop-i18n="footerGallery">ГАЛЕРЕЯ</a>
+      <a href="./index.html#comments" data-desktop-i18n="footerReviews">ВІДГУКИ</a>
+      <a href="./contact.html" data-desktop-i18n="footerContact">КОНТАКТИ</a>
+    </nav>
+    <a class="instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">◎ @crown.blade</a>
+  </footer>
 </main>
+<script src="./desktop-i18n.js"></script>
 </body>
 </html>
