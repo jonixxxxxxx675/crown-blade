@@ -1363,3 +1363,57 @@
     overflow:hidden !important;
   }
 }
+
+/* Account final correction — keep all four tabs fully visible and style the app-reminder control. */
+@media (max-width:800px){
+  .mobile-account .account-tabs{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    grid-auto-rows:minmax(42px,auto) !important;
+    align-items:stretch !important;
+    overflow:visible !important;
+    overflow-x:visible !important;
+    overflow-y:visible !important;
+    height:auto !important;
+    min-height:0 !important;
+  }
+
+  .mobile-account .account-tab{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:42px !important;
+    height:auto !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    white-space:normal !important;
+    overflow:visible !important;
+    line-height:1.25 !important;
+  }
+
+  /* This is the in-app reminder permission button. Never let it fall back to
+     the browser's default white button. */
+  .mobile-account .account-notification-enable{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    min-height:44px !important;
+    margin:0 0 10px !important;
+    padding:12px 16px !important;
+    border:1px solid #f0c98d !important;
+    border-radius:12px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    color:#17110b !important;
+    box-shadow:0 4px 0 #8e6438,0 8px 16px #0007,inset 0 1px 0 #fff7 !important;
+    font:600 10px/1.2 Inter,sans-serif !important;
+    letter-spacing:.08em !important;
+    text-align:center !important;
+    appearance:none !important;
+    -webkit-appearance:none !important;
+  }
+
+  .mobile-account .account-notification-enable:active{
+    transform:translateY(2px) !important;
+    box-shadow:0 1px 0 #8e6438,0 4px 9px #0007,inset 0 1px 0 #fff5 !important;
+  }
+}
