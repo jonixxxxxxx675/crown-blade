@@ -87,7 +87,8 @@ export default async function handler(req, res) {
       created_at: b.createdAt || new Date().toISOString(),
       customer_email: b.customerEmail || null,
       account_id: b.accountId || null,
-      payment_status: b.paymentStatus || 'confirmed'
+      payment_status: b.paymentStatus || 'pending',
+      payment_method: b.paymentMethod || 'cash'
     };
     let r = await fetch(`${url}/rest/v1/${table}`, {
       method: 'POST',
@@ -105,6 +106,14 @@ export default async function handler(req, res) {
     if (!r.ok) return res.status(r.status===409||r.status===422?409:502).json({ ok: false, error: 'That time may already be booked', detail: data?.message || '' });
     await sendBookingEmail(b);
     return res.status(201).json({ ok: true, booking: Array.isArray(data) ? data[0] : data, emailSent: Boolean(b.customerEmail && process.env.RESEND_API_KEY) });
+  }
+
+  if (req.method === 'DELETE') {
+    const id = String(req.query.id || '');
+    if (!id) return res.status(400).json({ ok: false, error: 'Missing booking id' });
+    const r = await fetch(`${url}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, { method:'DELETE', headers:{...headers(key), Prefer:'return=minimal'} });
+    if (!r.ok) return res.status(502).json({ ok:false, error:'Booking cancellation failed' });
+    return res.status(200).json({ ok:true });
   }
 
   return res.status(405).json({ ok: false, error: 'Method not allowed' });
