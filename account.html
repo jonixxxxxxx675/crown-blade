@@ -59,10 +59,11 @@
   <button class="account-tab active" type="button" data-tab="profile" data-i18n="accountProfileTab">ПРОФІЛЬ</button>
   <button class="account-tab" type="button" data-tab="bookings" data-i18n="accountBookingsTab">БРОНЮВАННЯ</button>
   <button class="account-tab" type="button" data-tab="reminders" data-i18n="accountRemindersTab">НАГАДУВАННЯ</button>
+  <button class="account-tab" type="button" data-tab="promos" data-i18n="accountPromosTab">АКЦІЇ / ПРОМОКОДИ</button>
 </div>
 
 <section class="account-tab-panel active" data-panel="profile">
-  <div class="account-card account-profile-card">
+  <div class="account- account-profile-">
     <div class="account-profile-head">
       <button class="account-avatar" id="account-avatar" type="button" aria-label="Змінити аватар">
         <img id="account-avatar-image" alt="" hidden>
@@ -88,25 +89,37 @@
 </section>
 
 <section class="account-tab-panel" data-panel="bookings" hidden>
-  <div class="account-card">
+  <div class="account-">
     <h2 data-i18n="accountBookings">Мої бронювання</h2>
     <div id="account-bookings"></div>
   </div>
 </section>
 
 <section class="account-tab-panel" data-panel="reminders" hidden>
-  <div class="account-card">
+  <div class="account-">
     <h2 data-i18n="accountRemindersTitle">Нагадування</h2>
+    <button class="account-primary-action account-notification-enable" id="enable-app-notifications" type="button" data-i18n="enableAppNotifications">УВІМКНУТИ НАГАДУВАННЯ В ЗАСТОСУНКУ →</button>
+    <div class="account-status" id="notification-status" aria-live="polite"></div>
+    <label class="account-toggle"><span><strong data-i18n="reminderApp24">У застосунку за 24 години</strong><small data-i18n="reminderAppText">Сповіщення на цьому пристрої</small></span><input id="reminder-app-24" type="checkbox" checked><i></i></label>
+    <label class="account-toggle"><span><strong data-i18n="reminderApp2">У застосунку за 2 години</strong><small data-i18n="reminderAppText">Сповіщення на цьому пристрої</small></span><input id="reminder-app-2" type="checkbox" checked><i></i></label>
     <label class="account-toggle"><span><strong data-i18n="reminder24">Email за 24 години</strong><small data-i18n="reminder24Text">Нагадування перед візитом</small></span><input id="reminder-24" type="checkbox" checked><i></i></label>
     <label class="account-toggle"><span><strong data-i18n="reminder2">Email за 2 години</strong><small data-i18n="reminder2Text">Коротке нагадування перед записом</small></span><input id="reminder-2" type="checkbox" checked><i></i></label>
     <label class="account-toggle"><span><strong data-i18n="reminderCancel">Лист при скасуванні</strong><small data-i18n="reminderCancelText">Окреме повідомлення після скасування</small></span><input id="reminder-cancel" type="checkbox" checked><i></i></label>
+  </div>
+</section>
+
+<section class="account-tab-panel" data-panel="promos" hidden>
+  <div class="account- account-promos-">
+    <h2 data-i18n="accountPromosTitle">Акції та промокоди</h2>
+    <p class="account-muted" data-i18n="accountPromosText">Тут зберігаються ваші персональні промокоди.</p>
+    <div id="account-promos-list"></div>
   </div>
 </section>
 <button class="page-action compact-logout" id="logout" type="button" data-i18n="accountLogout">ВИЙТИ</button>
 <div class="account-status" id="account-status" aria-live="polite"></div>
 </section>
 <div class="account-promo" id="account-promo" aria-hidden="true">
-  <div class="account-promo-card" role="dialog" aria-modal="true" aria-labelledby="promo-title">
+  <div class="account-promo-" role="dialog" aria-modal="true" aria-labelledby="promo-title">
     <button class="account-promo-close" id="promo-close" type="button" aria-label="Close">×</button>
     <span class="eyebrow" data-i18n="promoEyebrow">WELCOME</span>
     <h2 id="promo-title" data-i18n="promoTitle">Ваш подарунок</h2>
@@ -175,6 +188,7 @@
       +'<strong>'+serviceName+'</strong>'
       +'<div class="account-booking-meta">'+b.barber+' · '+b.date+' · '+b.time+'</div>'
       +'<div class="account-booking-status">'+t('accountConfirmed')+'</div>'
+      +'<div class="account-payment-row"><span>'+t('accountPaymentMethod')+': <strong>'+((b.paymentMethod||b.payment_method)===''?t('paymentCard'):t('paymentCash'))+'</strong></span>'+(((b.paymentMethod||b.payment_method)===''&&(b.paymentStatus||b.payment_status)!=='paid')?'<button type="button" class="account-pay-" data-pay-="'+String(b.id).replace(/[^A-Za-z0-9_-]/g,'')+'">'+t('paymentPay')+'</button>':'')+'</div>'
       +'<div class="account-booking-actions"><button class="primary" data-edit="'+b.id+'" type="button">'+t('accountEdit')+'</button><button data-cancel="'+b.id+'" type="button">'+t('accountCancel')+'</button></div>'
       +'</div>';
   }
@@ -209,6 +223,9 @@
       const booking=all.find(b=>b.id===btn.dataset.edit);if(!booking)return;
       localStorage.setItem('cb-edit-booking',JSON.stringify(booking));window.location.href='./index.html#booking';
     });
+    box.querySelectorAll('[data-pay-]').forEach(btn=>btn.onclick=()=>{
+      dashStatus.textContent=t('paymentProviderMissing');
+    });
     box.querySelectorAll('[data-cancel]').forEach(btn=>btn.onclick=async()=>{
       const id=btn.dataset.cancel;
       if(!confirm(currentLang==='en'?'Cancel this booking?':'Скасувати це бронювання?'))return;
@@ -228,7 +245,7 @@
     if(!/^\+?[0-9 ()-]{9,20}$/.test(phone)){registerStatus.textContent=t('accountPhoneInvalid');return}
     if(password.length<6){registerStatus.textContent=t('accountPasswordShort');return}
     const passwordHash=await hashPassword(password);
-    const profile={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash,emailVerified:false,createdAt:new Date().toISOString()};
+    const profile={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash,emailVerified:false,createdAt:new Date().toISOString(),promoCodes:[{code:'WELCOME10',type:'welcome',discount:'10%',createdAt:new Date().toISOString(),expiresAt:new Date(Date.now()+4*24*60*60*1000).toISOString()}]};
     saveProfile(profile);
     saveSession(profile);
     registerStatus.textContent=t('accountCreating');
@@ -244,6 +261,8 @@
       registerStatus.textContent='Email-сервіс недоступний. Перевірте, що сайт відкритий з Vercel.';
     }
     renderDashboard();
+    localStorage.removeItem('cb_promo_seen');
+    setTimeout(openPromo,180);
   });
 
   loginForm.addEventListener('submit',async e=>{
@@ -283,9 +302,14 @@
   const promo=document.querySelector('#account-promo');
   const promoClose=document.querySelector('#promo-close');
   const promoDone=document.querySelector('#promo-done');
+  const promoList=document.querySelector('#account-promos-list');
   const reminder24=document.querySelector('#reminder-24');
   const reminder2=document.querySelector('#reminder-2');
   const reminderCancel=document.querySelector('#reminder-cancel');
+  const reminderApp24=document.querySelector('#reminder-app-24');
+  const reminderApp2=document.querySelector('#reminder-app-2');
+  const enableAppNotifications=document.querySelector('#enable-app-notifications');
+  const notificationStatus=document.querySelector('#notification-status');
 
   function applyProfileExtras(){
     const a=getSession();
@@ -293,13 +317,42 @@
     const avatar=a.avatar||'';
     if(avatar){avatarImage.src=avatar;avatarImage.hidden=false;avatarPlaceholder.hidden=true;}
     else{avatarImage.hidden=true;avatarPlaceholder.hidden=false;}
-    const reminders=Object.assign({reminder24:true,reminder2:true,reminderCancel:true},a.reminders||{});
+    const reminders=Object.assign({reminder24:true,reminder2:true,reminderCancel:true,app24:true,app2:true},a.reminders||{});
     if(reminder24)reminder24.checked=!!reminders.reminder24;
     if(reminder2)reminder2.checked=!!reminders.reminder2;
     if(reminderCancel)reminderCancel.checked=!!reminders.reminderCancel;
+    if(reminderApp24)reminderApp24.checked=!!reminders.app24;
+    if(reminderApp2)reminderApp2.checked=!!reminders.app2;
   }
   function saveSessionProfile(next){saveProfile(next);saveSession(next);applyProfileExtras();renderDashboard();}
-  function openPromo(){if(localStorage.getItem('cb_promo_seen')==='1'||!promo)return;promo.classList.add('open');promo.setAttribute('aria-hidden','false');}
+  function getPromoCodes(){
+    const a=getSession();
+    if(!a)return [];
+    if(!Array.isArray(a.promoCodes)||!a.promoCodes.length){
+      const createdAt=a.createdAt||new Date().toISOString();
+      a.promoCodes=[{code:'WELCOME10',type:'welcome',discount:'10%',createdAt,expiresAt:new Date(new Date(createdAt).getTime()+4*24*60*60*1000).toISOString()}];
+      saveSession(a);saveProfile(a);
+    }
+    let changed=false;
+    a.promoCodes=a.promoCodes.map(x=>{
+      if(!x.expiresAt){x.expiresAt=new Date(new Date(x.createdAt||a.createdAt||Date.now()).getTime()+4*24*60*60*1000).toISOString();changed=true;}
+      return x;
+    });
+    if(changed){saveSession(a);saveProfile(a);}
+    return a.promoCodes;
+  }
+  function renderPromoList(){
+    if(!promoList)return;
+    const codes=getPromoCodes();
+    promoList.innerHTML=codes.map(x=>{
+      const expires=Date.parse(x.expiresAt||'');
+      const active=Number.isFinite(expires)&&expires>Date.now();
+      return '<div class="account-promo-item '+(active?'':'expired')+'"><div><strong>'+String(x.code).replace(/[<>]/g,'')+'</strong><small>'+String(x.discount||'').replace(/[<>]/g,'')+' · '+(active?t('accountPromoUntil')+' '+new Date(expires).toLocaleDateString(currentLang==='en'?'en-US':'uk-UA') : t('accountPromoExpired'))+'</small></div><button type="button" class="account-promo-copy" data-copy-promo="'+String(x.code).replace(/[^A-Za-z0-9_-]/g,'')+'" '+(active?'':'disabled')+'>'+t('accountPromoCopy')+'</button></div>';
+    }).join('');
+    promoList.querySelectorAll('[data-copy-promo]').forEach(btn=>btn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(btn.dataset.copyPromo);btn.textContent=t('accountPromoCopied');setTimeout(()=>btn.textContent=t('accountPromoCopy'),1200);}catch{}}));
+  }
+  function hasActiveWelcomePromo(){return getPromoCodes().some(x=>x.type==='welcome'&&Date.parse(x.expiresAt||'')>Date.now());}
+  function openPromo(){if(!promo||!hasActiveWelcomePromo())return;renderPromoList();if(localStorage.getItem('cb_promo_seen')==='1')return;promo.classList.add('open');promo.setAttribute('aria-hidden','false');}
   function closePromo(){if(!promo)return;promo.classList.remove('open');promo.setAttribute('aria-hidden','true');localStorage.setItem('cb_promo_seen','1');}
   promoClose?.addEventListener('click',closePromo);promoDone?.addEventListener('click',closePromo);promo?.addEventListener('click',e=>{if(e.target===promo)closePromo()});
 
@@ -329,18 +382,38 @@
       try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resend-verification',name,email})});const d=await r.json().catch(()=>({}));dashStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист.');}catch{dashStatus.textContent='Email-сервіс недоступний.';}
     }else dashStatus.textContent=t('accountUpdated');
   });
-  [reminder24,reminder2,reminderCancel].forEach(input=>input?.addEventListener('change',()=>{
-    const a=getSession();if(!a)return;a.reminders=Object.assign({reminder24:true,reminder2:true,reminderCancel:true},a.reminders||{}, {reminder24:!!reminder24?.checked,reminder2:!!reminder2?.checked,reminderCancel:!!reminderCancel?.checked});saveSessionProfile(a);
+  async function enableNotifications(){
+    if(!('Notification' in window)){notificationStatus.textContent=t('notificationsUnsupported');return;}
+    const permission=await Notification.requestPermission();
+    notificationStatus.textContent=permission==='granted'?t('notificationsEnabled'):t('notificationsDenied');
+    if(permission==='granted'){const a=getSession();if(a){a.notificationsEnabled=true;saveSessionProfile(a);scheduleAppReminders();}}
+  }
+  enableAppNotifications?.addEventListener('click',enableNotifications);
+  [reminder24,reminder2,reminderCancel,reminderApp24,reminderApp2].forEach(input=>input?.addEventListener('change',()=>{
+    const a=getSession();if(!a)return;a.reminders=Object.assign({reminder24:true,reminder2:true,reminderCancel:true,app24:true,app2:true},a.reminders||{}, {reminder24:!!reminder24?.checked,reminder2:!!reminder2?.checked,reminderCancel:!!reminderCancel?.checked,app24:!!reminderApp24?.checked,app2:!!reminderApp2?.checked});saveSessionProfile(a);scheduleAppReminders();
   }));
+  const reminderTimers=new Map();
+  function scheduleAppReminders(){
+    reminderTimers.forEach(id=>clearTimeout(id));reminderTimers.clear();
+    const a=getSession();if(!a?.notificationsEnabled||!('Notification' in window)||Notification.permission!=='granted')return;
+    const bookings=getBookings().filter(b=>b.accountId===a.id||!b.accountId);
+    const settings=Object.assign({app24:true,app2:true},a.reminders||{});
+    bookings.forEach(b=>{
+      const at=Date.parse((b.date||'')+'T'+(b.time||'00:00')+':00');if(!Number.isFinite(at))return;
+      [['app24',24*60*60*1000],['app2',2*60*60*1000]].forEach(([key,offset])=>{if(!settings[key])return;const delay=at-offset-Date.now();if(delay<=0||delay>2147483647)return;const timer=setTimeout(()=>{new Notification('Crown & Blade',{body:(currentLang==='en'?'Your appointment is in '+(key==='app24'?'24 hours':'2 hours')+'. ':'Ваш запис через '+(key==='app24'?'24 години':'2 години')+'. ')+(b.service||'')+' · '+(b.time||''),tag:'cb-'+b.id+'-'+key});},delay);reminderTimers.set(b.id+'-'+key,timer);});
+    });
+  }
 
   const originalRegisterSubmit=registerForm?.onsubmit;
   applyProfileExtras();
+  renderPromoList();
   const existingProfile=getProfile();
   if(existingProfile?.createdAt && localStorage.getItem('cb_promo_seen')!=='1' && getSession()) setTimeout(openPromo,250);
   window.addEventListener('languagechange',applyProfileExtras);
   handleVerification();
   window.addEventListener('languagechange',renderDashboard);
   renderDashboard();
+  scheduleAppReminders();
 })();
 </script>
 </body>

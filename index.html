@@ -44,7 +44,7 @@
 <div class="step"><div class="step-title"><span>◷</span><b data-i18n="chooseTime">Choose time</b></div><div class="times" id="times"></div></div>
 <button class="confirm" type="button" id="confirm"><span data-i18n="confirmBooking">CONFIRM BOOKING</span> <span>→</span></button>
 <div class="booking-success" id="booking-success" aria-hidden="true">
-  <div class="booking-success-card" role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
+  <div class="booking-success-" role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
     <button class="booking-success-close" type="button" id="booking-success-close" aria-label="Close">×</button>
     <div class="booking-success-mark">✓</div>
     <strong id="booking-success-title" data-i18n="bookingConfirmed">Booking confirmed</strong>
@@ -53,7 +53,7 @@
   </div>
 </div>
 <div class="mobile-account-gate" id="mobile-account-gate" aria-hidden="true">
-  <div class="mobile-account-gate-card" role="dialog" aria-modal="true" aria-labelledby="mobile-account-gate-title">
+  <div class="mobile-account-gate-" role="dialog" aria-modal="true" aria-labelledby="mobile-account-gate-title">
     <button class="mobile-account-gate-close" id="mobile-account-gate-close" type="button" aria-label="Close">×</button>
     <span class="eyebrow" data-i18n="accountEyebrow">АКАУНТ</span>
     <h2 id="mobile-account-gate-title" data-i18n="bookingAccountRequired">Створіть акаунт перед бронюванням</h2>
@@ -69,13 +69,16 @@
   </div>
 </div>
 <div class="mobile-payment" id="mobile-payment" aria-hidden="true">
-  <div class="mobile-payment-card" role="dialog" aria-modal="true" aria-labelledby="mobile-payment-title">
+  <div class="mobile-payment-" role="dialog" aria-modal="true" aria-labelledby="mobile-payment-title">
     <button class="mobile-payment-close" id="mobile-payment-close" type="button" aria-label="Close">×</button>
     <span class="eyebrow" data-i18n="paymentEyebrow">ОПЛАТА</span>
-    <h2 id="mobile-payment-title" data-i18n="paymentTitle">Онлайн-оплата</h2>
+    
     <p id="mobile-payment-summary"></p>
-    <div class="payment-method active"><span>◉</span><strong data-i18n="paymentCard">Банківська картка</strong><small data-i18n="paymentSecure">Безпечна оплата через платіжний сервіс</small></div>
-    <button class="booking-success-ok" id="mobile-payment-submit" type="button" data-i18n="paymentPay">ОПЛАТИТИ →</button>
+    <div class="payment-methods" id="payment-methods">
+      <button class="payment-method active" type="button" data-method="cash"><span>◉</span><strong data-i18n="paymentCash">Готівка</strong><small data-i18n="paymentCashText">Оплата на місці після візиту</small></button>
+      <button class="payment-method" type="button" data-method=""><span>○</span><small data-i18n="paymentSecure">Безпечна оплата через платіжний сервіс</small></button>
+    </div>
+    <button class="booking-success-ok" id="mobile-payment-submit" type="button" data-i18n="paymentConfirm">ПІДТВЕРДИТИ →</button>
     <div class="account-status" id="mobile-payment-status" aria-live="polite"></div>
   </div>
 </div>
@@ -102,27 +105,27 @@
   </div>
 
   <div class="desktop-barbers-grid">
-    <article class="desktop-barber-card" data-barber="Anna" tabindex="0">
+    <article class="desktop-barber-" data-barber="Anna" tabindex="0">
       <div class="desktop-barber-photo"><img src="./assets/desktop-barber-anna.jpg" alt="Anna — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Anna profile">→</button></div>
       <div class="desktop-barber-info"><span data-desktop-i18n="barberLabel">BARBER</span><h3>Anna</h3><p data-desktop-i18n="barberAnna">Акуратні форми, текстура та сучасний стиль.</p></div>
     </article>
 
-    <article class="desktop-barber-card" data-barber="Sofia" tabindex="0">
+    <article class="desktop-barber-" data-barber="Sofia" tabindex="0">
       <div class="desktop-barber-photo"><img src="./assets/desktop-barber-sofia.jpg" alt="Sofia — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Sofia profile">→</button></div>
       <div class="desktop-barber-info"><span data-desktop-i18n="barberLabel">BARBER</span><h3>Sofia</h3><p data-desktop-i18n="barberSofia">Класичні стрижки та точна робота з формою.</p></div>
     </article>
 
-    <article class="desktop-barber-card" data-barber="Max" tabindex="0">
+    <article class="desktop-barber-" data-barber="Max" tabindex="0">
       <div class="desktop-barber-photo"><img src="./assets/barber-3.jpg" alt="Max — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Max profile">→</button></div>
       <div class="desktop-barber-info"><span data-desktop-i18n="barberLabel">BARBER</span><h3>Max</h3><p data-desktop-i18n="barberMax">Сучасні текстурні стрижки та сильний характер образу.</p></div>
     </article>
 
-    <article class="desktop-barber-card" data-barber="Daniel" tabindex="0">
+    <article class="desktop-barber-" data-barber="Daniel" tabindex="0">
       <div class="desktop-barber-photo"><img src="./assets/desktop-barber-daniel.jpg" alt="Daniel — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Daniel profile">→</button></div>
       <div class="desktop-barber-info"><span data-desktop-i18n="barberLabel">BARBER</span><h3>Daniel</h3><p data-desktop-i18n="barberDaniel">Класичні чоловічі образи та бездоганна форма бороди.</p></div>
     </article>
 
-    <article class="desktop-barber-card" data-barber="Alex" tabindex="0">
+    <article class="desktop-barber-" data-barber="Alex" tabindex="0">
       <div class="desktop-barber-photo"><img src="./assets/desktop-barber-alex.jpg" alt="Alex — Barber"><button class="desktop-barber-arrow" type="button" aria-label="Open Alex profile">→</button></div>
       <div class="desktop-barber-info"><span data-desktop-i18n="barberLabel">BARBER</span><h3>Alex</h3><p data-desktop-i18n="barberAlex">Fade, текстурні стрижки та оформлення бороди.</p></div>
     </article>
@@ -130,7 +133,7 @@
 
 <div class="desktop-barber-modal" id="desktop-barber-modal" aria-hidden="true">
   <div class="desktop-barber-modal-backdrop" data-barber-close></div>
-  <div class="desktop-barber-modal-card" role="dialog" aria-modal="true" aria-labelledby="desktop-barber-modal-title">
+  <div class="desktop-barber-modal-" role="dialog" aria-modal="true" aria-labelledby="desktop-barber-modal-title">
     <button class="desktop-barber-modal-close" type="button" aria-label="Close profile" data-barber-close>×</button>
     <div class="desktop-barber-modal-image"><img id="desktop-barber-modal-image" src="" alt=""></div>
     <div class="desktop-barber-modal-copy">
@@ -194,10 +197,10 @@
     <span class="desktop-comments-kicker" data-desktop-i18n="commentsKicker">CROWN &amp; BLADE CLIENTS</span>
   </div>
   <div class="desktop-comments-grid">
-    <article class="desktop-comment-card"><img src="./assets/review-maxim-1.png" alt="Client comment from Oleh"></article>
-    <article class="desktop-comment-card"><img src="./assets/review-oleh.png" alt="Client comment from Maksym"></article>
-    <article class="desktop-comment-card"><img src="./assets/review-denis.png" alt="Client comment from Andrii"></article>
-    <article class="desktop-comment-card"><img src="./assets/review-oleh.png" alt="Client comment from Vladyslav"></article>
+    <article class="desktop-comment-"><img src="./assets/review-maxim-1.png" alt="Client comment from Oleh"></article>
+    <article class="desktop-comment-"><img src="./assets/review-oleh.png" alt="Client comment from Maksym"></article>
+    <article class="desktop-comment-"><img src="./assets/review-denis.png" alt="Client comment from Andrii"></article>
+    <article class="desktop-comment-"><img src="./assets/review-oleh.png" alt="Client comment from Vladyslav"></article>
   </div>
 </section>
 
@@ -292,10 +295,10 @@
     document.body.classList.add('desktop-barber-modal-open');
   };
 
-  document.querySelectorAll('.desktop-barber-card').forEach(card => {
-    const name = card.dataset.barber;
-    card.addEventListener('click', () => open(name));
-    card.addEventListener('keydown', event => {
+  document.querySelectorAll('.desktop-barber-').forEach( => {
+    const name = .dataset.barber;
+    .addEventListener('click', () => open(name));
+    .addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         open(name);
@@ -489,12 +492,12 @@ document.addEventListener('click',e=>{
 renderMonths();
 renderDates();
 renderTimes();
-const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='card';a.dataset.name=s.name;a.innerHTML='<div class="card-photo p'+i+'"></div><div><span data-service-name="'+s.key+'">'+t('service_'+s.key)+'</span><b>'+servicePrice(s)+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
+const cards=document.querySelector('#cards');services.forEach((s,i)=>{const a=document.createElement('article');a.className='';a.dataset.name=s.name;a.innerHTML='<div class="-photo p'+i+'"></div><div><span data-service-name="'+s.key+'">'+t('service_'+s.key)+'</span><b>'+servicePrice(s)+'</b><i>→</i></div>';a.onclick=()=>{service=s.name;render();if(isMobile()){setTimeout(()=>{window.location.href='./service.html?service='+i},180)}};cards.appendChild(a);});
 function render(){
   document.querySelectorAll('[data-service-name]').forEach(e=>{const k=e.dataset.serviceName;e.textContent=t('service_'+k)});
   document.querySelectorAll('.service-choice small').forEach((e,i)=>e.textContent=servicePrice(services[i]));
-  document.querySelectorAll('.card b').forEach((e,i)=>e.textContent=servicePrice(services[i]));
-  document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.card').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
+  document.querySelectorAll('. b').forEach((e,i)=>e.textContent=servicePrice(services[i]));
+  document.querySelectorAll('.service-choice').forEach((e,i)=>e.classList.toggle('active',services[i].name===service));document.querySelectorAll('.').forEach(e=>e.classList.toggle('active',e.dataset.name===service));document.querySelectorAll('.barber').forEach(e=>e.classList.toggle('active',e.dataset.name===barber));document.querySelectorAll('#dates button').forEach(e=>e.classList.toggle('active',e.dataset.date===date));document.querySelectorAll('#times button').forEach(e=>e.classList.toggle('active',e.dataset.time===time))}
 const menu=document.querySelector('#mobile-menu');
 const openMenu=()=>{menu.classList.add('open');menu.setAttribute('aria-hidden','false');document.body.classList.add('menu-open')};
 const closeMenu=()=>{menu.classList.remove('open');menu.setAttribute('aria-hidden','true');document.body.classList.remove('menu-open')};
@@ -521,7 +524,9 @@ function createMobileBooking(){
     language:currentLang,
     createdAt:new Date().toISOString(),
     accountId:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.id||null}catch{return null}})(),
-    customerEmail:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.email||null}catch{return null}})()
+    customerEmail:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.email||null}catch{return null}})(),
+    paymentMethod:'cash',
+    paymentStatus:'pending'
   };
 }
 function storeLocalBooking(booking,editingId=''){
@@ -538,12 +543,16 @@ const mobilePaymentClose=document.querySelector('#mobile-payment-close');
 const mobilePaymentSubmit=document.querySelector('#mobile-payment-submit');
 const mobilePaymentSummary=document.querySelector('#mobile-payment-summary');
 const mobilePaymentStatus=document.querySelector('#mobile-payment-status');
+const paymentMethods=document.querySelector('#payment-methods');
+let selectedPaymentMethod='cash';
 let pendingMobileBooking=null;
 function getMobileAccount(){try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')}catch{return null}}
 function openMobileGate(){if(!isMobile())return;mobileGate.classList.add('open');mobileGate.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open')}
 function closeMobileGate(){mobileGate.classList.remove('open');mobileGate.setAttribute('aria-hidden','true');if(!mobilePayment.classList.contains('open'))document.body.classList.remove('booking-modal-open')}
 function openMobilePayment(booking){
   pendingMobileBooking=booking;
+  selectedPaymentMethod=booking.paymentMethod||'cash';
+  paymentMethods?.querySelectorAll('[data-method]').forEach(x=>x.classList.toggle('active',x.dataset.method===selectedPaymentMethod));
   mobilePaymentSummary.textContent=(currentLang==='en'?'Booking: ':'Запис: ')+booking.service+' · '+booking.barber+' · '+booking.date+' · '+booking.time+' · '+booking.price;
   mobilePaymentStatus.textContent='';mobilePayment.classList.add('open');mobilePayment.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');
 }
@@ -580,10 +589,7 @@ async function continueBookingFlow(){
   if(!getMobileAccount()){
     openMobileGate();return;
   }
-  // Online-payment flow is prepared for a provider-backed endpoint; until a provider is configured,
-  // keep the existing confirmation path usable instead of inventing a fake transaction.
-  const saved=await saveMobileBookingAfterAccount(booking);if(!saved)return;
-  finishMobileBooking(booking);
+  openMobilePayment(booking);
 }
 document.querySelector('#confirm').onclick=()=>{if(!isMobile()){return;}continueBookingFlow()};
 mobileGateClose?.addEventListener('click',closeMobileGate);
@@ -602,12 +608,21 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   mobileAccountStatus.textContent=t('accountCreating');
   try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});const d=await r.json().catch(()=>({}));mobileAccountStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист підтвердження.');}catch{mobileAccountStatus.textContent='Email-сервіс недоступний.';}
   closeMobileGate();
-  const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);if(saved)finishMobileBooking(pendingMobileBooking);
+  openMobilePayment(pendingMobileBooking);
 });
+paymentMethods?.querySelectorAll('[data-method]').forEach(btn=>btn.addEventListener('click',()=>{
+  selectedPaymentMethod=btn.dataset.method||'cash';
+  paymentMethods.querySelectorAll('[data-method]').forEach(x=>x.classList.toggle('active',x===btn));
+}));
 mobilePaymentSubmit?.addEventListener('click',async()=>{
-  // Provider-ready hook. A real card transaction is only started when the server has payment credentials.
   if(!pendingMobileBooking)return;
-  mobilePaymentStatus.textContent=currentLang==='en'?'Online payment is not configured yet.':'Онлайн-оплата ще не підключена.';
+  pendingMobileBooking.paymentMethod=selectedPaymentMethod;
+  if(selectedPaymentMethod===''){
+    mobilePaymentStatus.textContent=t('paymentProviderMissing');
+    return;
+  }
+  pendingMobileBooking.paymentStatus='pending';
+  const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);if(saved){closeMobilePayment();finishMobileBooking(pendingMobileBooking);}
 });
 document.querySelector('#booking-success-close').onclick=closeBookingSuccess;
 document.querySelector('#booking-success-ok').onclick=closeBookingSuccess;
@@ -631,6 +646,48 @@ bookingSuccess.addEventListener('click',e=>{if(e.target===bookingSuccess)closeBo
       button.disabled = false;
     }, 2200);
   });
+})();
+</script>
+<script>
+(() => {
+  if (!window.matchMedia('(max-width: 800px)').matches) return;
+  const gate = document.querySelector('#mobile-account-gate');
+  const form = document.querySelector('#mobile-booking-account-form');
+  if (!gate || !form) return;
+  form.querySelectorAll('input').forEach(input => {
+    input.addEventListener('focus', () => {
+      window.setTimeout(() => input.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'}), 80);
+    });
+  });
+})();
+</script>
+<script>
+(() => {
+  if (!window.matchMedia('(max-width: 800px)').matches) return;
+  const gate = document.querySelector('#mobile-account-gate');
+  const  = gate?.querySelector('.mobile-account-gate-');
+  const form = gate?.querySelector('.mobile-form');
+  if (!gate || ! || !form) return;
+
+  const reveal = (el) => {
+    window.setTimeout(() => {
+      el.scrollIntoView({behavior:'smooth', block:'center', inline:'nearest'});
+    }, 80);
+  };
+
+  form.querySelectorAll('input, select, textarea, button').forEach(el => {
+    el.addEventListener('focus', () => reveal(el), {passive:true});
+  });
+
+  const observer = new MutationObserver(() => {
+    if (gate.classList.contains('open')) {
+      window.setTimeout(() => {
+        const first = form.querySelector('input:not([type="hidden"]):not([disabled])');
+        if (first && !form.contains(document.activeElement)) reveal(first);
+      }, 120);
+    }
+  });
+  observer.observe(gate, {attributes:true, attributeFilter:['class']});
 })();
 </script>
 </body>
