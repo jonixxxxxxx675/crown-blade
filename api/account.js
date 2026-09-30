@@ -16,6 +16,28 @@ function tokenFor(email) {
   return `${payload}.${signature}`;
 }
 
+async function storeClient({ id, name, email, phone, createdAt }) {
+  const url = (process.env.SUPABASE_URL || '').replace(/\/$/, '');
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  const table = process.env.SUPABASE_CLIENTS_TABLE || 'clients';
+  if (!url || !key) return false;
+  try {
+    const response = await fetch(`${url}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json',
+        Prefer: 'resolution=merge-duplicates,return=minimal'
+      },
+      body: JSON.stringify({ id, name, email, phone, created_at: createdAt })
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 function verifyToken(token) {
   const secret = process.env.AUTH_VERIFICATION_SECRET;
   if (!secret || !token || !token.includes('.')) return null;
@@ -75,7 +97,12 @@ export default async function handler(req, res) {
         : 'Name, email and phone are required'
     });
   }
-  const result = await sendVerificationEmail({ name: name.trim(), email: email.trim().toLowerCase(), req });
+  const normalizedName = name.trim();
+  const normalizedEmail = email.trim().toLowerCase();
+  const createdAt = new Date().toISOString();
+  const clientId = `CBU-${Buffer.from(normalizedEmail).toString('base64url').slice(0, 18)}`;
+  await storeClient({ id: clientId, name: normalizedName, email: normalizedEmail, phone: phone.trim(), createdAt });
+  const result = await sendVerificationEmail({ name: normalizedName, email: normalizedEmail, req });
   if (!result.ok) return res.status(503).json(result);
-  return res.status(200).json({ ok: true, verificationSent: true, id: result.id });
+  return res.status(200).json({ ok: true, verificationSent: true, id: result.id, clientStored: true });
 }
