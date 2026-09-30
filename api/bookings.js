@@ -27,6 +27,17 @@ async function sendBookingEmail(b) {
   } catch {}
 }
 
+async function sendCancellationEmail(b) {
+  if (!b.customerEmail || !process.env.RESEND_API_KEY) return;
+  const from = process.env.CONTACT_FROM || process.env.RESEND_FROM || 'Crown & Blade <onboarding@resend.dev>';
+  const language = b.language || 'ua';
+  const subject = language === 'en' ? 'Crown & Blade — booking cancelled' : 'Crown & Blade — бронювання скасовано';
+  const text = language === 'en'
+    ? `Your appointment has been cancelled.\n\nService: ${b.service || b.serviceKey}\nBarber: ${b.barber}\nDate: ${b.date}\nTime: ${b.time}`
+    : `Ваш запис скасовано.\n\nПослуга: ${b.service || b.serviceKey}\nБарбер: ${b.barber}\nДата: ${b.date}\nЧас: ${b.time}`;
+  try { await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from,to:[b.customerEmail],subject,text})}); } catch {}
+}
+
 export default async function handler(req, res) {
   const { url, key, table } = config();
   if (!url || !key) return res.status(503).json({ ok: false, error: 'Booking database is not configured' });
@@ -73,15 +84,25 @@ export default async function handler(req, res) {
       date: b.date,
       time: b.time,
       language: b.language || 'ua',
-      created_at: b.createdAt || new Date().toISOString()
+      created_at: b.createdAt || new Date().toISOString(),
+      customer_email: b.customerEmail || null,
+      account_id: b.accountId || null,
+      payment_status: b.paymentStatus || 'confirmed'
     };
-    const r = await fetch(`${url}/rest/v1/${table}`, {
+    let r = await fetch(`${url}/rest/v1/${table}`, {
       method: 'POST',
       headers: { ...headers(key), Prefer: 'return=representation' },
       body: JSON.stringify(payload)
     });
-    const data = await r.json().catch(() => ({}));
-    if (!r.ok) return res.status(409).json({ ok: false, error: 'That time may already be booked' });
+    let data = await r.json().catch(() => ({}));
+    // Older bookings tables may not have the optional account/email/payment columns yet.
+    // Retry with the original core schema instead of breaking existing deployments.
+    if (!r.ok && (data?.code === 'PGRST204' || data?.code === '42703' || /column .* does not exist/i.test(String(data?.message||'')))) {
+      const corePayload = {id:b.id,service_key:b.serviceKey,service:b.service,price:b.price,barber:b.barber,date:b.date,time:b.time,language:b.language||'ua',created_at:b.createdAt||new Date().toISOString()};
+      r = await fetch(`${url}/rest/v1/${table}`, {method:'POST',headers:{...headers(key),Prefer:'return=representation'},body:JSON.stringify(corePayload)});
+      data = await r.json().catch(()=>({}));
+    }
+    if (!r.ok) return res.status(r.status===409||r.status===422?409:502).json({ ok: false, error: 'That time may already be booked', detail: data?.message || '' });
     await sendBookingEmail(b);
     return res.status(201).json({ ok: true, booking: Array.isArray(data) ? data[0] : data, emailSent: Boolean(b.customerEmail && process.env.RESEND_API_KEY) });
   }
