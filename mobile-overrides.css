@@ -1211,3 +1211,26 @@
   }
   .mobile-account-gate- .mobile-form{overflow:visible !important;}
 }
+
+/* MOBILE FINAL LOCK — the desktop language control must never render as a white/default browser square. */
+@media (max-width:800px){
+  button.desktop-lang-switch,
+  .desktop-lang-switch{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    width:0 !important;
+    height:0 !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:0 !important;
+    max-height:0 !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    pointer-events:none !important;
+    overflow:hidden !important;
+  }
+}
