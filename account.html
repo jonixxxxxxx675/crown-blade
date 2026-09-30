@@ -9,7 +9,7 @@
 </head>
 <body>
 <main class="mobile-page mobile-account">
-<a class="mobile-page-back" href="./index.html">← <span data-i18n="back">Назад</span></a>
+<a class="mobile-page-back compact-back" href="./index.html">← <span data-i18n="back">Назад</span></a>
 <section id="account-register">
 <span class="eyebrow" data-i18n="accountEyebrow">АКАУНТ</span>
 <h1><span data-i18n="accountTitle">Створити акаунт</span></h1>
@@ -17,17 +17,14 @@
 <form class="mobile-form" id="register-form">
 <input type="text" name="name" placeholder="Ім’я" data-i18n-placeholder="namePlaceholder" autocomplete="name" required>
 <input type="email" name="email" placeholder="Email" data-i18n-placeholder="accountEmailPlaceholder" autocomplete="email" required>
-<input type="password" name="password" placeholder="Пароль" data-i18n-placeholder="passwordPlaceholder" autocomplete="new-password" minlength="6" required>
+<input type="tel" name="phone" placeholder="Номер телефону" data-i18n-placeholder="phonePlaceholder" autocomplete="tel" inputmode="tel" pattern="[+0-9 ()-]{9,20}" required>
+<div class="password-field">
+  <button class="password-toggle" id="password-toggle" type="button" aria-label="Показати пароль" aria-pressed="false">◉</button>
+  <input id="account-password" type="password" name="password" placeholder="Пароль" data-i18n-placeholder="passwordPlaceholder" autocomplete="new-password" minlength="6" required>
+</div>
 <button type="submit"><span data-i18n="register">ЗАРЕЄСТРУВАТИСЯ →</span></button>
 <div class="account-status" id="register-status" aria-live="polite"></div>
 </form>
-<div id="account-verification" class="account-card" hidden>
-  <h2 data-i18n="verifyTitle">Підтвердження акаунта</h2>
-  <p class="account-muted" data-i18n="verifyText">Введіть код, який ми надіслали на ваш email або телефон.</p>
-  <input id="verification-code" class="mobile-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Код підтвердження">
-  <button class="page-action verify-action" id="verify-account" type="button" data-i18n="verifyButton">ПІДТВЕРДИТИ</button>
-  <div class="account-status" id="verify-status" aria-live="polite"></div>
-</div>
 </section>
 
 <section id="account-dashboard" hidden>
@@ -35,13 +32,15 @@
 <h1 data-i18n="accountWelcome">Мій акаунт</h1>
 <div class="account-card">
   <h2 id="account-name">—</h2>
-  <div class="account-muted" id="account-email">—</div><div class="account-muted" id="account-phone">—</div>
+  <div class="account-muted" id="account-email">—</div>
+  <div class="account-muted" id="account-phone">—</div>
+  <div class="account-verification" id="account-verification" aria-live="polite"></div>
 </div>
 <div class="account-card">
   <h2 data-i18n="accountBookings">Мої бронювання</h2>
   <div id="account-bookings"></div>
 </div>
-<button class="page-action" id="logout" type="button" data-i18n="accountLogout">ВИЙТИ</button>
+<button class="page-action compact-logout" id="logout" type="button" data-i18n="accountLogout">ВИЙТИ</button>
 <div class="account-status" id="account-status" aria-live="polite"></div>
 </section>
 </main>
@@ -56,12 +55,19 @@
   const status=document.querySelector('#register-status');
   const dashStatus=document.querySelector('#account-status');
   const verification=document.querySelector('#account-verification');
-  const verifyCode=document.querySelector('#verification-code');
-  const verifyStatus=document.querySelector('#verify-status');
+  const passwordInput=document.querySelector('#account-password');
+  const passwordToggle=document.querySelector('#password-toggle');
   const getAccount=()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')}catch{return null}};
   const getBookings=()=>{try{return JSON.parse(localStorage.getItem(BOOKINGS_KEY)||'[]')}catch{return []}};
   const saveBookings=v=>localStorage.setItem(BOOKINGS_KEY,JSON.stringify(v));
-  let pendingAccount=null;
+
+  passwordToggle?.addEventListener('click',()=>{
+    const visible=passwordInput.type==='text';
+    passwordInput.type=visible?'password':'text';
+    passwordToggle.setAttribute('aria-pressed',visible?'false':'true');
+    passwordToggle.setAttribute('aria-label',visible?'Показати пароль':'Сховати пароль');
+    passwordToggle.textContent=visible?'◉':'◉';
+  });
 
   function formatBooking(b){
     const serviceName=b.service||b.serviceKey||'';
@@ -72,19 +78,15 @@
       +'<div class="account-booking-actions"><button class="primary" data-edit="'+b.id+'" type="button">'+t('accountEdit')+'</button><button data-cancel="'+b.id+'" type="button">'+t('accountCancel')+'</button></div>'
       +'</div>';
   }
-
   function renderDashboard(){
     const a=getAccount();
-    if(!a || !a.verified){
-      accountRegister.hidden=false;
-      accountDashboard.hidden=true;
-      return;
-    }
-    accountRegister.hidden=true;
-    accountDashboard.hidden=false;
-    document.querySelector('#account-name').textContent=a.name;
-    document.querySelector('#account-email').textContent=a.email;
+    if(!a){accountRegister.hidden=false;accountDashboard.hidden=true;return}
+    accountRegister.hidden=true;accountDashboard.hidden=false;
+    document.querySelector('#account-name').textContent=a.name||'—';
+    document.querySelector('#account-email').textContent=a.email||'—';
     document.querySelector('#account-phone').textContent=a.phone||'—';
+    verification.textContent=a.emailVerified?t('accountEmailVerified'):t('accountEmailPending');
+    verification.className='account-verification '+(a.emailVerified?'verified':'pending');
     const all=getBookings();
     const bookings=all.filter(b=>!b.accountId || b.accountId===a.id);
     const box=document.querySelector('#account-bookings');
@@ -104,64 +106,47 @@
     });
   }
 
-  async function requestVerification(account){
-    pendingAccount=account;
-    verification.hidden=false;
-    try{
-      const r=await fetch('./api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'send',email:account.email,phone:account.phone,name:account.name})});
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok) throw new Error(data.error||'verification_failed');
-      status.textContent=currentLang==='en'?'Verification code sent.':'Код підтвердження надіслано.';
-    }catch(e){
-      status.textContent=currentLang==='en'?'Verification service is not configured yet.':'Сервіс верифікації ще не налаштований.';
-    }
-  }
-
-  form.addEventListener('submit',e=>{
+  form.addEventListener('submit',async e=>{
     e.preventDefault();
     const fd=new FormData(form);
-    const phone=String(fd.get('phone')||'').trim();
-    if(!/^\+?[0-9\s().-]{8,20}$/.test(phone)){
-      status.textContent=currentLang==='en'?'Enter a valid phone number.':'Введіть коректний номер телефону.';
-      return;
-    }
-    pendingAccount={
+    const email=String(fd.get('email')).trim().toLowerCase();
+    const newAccount={
       id:'CBU-'+Date.now().toString(36).toUpperCase(),
       name:String(fd.get('name')).trim(),
-      email:String(fd.get('email')).trim().toLowerCase(),
-      phone,
-      createdAt:new Date().toISOString(),
-      verified:false
+      email,
+      phone:String(fd.get('phone')).trim(),
+      emailVerified:false,
+      createdAt:new Date().toISOString()
     };
-    localStorage.setItem('crown_blade_pending_account',JSON.stringify(pendingAccount));
-    requestVerification(pendingAccount);
+    localStorage.setItem(ACCOUNT_KEY,JSON.stringify(newAccount));
+    status.textContent=t('accountCreating');
+    try{
+      const response=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name:newAccount.name,email:newAccount.email,phone:newAccount.phone})});
+      if(response.ok){
+        status.textContent=t('accountVerificationSent');
+      }else{
+        const data=await response.json().catch(()=>({}));
+        status.textContent=data.error||t('accountLocalSaved');
+      }
+    }catch(e){
+      status.textContent=t('accountLocalSaved');
+    }
+    renderDashboard();
   });
 
-  document.querySelector('#verify-account').onclick=async()=>{
-    const code=String(verifyCode.value||'').trim();
-    if(!pendingAccount||!/^\d{6}$/.test(code)){
-      verifyStatus.textContent=currentLang==='en'?'Enter the 6-digit code.':'Введіть 6-значний код.';
-      return;
+  document.querySelector('#logout').onclick=()=>{localStorage.removeItem(ACCOUNT_KEY);renderDashboard()};
+  function handleVerification(){
+    const params=new URLSearchParams(location.search);
+    if(params.get('verified')!=='1')return;
+    const verifiedEmail=(params.get('email')||'').toLowerCase();
+    const a=getAccount();
+    if(a && (!verifiedEmail || a.email===verifiedEmail)){
+      a.emailVerified=true;
+      localStorage.setItem(ACCOUNT_KEY,JSON.stringify(a));
+      history.replaceState({},'',location.pathname);
     }
-    try{
-      const r=await fetch('./api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'verify',email:pendingAccount.email,phone:pendingAccount.phone,code})});
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok) throw new Error(data.error||'invalid_code');
-      pendingAccount.verified=true;
-      localStorage.setItem(ACCOUNT_KEY,JSON.stringify(pendingAccount));
-      localStorage.removeItem('crown_blade_pending_account');
-      verification.hidden=true;
-      status.textContent=t('accountRegistered');
-      renderDashboard();
-    }catch(e){
-      verifyStatus.textContent=currentLang==='en'?'Invalid or expired code.':'Неправильний або прострочений код.';
-    }
-  };
-
-  document.querySelector('#logout').onclick=()=>{
-    localStorage.removeItem(ACCOUNT_KEY);
-    renderDashboard();
-  };
+  }
+  handleVerification();
   window.addEventListener('languagechange',renderDashboard);
   renderDashboard();
 })();

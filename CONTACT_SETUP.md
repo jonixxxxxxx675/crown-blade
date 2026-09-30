@@ -1,36 +1,30 @@
-# Crown & Blade — real email + shared booking availability
+# Crown & Blade — mobile account + email setup
 
-The mobile site works locally with `localStorage`, but real multi-user availability and real email delivery require a backend. The project now includes Vercel serverless endpoints:
-
-- `POST /api/contact` — sends Contact/Support messages through Resend.
-- `GET /api/bookings?month=YYYY-MM&barber=Alex` — reads booked slots.
-- `POST /api/bookings` — creates a booking.
+The mobile site keeps account details locally so the account survives reloads on the same device. Real email verification and booking confirmation use the existing Vercel serverless API + Resend integration.
 
 ## Vercel environment variables
 
-Set these in the Vercel project:
+Required for real email delivery:
 
 - `RESEND_API_KEY` — Resend API key.
-- `CONTACT_EMAIL` — the email address that receives Contact/Support messages.
-- `CONTACT_FROM` — optional verified sender, e.g. `Crown & Blade <noreply@yourdomain.com>`.
-- `SUPABASE_URL` — Supabase project URL.
-- `SUPABASE_SERVICE_ROLE_KEY` — Supabase service-role key (server only; never put this in frontend JS).
+- `CONTACT_FROM` — verified sender, e.g. `Crown & Blade <noreply@yourdomain.com>`.
+- `SITE_URL` — public site URL, e.g. `https://your-domain.com`.
+- `AUTH_VERIFICATION_SECRET` — long random secret used to sign email verification links.
+
+Existing booking database variables remain:
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
 - `SUPABASE_BOOKINGS_TABLE` — optional, defaults to `bookings`.
 
-## Supabase table
+## Email flows
 
-Create a table named `bookings` with these columns:
+- `POST /api/account` sends a signed 24-hour email verification link.
+- `GET /api/account?token=...` validates the link and returns the user to the account page as verified.
+- `POST /api/bookings` sends a booking confirmation email to `customerEmail` after a successful database booking.
 
-- `id` text primary key
-- `service_key` text
-- `service` text
-- `price` text
-- `barber` text
-- `date` date
-- `time` text
-- `language` text
-- `created_at` timestamptz
+If the mail service is not configured, the mobile account still saves locally and the booking flow continues to work in local mode.
 
-For production, enable a unique constraint on `(barber, date, time)` so two users cannot reserve the same slot.
+## Supabase bookings table
 
-Without these environment variables, the frontend automatically keeps working in local mode, but bookings are only visible in the same browser and email cannot be delivered automatically.
+The existing `bookings` table remains compatible with the current frontend. For production, keep a unique constraint on `(barber, date, time)` so two users cannot reserve the same slot.

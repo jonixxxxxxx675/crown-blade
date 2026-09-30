@@ -318,18 +318,12 @@ let selectedDay=Math.min(today.getDate()+1,new Date(today.getFullYear(),today.ge
 try{const pending=JSON.parse(localStorage.getItem(EDIT_BOOKING_KEY)||'null');if(pending){service=(services.find(x=>x.key===pending.serviceKey)||services[0]).name;barber=pending.barber||barber;const pd=new Date(pending.date+'T00:00:00');if(!Number.isNaN(pd.getTime())){selectedMonth=new Date(pd.getFullYear(),pd.getMonth(),1);selectedDay=pd.getDate();}time=pending.time||time;}}catch(e){}
 const monthPicker=document.querySelector('#month-picker');
 const monthLabel=document.querySelector('#month-label');
-const monthCurrent=document.querySelector('#month-current');
 const monthPopover=document.querySelector('#month-popover');
 const datesEl=document.querySelector('#dates');
 const monthKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
 const sameMonth=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth();
 const formatMonth=d=>{const key='month_'+d.getMonth();return t(key)+' '+d.getFullYear()};
 function clampDay(){const max=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,0).getDate();if(selectedDay>max)selectedDay=max;date=String(selectedDay)}
-function closeMonthPicker(){
-  monthPopover.classList.remove('open');
-  monthPopover.setAttribute('aria-hidden','true');
-  monthCurrent?.setAttribute('aria-expanded','false');
-}
 function renderMonths(){
   monthLabel.textContent=formatMonth(selectedMonth);
   monthPopover.innerHTML='';
@@ -411,13 +405,6 @@ function renderTimes(){
     timesEl.appendChild(b);
   });
 }
-monthCurrent?.addEventListener('click',e=>{
-  e.preventDefault(); e.stopPropagation();
-  const open=monthPopover.classList.toggle('open');
-  monthPopover.setAttribute('aria-hidden',open?'false':'true');
-  monthCurrent.setAttribute('aria-expanded',open?'true':'false');
-  if(open) renderMonths();
-});
 document.querySelector('#month-prev').onclick=()=>{if(selectedMonth<=monthStart)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()-1,1);clampDay();renderMonths();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings()};
 document.querySelector('#month-next').onclick=()=>{if(selectedMonth>=monthEnd)return;selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,1);clampDay();renderMonths();renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings()};
 document.addEventListener('click',e=>{if(!monthPicker.contains(e.target))closeMonthPicker()});
@@ -456,8 +443,7 @@ function createMobileBooking(){
     language:currentLang,
     createdAt:new Date().toISOString(),
     accountId:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.id||null}catch{return null}})(),
-    customerEmail:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.email||null}catch{return null}})(),
-    customerPhone:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.phone||null}catch{return null}})()
+    customerEmail:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.email||null}catch{return null}})()
   };
 }
 function storeLocalBooking(booking,editingId=''){
@@ -470,12 +456,6 @@ document.querySelector('#confirm').onclick=async()=>{
     renderDates();syncAvailableTime();renderTimes();render();return;
   }
   let editing=null;try{editing=JSON.parse(localStorage.getItem(EDIT_BOOKING_KEY)||'null')}catch(e){}
-  const savedAccount=(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')}catch{return null}})();
-  if(isMobile() && (!savedAccount || !savedAccount.verified)){
-    bookingSuccessText.textContent=currentLang==='en'?'Please create and verify your account before booking.':'Перед бронюванням створіть та підтвердьте акаунт.';
-    bookingSuccess.classList.add('open');bookingSuccess.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');
-    return;
-  }
   const booking=createMobileBooking();
   if(editing) booking.id=editing.id;
   let serverSaved=false;
@@ -493,11 +473,6 @@ document.querySelector('#confirm').onclick=async()=>{
   if(serverSaved){
     remoteBookings=remoteBookings.filter(b=>!(b.id&&b.id===booking.id));
     remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber});
-  }
-  if(serverSaved && booking.customerEmail){
-    try{
-      await fetch('./api/notify-booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
-    }catch(e){}
   }
   localStorage.removeItem(EDIT_BOOKING_KEY);
   renderDates();renderTimes();render();
