@@ -47,6 +47,18 @@ async function findId(url, key, table, name) {
   return Array.isArray(data) && data[0] ? data[0].id : null;
 }
 
+
+async function findIdByKey(url, key, table, value) {
+  const params = new URLSearchParams({
+    select: 'id,key',
+    key: `eq.${value}`,
+    limit: '1'
+  });
+  const { response, data } = await rest(url, key, `${table}?${params.toString()}`);
+  if (!response.ok) return null;
+  return Array.isArray(data) && data[0] ? data[0].id : null;
+}
+
 async function getBarbersMap(url, key) {
   const { response, data } = await rest(url, key, 'barbers?select=id,name');
   if (!response.ok) throw new Error(data?.message || 'Failed to read barbers');
@@ -176,7 +188,15 @@ export default async function handler(req, res) {
     try {
       const barberId = b.barberId || await findId(url, key, 'barbers', b.barber);
       const serviceName = SERVICE_NAMES[b.serviceKey] || b.service;
-      const serviceId = b.serviceId || await findId(url, key, 'services', serviceName);
+      let serviceId = b.serviceId || null;
+      if (!serviceId && b.serviceKey) {
+        try {
+          serviceId = await findIdByKey(url, key, 'services', b.serviceKey);
+        } catch {}
+      }
+      if (!serviceId && serviceName) {
+        serviceId = await findId(url, key, 'services', serviceName);
+      }
 
       if (!barberId) {
         return res.status(400).json({ ok: false, error: `Barber not found: ${b.barber}` });
