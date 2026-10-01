@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crown & Blade — Service</title>
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./mobile-overrides.css">
+</head>
+<body class="service-detail-page">
+<main class="service-detail" id="service-detail"></main>
+<script src="./mobile-i18n.js"></script>
+<script>
+const services=[
+ {key:'classic',name:'Classic Haircut',priceUA:'80 грн',priceEN:'80 UAH',image:'service-1.jpg',textUA:'Класична чоловіча стрижка з підбором форми під риси обличчя. Майстер опрацьовує боки, потилицю та верх, виконує фінальну укладку і надає акуратний завершений вигляд.',textEN:'A classic men’s haircut shaped to suit your facial features. The barber works the sides, back and top, then finishes with a clean, polished style.'},
+ {key:'hairBeard',name:'Hair + Beard',priceUA:'130 грн',priceEN:'130 UAH',image:'service-2.jpg',textUA:'Комплексна процедура для волосся та бороди. Стрижка поєднується з оформленням контурів і довжини бороди, щоб уся форма виглядала цілісно та охайно.',textEN:'A complete hair and beard service combining the haircut with beard shaping, clean contours and balanced length for a polished result.'},
+ {key:'beardTrim',name:'Beard Trim',priceUA:'60 грн',priceEN:'60 UAH',image:'service-3.jpg',textUA:'Оформлення бороди з корекцією довжини, контурів і переходів. Майстер підкреслює природну форму та залишає чистий, доглянутий результат.',textEN:'Beard grooming with length, contour and transition refinement. The natural shape is sharpened for a clean, well-kept finish.'},
+ {key:'royalShave',name:'Royal Shave',priceUA:'70 грн',priceEN:'70 UAH',image:'service-4.jpg',textUA:'Класичне королівське гоління з підготовкою шкіри, теплою піною та ретельним проходом бритвою. Завершення процедури — чисті контури та комфортне відчуття шкіри.',textEN:'A classic royal shave with skin preparation, warm lather and a precise razor pass. The finish delivers clean contours and comfortable skin.'},
+ {key:'kidsHaircut',name:'Kids Haircut',priceUA:'60 грн',priceEN:'60 UAH',image:'service-5.jpg',textUA:'Акуратна стрижка для дітей із підбором зручної форми та довжини. Процедура виконується уважно, щоб результат був охайним і комфортним.',textEN:'A neat children’s haircut with a comfortable shape and length, performed carefully for a clean and comfortable result.'}
+];
+const i=Math.max(0,Math.min(services.length-1,Number(new URLSearchParams(location.search).get('service'))||0));
+const s=services[i];
+function renderService(){const name=t('service_'+s.key);document.title='Crown & Blade — '+name;document.querySelector('#service-detail').innerHTML=`<a class="service-detail-back" href="./index.html#services">← ${currentLang==='en'?'Back to services':'Повернутися до послуг'}</a><div class="service-detail-photo-wrap"><img class="service-detail-photo" src="./assets/${s.image}" alt="${name}"></div><span class="eyebrow">${currentLang==='en'?'SERVICE':'ПОСЛУГА'}</span><h1>${name}</h1><div class="service-detail-price">${currentLang==='en'?s.priceEN:s.priceUA}</div><p>${currentLang==='en'?s.textEN:s.textUA}</p><a class="service-detail-book" href="./index.html#booking">${currentLang==='en'?'BOOK APPOINTMENT':'ЗАПИСАТИСЯ'} →</a>`;} renderService(); window.addEventListener('languagechange',renderService);
+</script>
+</body>
+</html>

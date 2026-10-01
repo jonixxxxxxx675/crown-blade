@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crown & Blade — Contact</title>
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./mobile-overrides.css">
+</head>
+<body>
+<main class="mobile-page">
+<a class="mobile-page-back" href="./index.html">← <span data-i18n="back">Назад</span></a>
+<span class="eyebrow" data-i18n="contactEyebrow">CONTACT</span>
+<h1><span data-i18n="contactTitle">Зв’яжіться з нами</span></h1>
+<p><span data-i18n="contactText">Залиште email та повідомлення. Ми зв’яжемося з вами найближчим часом.</span></p>
+<form class="mobile-form" id="contact-form">
+<input type="email" name="email" placeholder="Ваш email" data-i18n-placeholder="emailPlaceholder" required>
+<textarea name="message" placeholder="Ваше повідомлення" data-i18n-placeholder="messagePlaceholder" required></textarea>
+<button type="submit"><span data-i18n="send">ВІДПРАВИТИ →</span></button>
+<p class="form-status" id="form-status" aria-live="polite"></p>
+</form>
+</main>
+<script src="./mobile-i18n.js"></script>
+<script>
+const form=document.querySelector('#contact-form'),status=document.querySelector('#form-status');
+form.addEventListener('submit',async e=>{e.preventDefault();status.textContent=currentLang==='en'?'Sending…':'Надсилання…';
+  const data=Object.fromEntries(new FormData(form));
+  try{const r=await fetch('./api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,language:currentLang,type:'contact'})});const j=await r.json();if(!r.ok)throw new Error(j.error||'send');
+    status.textContent=currentLang==='en'?'Message sent successfully.':'Повідомлення успішно надіслано.';form.reset();
+  }catch(err){status.textContent=currentLang==='en'?'Email service is not configured yet.':'Сервіс надсилання email ще не налаштований.';}
+});
+</script>
+</body>
+</html>

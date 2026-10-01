@@ -1,0 +1,1232 @@
+
+.hero-logo-right{display:none}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+:root{--bg:#080807;--gold:#d8a96d;--text:#f5eee5}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif}button,a{font:inherit;color:inherit}button{cursor:pointer}a{text-decoration:none}
+.hero{min-height:690px;position:relative;background-image:linear-gradient(90deg,rgba(7,6,5,.52),rgba(7,6,5,.20) 48%,rgba(7,6,5,.08)),url("./assets/hero-desktop-new.png");background-size:cover;background-position:center;background-repeat:no-repeat;overflow:hidden}
+nav{height:92px;padding:0 6.5%;display:flex;align-items:center;gap:38px;position:relative;z-index:2;border-bottom:1px solid #ffffff15}.logo{display:flex;align-items:center;gap:10px;margin-right:auto;font:500 20px "Cormorant Garamond";letter-spacing:.03em}.logo>span{font-size:31px;color:var(--gold)}.logo small{display:block;font:500 7px Inter;letter-spacing:.38em;color:#c9beb3;margin-top:3px}.links{display:flex;gap:27px;font-size:10px;letter-spacing:.1em}.links a:first-child{color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:12px}.nav-book,.hero-btn{border:1px solid var(--gold);padding:14px 25px;font-size:10px;letter-spacing:.13em;background:#d8a96d0b}.hamb{border:0;background:none;font-size:23px}.hero-copy{position:relative;z-index:1;padding:86px 7%;max-width:820px}.eyebrow{font-size:10px;letter-spacing:.25em;color:var(--gold)}h1{font:500 clamp(64px,7vw,104px)/.8 "Cormorant Garamond";letter-spacing:-.04em;margin:14px 0}.sub{font-size:17px;letter-spacing:.45em;margin:16px 0 31px}.hero h2{font:500 33px/1.05 "Cormorant Garamond";margin:0 0 14px}.hero p{font-size:13px;line-height:1.7;color:#ddd4cb}.hero-btn{display:inline-block;margin-top:14px;background:#e3b879;color:#16110c;border:0;padding:15px 27px}
+.booking{display:grid;grid-template-columns:1.15fr 1fr 1.1fr 1fr;gap:24px;padding:28px 5%;background:#0b0a09;border-top:1px solid #ffffff0e;border-bottom:1px solid #ffffff0e}.booking .step{min-width:0}.booking .step-title{display:flex;align-items:center;gap:10px;margin-bottom:12px}.booking .step-title>span{width:28px;height:28px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:"Cormorant Garamond"}.booking .step-title b{font:500 19px "Cormorant Garamond"}.booking .step-title button{margin-left:auto;border:0;background:none;color:var(--gold);font-size:10px}.booking .service-row,.booking .barber-row{overflow-x:auto}.booking .service-choice{flex:0 0 150px;padding:0 7px 10px;border:1px solid #ffffff13;background:#11110f;border-radius:7px;text-align:left}.booking .service-choice.active{border:2px solid #e2b477;padding:0 6px 9px}.booking .choice-img{height:67px;background:linear-gradient(135deg,#5a402c,#17120e);border-radius:5px 5px 0 0;margin-bottom:7px}.booking .choice-icon{display:block;color:var(--gold);font-size:16px}.booking .service-choice strong{display:block;font-size:10px;font-weight:500}.booking .service-choice small{display:block;color:var(--gold);font-size:10px;margin-top:5px}.booking .barber{flex:0 0 66px;border:0;background:none;text-align:center;padding:0}.booking .avatar{width:59px;height:59px;margin:auto;border:1px solid #a47b4d;border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:28px;background:radial-gradient(circle,#57402c,#0e0d0c 68%)}.booking .barber.active .avatar{border:2px solid #e3b477}.booking .barber small{display:block;margin-top:7px;font-size:10px}.booking .month{display:flex;justify-content:space-between;align-items:center;color:var(--gold);font-size:20px;margin:3px 0 10px}.booking .month span{font:14px "Cormorant Garamond";color:#d7cec5}.booking .dates{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.booking .dates button,.booking .times button{border:1px solid #ffffff16;background:#10100f;color:#d8d1ca;border-radius:6px}.booking .dates button{padding:7px 2px}.booking .dates small{display:block;font-size:9px}.booking .dates b{font-size:13px;display:block;margin-top:5px}.booking .dates .active,.booking .times .active{border:2px solid #e3b477;color:#e3b477}.booking .times{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.booking .times button{height:39px;font-size:10px}.booking .confirm{display:block;grid-column:1/-1;width:100%;height:48px;border:0;background:#e2b477;color:#17110b;font-size:11px;letter-spacing:.08em;margin-top:0}.services{background:#0d0c0b;padding:18px 4.2% 16px;display:grid;grid-template-columns:220px 1fr;gap:28px;border-top:1px solid #ffffff0e}.services-intro{padding:7px 0}.services h2{font:500 37px "Cormorant Garamond";margin:8px 0 20px}.services p{font-size:12px;line-height:1.55;color:#aaa19a}.services-intro button{background:none;border:1px solid #c89d65;padding:12px 18px;color:#d5a56c;font-size:9px;letter-spacing:.12em}.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.{background:#11100f;border:1px solid #ffffff18;min-width:0;cursor:pointer;transition:border-color .2s,box-shadow .2s}..active{border:2px solid #e3b477;box-shadow:0 0 0 1px #e3b47733}.-photo{height:180px;background:linear-gradient(135deg,#5b4029,#1a1511 55%,#0c0b0a)}.p1{background:linear-gradient(135deg,#39281c,#0c0b0a)}.p2{background:linear-gradient(135deg,#6b4b32,#17110d)}.p3{background:linear-gradient(135deg,#4b3424,#0e0c0b)}.p4{background:linear-gradient(135deg,#755339,#17110d)}.p5{background:linear-gradient(135deg,#58412f,#0d0b09)}.>div:last-child{height:65px;padding:12px 11px;position:relative}. span{font-size:9px;letter-spacing:.07em}. b{display:block;color:var(--gold);font-size:11px;margin-top:8px}. i{position:absolute;right:9px;bottom:10px;border:1px solid #c9995e;border-radius:50%;width:24px;height:24px;text-align:center;line-height:22px;font-style:normal;color:var(--gold)}footer{display:flex;align-items:center;gap:30px;padding:25px 6%;border-top:1px solid #ffffff12;color:#8e877f;font-size:9px;letter-spacing:.12em}footer .logo{color:#fff}.confirm{display:none}
+@media(max-width:800px){
+ .hero{min-height:315px;background-image:linear-gradient(90deg,rgba(5,5,4,.52),rgba(5,5,4,.20)),url("./assets/hero-mobile-new.png");background-size:cover;background-position:center;background-repeat:no-repeat}
+ nav{height:76px;padding:0 20px}.links,.nav-book{display:none}.hamb{display:block}.logo{font-size:17px}.logo>span{font-size:27px}
+ .hero-copy{padding:0 22px 30px;max-width:62%;text-align:left;transform:translateY(-65px)}.hero-copy .eyebrow{display:none}h1{font-size:44px;margin:0}.sub{font-size:10px;letter-spacing:.38em;margin:10px 0 24px}.hero h2{font-size:27px;margin-bottom:9px}.hero p{font-size:11px;line-height:1.55}.hero-btn{display:none}
+ .booking{display:block;margin:-1px 14px 0;padding:22px 20px 18px;background:linear-gradient(180deg,#10100f,#0b0b0a);border:1px solid #ffffff20;border-radius:20px;position:relative;z-index:3;box-shadow:0 16px 35px #0008}
+ .step{margin-bottom:21px}.step-title{display:flex;align-items:center;gap:11px;margin-bottom:11px}.step-title>span{width:29px;height:29px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:"Cormorant Garamond";font-size:18px}.step-title b{font:500 20px "Cormorant Garamond"}.step-title button{margin-left:auto;border:0;background:none;color:var(--gold);font-size:10px}
+ .service-row{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding-bottom:10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.service-row::-webkit-scrollbar{display:none}.service-choice{flex:0 0 150px;scroll-snap-align:start;padding:0 7px 10px;border:1px solid #ffffff13;background:#11110f;border-radius:7px;text-align:left;min-width:0}.service-choice.active{border:2px solid #e2b477;padding:0 6px 9px}.choice-img{height:67px;background:linear-gradient(135deg,#5a402c,#17120e);border-radius:5px 5px 0 0;margin-bottom:7px}.choice-icon{display:block;color:var(--gold);font-size:16px}.service-choice strong{display:block;font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:5px}.service-choice small{display:block;color:var(--gold);font-size:10px;margin-top:5px}
+ .barber-row{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:2px 2px 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.barber-row::-webkit-scrollbar{display:none}.barber{flex:0 0 66px;scroll-snap-align:start;border:0;background:none;text-align:center;padding:0}.avatar{width:59px;height:59px;margin:auto;border:1px solid #a47b4d;border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:28px;background:radial-gradient(circle,#57402c,#0e0d0c 68%)}.barber.active .avatar{border:2px solid #e3b477}.barber small{display:block;margin-top:7px;font-size:10px}
+ .month{display:flex;justify-content:space-between;align-items:center;color:var(--gold);font-size:20px;margin:3px 0 10px}.month span{font:14px "Cormorant Garamond";color:#d7cec5}.dates{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.dates button,.times button{border:1px solid #ffffff16;background:#10100f;color:#d8d1ca;border-radius:6px}.dates button{padding:8px 2px}.dates small{display:block;font-size:9px}.dates b{font-size:13px;display:block;margin-top:5px}.dates .active,.times .active{border:2px solid #e3b477;color:#e3b477}
+ .times{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.times button{height:43px;font-size:10px}.confirm{display:block;width:100%;height:51px;border:0;background:#e2b477;color:#17110b;font-size:12px;letter-spacing:.08em;margin-top:5px}.confirm span{float:right;font-size:18px}
+ .booking{grid-template-columns:1fr}.booking .confirm{grid-column:auto}.services{display:block;padding:45px 20px 25px;background:#0a0908}.services-intro{display:flex;align-items:end;gap:10px;flex-wrap:wrap}.services h2{font-size:30px;margin:4px 0 0}.services p,.services-intro button{display:none}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:18px}.-photo{height:145px}.>div:last-child{height:62px}. span{font-size:8px}. b{font-size:10px}footer{display:none}
+}
+@media(max-width:420px){.booking{margin-left:10px;margin-right:10px;padding:20px 15px 16px}.service-row{gap:5px}.choice-img{height:58px}.service-choice{padding-left:5px;padding-right:5px}.service-choice.active{padding-left:4px;padding-right:4px}.service-choice strong{font-size:9px}.avatar{width:53px;height:53px}.step-title b{font-size:18px}}
+
+@media(max-width:800px){
+ .booking .service-row .service-img-0{background-image:url("./assets/service-1.jpg");background-size:125% 125%;background-position:center}
+ .booking .service-row .service-img-1{background-image:url("./assets/service-2.jpg");background-size:125% 125%;background-position:center}
+ .booking .service-row .service-img-2{background-image:url("./assets/service-3.jpg");background-size:125% 125%;background-position:center}
+ .booking .service-row .service-img-3{background-image:url("./assets/service-4.jpg");background-size:125% 125%;background-position:center}
+ .booking .barber-row .barber:nth-child(1) .avatar{background-image:url("./assets/barber-1.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(2) .avatar{background-image:url("./assets/barber-2.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(3) .avatar{background-image:url("./assets/barber-3.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(4) .avatar{background-image:url("./assets/barber-4.jpg");background-size:cover;background-position:center}
+ .booking .barber-row .barber:nth-child(5) .avatar{background-image:url("./assets/barber-5.jpg");background-size:cover;background-position:center}
+ .services .cards .p0{background-image:url("./assets/service-1.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p1{background-image:url("./assets/service-2.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p2{background-image:url("./assets/service-3.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p3{background-image:url("./assets/service-4.jpg");background-size:125% 125%;background-position:center}
+ .services .cards .p4{background-image:url("./assets/service-5.jpg");background-size:125% 125%;background-position:center}
+}
+
+
+/* Mobile-only additions */
+@media(max-width:800px){
+  /* Remove the duplicated hero title/subtitle; the brand is already in the top logo. */
+  .hero-copy h1,
+  .hero-copy .sub{display:none}
+
+  /* Remove the first mobile "See all" control from the booking block. */
+  .booking .step:nth-child(1) .step-title button{display:none}
+
+  /* Keep service photos fully visible instead of cropping their square source images. */
+  .services .{border:1px solid transparent;box-shadow:none}
+  .services ..active{border:2px solid #e3b477;box-shadow:0 0 0 1px #e3b47733}
+  .services .-photo{height:auto;aspect-ratio:1/1;background-size:125% 125%;background-position:center;background-repeat:no-repeat;background-color:#11100f}
+  .booking .choice-img{height:auto;aspect-ratio:1/1;background-size:125% 125%;background-position:center;background-repeat:no-repeat;background-color:#11100f}
+
+  /* Client reviews inserted above Our Services. */
+  .testimonials{display:block;background:#0a0908;padding:18px 0 32px;border-top:1px solid #ffffff0e}
+  .testimonials-title{padding:0 20px 14px}
+  .testimonials-title h2{font:500 30px "Cormorant Garamond";margin:5px 0 0}
+  .testimonial-row{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;padding:0 20px 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .testimonial-row::-webkit-scrollbar{display:none}
+  .testimonial-row img{flex:0 0 88%;width:88%;height:auto;display:block;object-fit:contain;border-radius:18px;scroll-snap-align:start;border:1px solid #ffffff18;background:#11100f}
+}
+
+
+
+/* Individual service page: intended for the mobile flow. */
+.service-detail-page{min-height:100vh;background:#080807;color:var(--text)}
+.service-detail{max-width:760px;margin:0 auto;padding:18px 20px 40px}
+.service-detail-back{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:11px;letter-spacing:.08em;text-decoration:none;margin-bottom:18px}
+.service-detail-photo{width:100%;aspect-ratio:1/1;object-fit:cover;border:1px solid #c89d65;border-radius:14px;display:block}
+.service-detail .eyebrow{display:block;margin-top:22px}
+.service-detail h1{font-size:46px;line-height:.95;margin:8px 0 10px}
+.service-detail-price{color:var(--gold);font-size:14px;margin-bottom:20px}
+.service-detail p{font-size:13px;line-height:1.7;color:#c9c0b8;margin:0 0 18px}
+.service-detail-book{display:block;text-align:center;background:#e2b477;color:#17110b;padding:15px;border:0;font-size:11px;letter-spacing:.08em;text-decoration:none}
+
+
+@media(max-width:800px){
+ .service-detail-photo-wrap{width:100%;aspect-ratio:1/1;overflow:hidden;border:1px solid #c89d65;border-radius:14px;background:#11100f}
+ .service-detail-photo-wrap .service-detail-photo{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.25);border:0;border-radius:0}
+}
+
+
+@media(max-width:800px){
+ body.menu-open{overflow:hidden}
+ .mobile-menu{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.62);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
+ .mobile-menu.open{opacity:1;visibility:visible;pointer-events:auto}
+ .mobile-menu-panel{position:absolute;top:0;right:0;width:min(82vw,340px);height:100%;padding:82px 28px 30px;background:#0b0a09;border-left:1px solid #c89d6540;box-shadow:-18px 0 40px #0009;display:flex;flex-direction:column;gap:6px}
+ .mobile-menu-close{position:absolute;top:20px;right:20px;width:40px;height:40px;border:1px solid var(--gold);background:none;border-radius:50%;color:var(--gold);font-size:28px;line-height:1}
+ .mobile-menu-title{font:500 24px "Cormorant Garamond";margin-bottom:18px}
+ .mobile-menu-panel a,.mobile-menu-panel>button:not(.mobile-menu-close){display:block;width:100%;padding:14px 0;border:0;border-bottom:1px solid #ffffff12;background:none;text-align:left;color:#eee5dc;font-size:13px}
+ .mobile-menu-panel>button:not(.mobile-menu-close){cursor:pointer}
+ .mobile-menu-divider{height:12px}
+}
+
+
+
+/* Clean mobile tap interaction — no blue flash/selection */
+button,
+a,
+img,
+[role="button"],
+[onclick],
+label,
+select,
+summary {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+button:focus,
+a:focus,
+[role="button"]:focus {
+  -webkit-tap-highlight-color: transparent;
+}
+/* DESKTOP PRESENTATION MODE — booking flow removed; mobile remains untouched. */
+
+
+/* =========================================================
+   DESKTOP PRESENTATION — isolated to min-width: 801px.
+   Mobile layout remains controlled exclusively by max-width rules.
+   ========================================================= */
+
+
+@media (max-width:800px){
+  .desktop-highlights,
+  .desktop-gallery{display:none !important}
+}
+
+
+/* =========================================================
+   DESKTOP HERO FINAL — isolated to min-width: 801px.
+   Mobile hero/background/layout are intentionally untouched.
+   ========================================================= */
+
+
+
+
+
+/* =========================================================
+   DESKTOP BARBERS — isolated to min-width: 801px.
+   Mobile layout/styles are intentionally untouched.
+   ========================================================= */
+
+
+@media (max-width:800px){
+  .desktop-barber-modal{display:none !important}
+}
+
+/* =========================================================
+   DESKTOP FINAL POLISH — isolated to min-width: 801px.
+   Mobile layout and mobile overrides are intentionally untouched.
+   ========================================================= */
+
+
+@media (max-width:800px){
+  .desktop-comments{display:none !important}
+}
+
+
+/* =========================================================
+   DESKTOP FINAL PATCH — isolated to min-width: 801px.
+   Mobile layout is intentionally untouched.
+   ========================================================= */
+
+
+@media (max-width:800px){
+  .desktop-about{
+    display:none !important;
+  }
+}
+
+
+/* =========================================================
+   DESKTOP CORRECTION — About banner + Hero proportions.
+   ONLY min-width: 801px. Mobile is untouched.
+   ========================================================= */
+
+
+/* =========================================================
+   DESKTOP DESIGN REBUILD — target layout from supplied design.
+   Desktop only. Mobile is intentionally untouched.
+   ========================================================= */
+
+
+@media (max-width:800px){
+  .desktop-contact-gallery,
+  .desktop-footer{display:none !important}
+}
+
+/* =========================================================
+   DESKTOP DESIGN — FINAL REFERENCE MATCH
+   Desktop only. Mobile rules are intentionally untouched.
+   ========================================================= */
+
+/* =========================================================
+   DESKTOP — FINAL REFERENCE DESIGN
+   Only applies at 801px and above. Mobile CSS remains untouched.
+   ========================================================= */
+@media (min-width:801px){
+  html,body{min-width:801px}
+  body{background:#080807}
+  #top{width:100%;min-width:0;display:flex;flex-direction:column;overflow:hidden;background:#080807}
+
+  /* Page order */
+  .hero{order:1}
+  .desktop-gallery{order:2}
+  .desktop-highlights{order:3}
+  .desktop-about{order:4}
+  .desktop-contact-gallery{order:5}
+  .desktop-comments{order:6}
+  .desktop-footer{order:7}
+  .booking,.testimonials,.services{display:none !important}
+
+  /* HERO */
+  .hero{
+    height:320px !important;
+    min-height:320px !important;
+    background-image:
+      linear-gradient(90deg,rgba(5,4,3,.72),rgba(5,4,3,.38) 46%,rgba(5,4,3,.10)),
+      url("./assets/hero-desktop-new.png") !important;
+    background-size:cover !important;
+    background-position:center 47% !important;
+    overflow:hidden;
+  }
+  .hero>nav{
+    height:76px !important;
+    padding:0 9.2% !important;
+    border-bottom:0 !important;
+    display:flex !important;
+    align-items:center !important;
+  }
+  .hero>nav .logo{
+    display:flex !important;
+    margin:0 !important;
+    color:#f5eee5;
+    font-size:21px;
+  }
+  .hero>nav .logo>span{font-size:31px}
+  .hero>nav .links,
+  .hero>nav .nav-book,
+  .hero>nav .hamb{display:none !important}
+  .hero-copy{
+    max-width:510px !important;
+    padding:10px 0 0 9.2% !important;
+    text-shadow:0 2px 18px rgba(0,0,0,.55);
+  }
+  .hero-copy .eyebrow{font-size:0 !important;letter-spacing:.2em !important}
+  .hero-copy .eyebrow::after{content:"ЛЬВІВ · УКРАЇНА";font-size:9px;letter-spacing:.2em}
+  .hero-copy h1,.hero-copy .sub{display:none !important}
+  .hero-copy h2{
+    margin:9px 0 10px !important;
+    font-size:0 !important;
+    line-height:.94 !important;
+  }
+  .hero-copy h2::after{
+    content:"Більше, ніж стрижка.\A Це ваш стандарт.";
+    white-space:pre-line;
+    display:block;
+    font:500 34px/.94 "Cormorant Garamond",serif;
+    color:#f5eee5;
+  }
+  .hero-copy p{
+    max-width:360px !important;
+    margin:0 !important;
+    font-size:11px !important;
+    line-height:1.5 !important;
+    color:#ddd4cb !important;
+  }
+  .hero-copy .hero-btn{display:none !important}
+
+  /* Desktop-only hero logo */
+  .hero-logo-right{position:absolute;top:50%;right:9.2%;transform:translateY(-42%);display:flex;align-items:center;gap:12px;color:#f5eee5;text-shadow:0 2px 18px rgba(0,0,0,.65);z-index:2}
+  .hero-logo-right>span{color:#d8a96d;font-size:44px;line-height:1}
+  .hero-logo-right>div{font:500 28px/1 "Cormorant Garamond",serif;letter-spacing:.03em}
+  .hero-logo-right small{display:block;margin-top:5px;font:500 8px/1 Inter,sans-serif;letter-spacing:.38em;color:#c9beb3}
+
+  /* BARBERS */
+  .desktop-gallery{
+    display:block !important;
+    padding:26px 3.8% 24px !important;
+    background:#080807 !important;
+    border-bottom:1px solid #ffffff12 !important;
+  }
+  .desktop-gallery-head{
+    display:flex !important;
+    align-items:flex-end !important;
+    justify-content:space-between !important;
+    padding:0 0 16px !important;
+  }
+  .desktop-gallery-head h2{
+    margin:6px 0 0 !important;
+    font:500 42px/.92 "Cormorant Garamond",serif !important;
+    letter-spacing:-.02em;
+  }
+  .desktop-barbers-kicker{
+    color:#9b8c7d !important;
+    font-size:8px !important;
+    letter-spacing:.18em !important;
+  }
+  .desktop-barbers-grid{
+    display:grid !important;
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+    gap:12px !important;
+  }
+  .desktop-barber-{
+    position:relative;
+    min-width:0;
+    border:1px solid #c89d6570 !important;
+    border-radius:4px !important;
+    background:#0d0c0b !important;
+    overflow:hidden !important;
+    cursor:pointer;
+    outline:none;
+    transform:none !important;
+    box-shadow:none !important;
+  }
+  .desktop-barber-:hover,
+  .desktop-barber-:focus-visible{
+    border-color:#c89d65 !important;
+    transform:translateY(-2px) !important;
+    box-shadow:0 12px 28px #0008 !important;
+  }
+  .desktop-barber-photo{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1 !important;
+    height:auto !important;
+    overflow:hidden;
+    background:#11100f;
+  }
+  .desktop-barber-photo img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover !important;
+    transition:transform .3s ease;
+  }
+  .desktop-barber-:hover .desktop-barber-photo img{transform:scale(1.02)}
+  .desktop-barber-info,
+  .desktop-barber-arrow{display:none !important}
+
+  /* VALUES */
+  .desktop-highlights{
+    display:grid !important;
+    grid-template-columns:repeat(4,1fr) !important;
+    height:104px !important;
+    min-height:104px !important;
+    background:
+      linear-gradient(90deg,rgba(7,6,5,.96),rgba(12,10,8,.92)),
+      url("./assets/desktop.png") center/cover no-repeat !important;
+    border-top:1px solid #ffffff12 !important;
+    border-bottom:1px solid #c89d6545 !important;
+  }
+  .desktop-highlights article{
+    position:relative;
+    display:flex !important;
+    align-items:center;
+    justify-content:center !important;
+    gap:15px !important;
+    min-width:0;
+    padding:12px 20px !important;
+    text-align:center;
+  }
+  .desktop-highlights article:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:20px !important;
+    bottom:20px !important;
+    width:1px;
+    background:#c89d6570;
+  }
+  .highlight-icon{
+    flex:0 0 auto;
+    color:var(--gold);
+    font-family:"Cormorant Garamond",serif;
+    font-size:31px !important;
+    line-height:1;
+  }
+  .desktop-highlights strong{
+    display:block;
+    color:#eee5dc;
+    font-size:10px !important;
+    letter-spacing:.08em;
+    font-weight:500;
+    margin-bottom:4px !important;
+  }
+  .desktop-highlights p{
+    margin:0;
+    color:#c9c0b8;
+    font-size:8px !important;
+    line-height:1.3 !important;
+  }
+
+  /* ABOUT — the supplied banner, without reconstruction or replacement */
+  .desktop-about{
+    display:block !important;
+    width:100% !important;
+    min-height:0 !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:#080807 !important;
+    border:0 !important;
+  }
+  .desktop-about-banner{
+    display:block !important;
+    width:100% !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+  }
+  .desktop-about-banner img{
+    display:block !important;
+    width:100% !important;
+    height:auto !important;
+    max-height:none !important;
+    aspect-ratio:1536/277 !important;
+    object-fit:cover !important;
+    object-position:center !important;
+    border:0 !important;
+    border-radius:0 !important;
+  }
+
+  /* CONTACT + GALLERY */
+  .desktop-contact-gallery{
+    display:grid !important;
+    grid-template-columns:1.05fr 1.45fr !important;
+    grid-template-rows:1fr !important;
+    min-height:320px !important;
+    background:#080807 !important;
+    border-bottom:1px solid #c89d6545 !important;
+  }
+  .desktop-contact{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1.15fr) minmax(170px,.85fr) !important;
+    column-gap:24px !important;
+    align-content:center !important;
+    padding:34px 38px 34px 5.5% !important;
+    border-right:1px solid #c89d6545 !important;
+  }
+  .desktop-contact>.eyebrow,
+  .desktop-contact>h2,
+  .desktop-contact>p{grid-column:1 / -1}
+  .desktop-contact>.desktop-contact-form{grid-column:1}
+  .desktop-contact>.desktop-contact-details{grid-column:2;grid-row:4}
+  .desktop-contact h2{
+    margin:6px 0 12px !important;
+    font:500 48px/.88 "Cormorant Garamond",serif !important;
+    letter-spacing:-.02em;
+  }
+  .desktop-contact>p{
+    max-width:360px;
+    margin:0 0 18px;
+    color:#bdb4ac;
+    font-size:10px;
+    line-height:1.6;
+  }
+  .desktop-contact-form{
+    display:grid;
+    gap:7px;
+    max-width:340px;
+  }
+  .desktop-contact-form label{
+    display:flex;
+    align-items:center;
+    min-height:34px;
+    border:1px solid #c89d6538;
+    background:#090807b8;
+  }
+  .desktop-contact-form label span{
+    width:32px;
+    text-align:center;
+    color:#d8a96d;
+    font-size:13px;
+  }
+  .desktop-contact-form input,
+  .desktop-contact-form textarea{
+    width:100%;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:#f5eee5;
+    padding:8px 9px;
+    font:9px Inter,sans-serif;
+  }
+  .desktop-contact-form textarea{height:50px;resize:none}
+  .desktop-contact-form button{
+    height:35px;
+    border:0;
+    background:#e3b477;
+    color:#17110b;
+    font-size:8px;
+    letter-spacing:.14em;
+    text-align:left;
+    padding:0 13px;
+  }
+  .desktop-contact-form button span{float:right;font-size:14px}
+  .desktop-contact-details{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+    padding:0 !important;
+    align-content:start !important;
+    border:0 !important;
+    margin-top:0 !important;
+  }
+  .desktop-contact-details>div{display:flex;align-items:flex-start;gap:10px}
+  .contact-detail-icon{color:#d8a96d;font-size:19px;line-height:1}
+  .desktop-contact-details p{margin:0;color:#ddd4cb;font-size:9px;line-height:1.5}
+  .desktop-gallery-work{grid-column:2;grid-row:1;padding:28px 38px 24px}
+  .desktop-gallery-work-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    margin-bottom:10px;
+  }
+  .desktop-gallery-work-head h2{margin:5px 0 0;font:500 35px/.92 "Cormorant Garamond",serif}
+  .desktop-gallery-work-head a{
+    min-width:150px;
+    cursor:pointer;
+    transition:background .2s ease,color .2s ease,border-color .2s ease;
+    padding:10px 12px;
+    border:1px solid #c89d65;
+    color:#e3b477;
+    font-size:7px;
+    letter-spacing:.13em;
+    display:flex;
+    justify-content:space-between;
+  }
+  .desktop-gallery-work-head a:hover{background:#e3b477;color:#17110b;border-color:#e3b477}
+  .desktop-gallery-work-grid{
+    display:grid;
+    grid-template-columns:1.35fr 1fr 1fr;
+    grid-template-rows:70px 70px;
+    gap:6px;
+    height:146px;
+  }
+  .desktop-gallery-work-grid img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    border:1px solid #c89d6540;
+    border-radius:3px;
+  }
+  .desktop-gallery-work-grid .gallery-main{grid-row:1 / span 2}
+
+  /* COMMENTS */
+  .desktop-comments{
+    display:block !important;
+    padding:28px 3.8% 30px !important;
+    background:#080807 !important;
+    border-top:0 !important;
+    border-bottom:1px solid #c89d6545 !important;
+  }
+  .desktop-comments-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    padding:0 0 15px !important;
+  }
+  .desktop-comments-head h2{
+    margin:5px 0 0 !important;
+    font:500 39px/.95 "Cormorant Garamond",serif !important;
+  }
+  .desktop-comments-kicker{font-size:8px !important;letter-spacing:.18em}
+  .desktop-comments-grid{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+  .desktop-comment-{
+    min-width:0;
+    border:1px solid #c89d6540 !important;
+    border-radius:4px !important;
+    overflow:hidden !important;
+    background:#0d0c0b !important;
+  }
+  .desktop-comment- img{
+    width:100%;
+    height:132px !important;
+    display:block;
+    object-fit:cover !important;
+    object-position:top center !important;
+  }
+
+  /* FOOTER */
+  footer.mobile-footer{display:none !important}
+  .desktop-footer{
+    display:grid !important;
+    grid-template-columns:1.2fr 2fr 1fr !important;
+    align-items:center;
+    gap:30px;
+    padding:26px 5.5% 12px !important;
+    background:#080807 !important;
+    border:0 !important;
+    color:#8e877f;
+    font-size:8px;
+    letter-spacing:.1em;
+  }
+  .desktop-footer-brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:#f5eee5;
+    font:500 18px "Cormorant Garamond",serif;
+  }
+  .desktop-footer-brand>span{color:#d8a96d;font-size:29px}
+  .desktop-footer-brand small{
+    display:block;
+    margin-top:2px;
+    color:#9c9187;
+    font:500 6px Inter,sans-serif;
+    letter-spacing:.3em;
+  }
+  .desktop-footer nav{
+    height:auto !important;
+    padding:0 !important;
+    border:0 !important;
+    display:flex !important;
+    justify-content:center;
+    gap:30px;
+  }
+  .desktop-footer nav a{color:#b9afa5;font-size:8px;letter-spacing:.13em}
+  .desktop-footer-instagram{justify-self:end;color:#d8a96d;font-size:8px}
+  .desktop-footer-bottom{
+    grid-column:1 / -1;
+    display:flex;
+    justify-content:space-between;
+    padding-top:12px;
+    border-top:1px solid #ffffff12;
+    color:#716960;
+    font-size:7px;
+  }
+
+  /* BARBER PROFILE MODAL */
+  .desktop-barber-modal{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:grid;
+    place-items:center;
+    padding:30px;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .2s ease,visibility .2s ease;
+  }
+  .desktop-barber-modal.open{opacity:1;visibility:visible;pointer-events:auto}
+  .desktop-barber-modal-backdrop{
+    position:absolute;
+    inset:0;
+    background:#000b;
+    backdrop-filter:blur(7px);
+  }
+  .desktop-barber-modal-{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:minmax(320px,470px) minmax(300px,430px);
+    width:min(900px,88vw);
+    max-height:min(680px,88vh);
+    overflow:hidden;
+    border:1px solid #c89d6570;
+    border-radius:8px;
+    background:#0d0c0b;
+    box-shadow:0 28px 80px #000d,inset 0 1px 0 #ffffff10;
+    transform:translateY(16px) scale(.985);
+    transition:transform .22s ease;
+  }
+  .desktop-barber-modal.open .desktop-barber-modal-{transform:translateY(0) scale(1)}
+  .desktop-barber-modal-image{min-height:420px;background:#11100f}
+  .desktop-barber-modal-image img{width:100%;height:100%;display:block;object-fit:cover}
+  .desktop-barber-modal-copy{align-self:center;padding:46px}
+  .desktop-barber-modal-copy h2{margin:8px 0 18px;font:500 58px/.9 "Cormorant Garamond",serif;color:#f5eee5}
+  .desktop-barber-modal-copy p{margin:0 0 24px;color:#c4bbb2;font-size:13px;line-height:1.8}
+  .desktop-barber-modal-meta{padding-top:18px;border-top:1px solid #ffffff14;color:#d8a96d;font-size:9px;letter-spacing:.16em}
+  .desktop-barber-modal-close{
+    position:absolute;
+    z-index:2;
+    top:14px;
+    right:14px;
+    width:38px;
+    height:38px;
+    border:1px solid #c89d6570;
+    border-radius:50%;
+    background:#0b0908dd;
+    color:#e3b477;
+    font-size:25px;
+    line-height:1;
+    cursor:pointer;
+  }
+  .desktop-barber-modal-close:hover{background:#e3b477;color:#17110b}
+  body.desktop-barber-modal-open{overflow:hidden}
+}
+
+@media (max-width:800px){
+  .desktop-barber-modal{display:none !important}
+  .desktop-highlights,.desktop-gallery,.desktop-about,.desktop-contact-gallery,.desktop-comments,.desktop-footer{display:none !important}
+}
+
+
+/* Desktop location label — mobile markup remains visually unchanged. */
+@media (min-width:801px){
+  .hero-copy .eyebrow .desktop-location{display:inline}
+  .hero-copy .eyebrow .mobile-location{display:none}
+}
+@media (max-width:800px){
+  .hero-copy .eyebrow .desktop-location{display:none}
+  .hero-copy .eyebrow .mobile-location{display:inline}
+}
+@media (min-width:801px){
+  .hero-copy .eyebrow{font-size:9px !important}
+  .hero-copy .eyebrow::after{display:none !important;content:none !important}
+}
+
+
+/* =========================================================
+   DESKTOP FINAL FIX — 801px+ ONLY
+   Mobile CSS/files are intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Hero: compact, matching the approved desktop composition. */
+  .hero{
+    min-height:450px !important;
+    height:450px !important;
+    background-size:cover !important;
+    background-position:center !important;
+  }
+  .hero>nav{height:0 !important;min-height:0 !important;padding:0 !important;border:0 !important;overflow:hidden !important;}
+  .hero>nav .logo,.hero>nav .links,.hero>nav .nav-book,.hero>nav .hamb{display:none !important}
+  .hero-copy{
+    max-width:540px !important;
+    padding:72px 0 0 9.2% !important;
+  }
+  .hero-copy .eyebrow .desktop-location{display:inline !important;font-size:9px !important;}
+  .hero-copy h2::after{content:none !important}
+  .hero-copy h2{
+    font-size:36px !important;
+    line-height:.96 !important;
+    margin:12px 0 12px !important;
+  }
+  .hero-copy p{font-size:12px !important;line-height:1.5 !important;max-width:370px !important}
+  .hero-copy .hero-btn{display:none !important}
+
+  /* Barbers: five cards, immediately after the hero. */
+  .desktop-gallery{
+    padding:20px 3.8% 22px !important;
+    border-bottom:0 !important;
+  }
+  .desktop-gallery-head{padding-bottom:12px !important}
+  .desktop-gallery-head h2{font-size:40px !important}
+  .desktop-barbers-grid{grid-template-columns:repeat(5,minmax(0,1fr)) !important;gap:10px !important}
+  .desktop-barber-photo{aspect-ratio:1.18/1 !important}
+  .desktop-barber-info,.desktop-barber-arrow{display:none !important}
+
+  /* Values: remove the unexplained image background. */
+  .desktop-highlights{
+    height:96px !important;
+    min-height:96px !important;
+    background:#090807 !important;
+  }
+
+  /* About: keep the exact supplied banner. */
+  .desktop-about{background:#080807 !important}
+  .desktop-about-banner img{
+    width:100% !important;
+    height:auto !important;
+    aspect-ratio:1536/277 !important;
+    object-fit:cover !important;
+  }
+
+  /* Contact + gallery: balanced 50/50 split, clean background, address stays in contact column. */
+  .desktop-contact-gallery{
+    grid-template-columns:1fr 1fr !important;
+    min-height:330px !important;
+    background:#080807 !important;
+    background-image:none !important;
+  }
+  .desktop-contact-gallery::before,
+  .desktop-contact-gallery::after{display:none !important;content:none !important}
+  .desktop-contact{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    grid-template-columns:minmax(0,1.15fr) minmax(150px,.85fr) !important;
+    padding:32px 34px 28px 5.5% !important;
+    background:#080807 !important;
+    background-image:none !important;
+  }
+  .desktop-contact-details{
+    grid-column:2 !important;
+    grid-row:4 !important;
+    align-content:start !important;
+    margin:0 !important;
+    padding-top:2px !important;
+  }
+  .desktop-contact-details p{font-size:10px !important;line-height:1.45 !important;color:#ddd4cb !important}
+  .desktop-gallery-work{grid-column:2 !important;grid-row:1 !important;padding:28px 38px 24px !important;background:#080807 !important}
+
+  /* Comments. */
+  .desktop-comments{background:#080807 !important}
+
+  /* Footer. */
+  .desktop-footer{background:#080807 !important}
+}
+
+/* =========================================================
+   DESKTOP PATCH — TOP GHOST MENU + CONTACT BLOCK SPACING
+   Desktop only. Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Remove the unstyled mobile menu markup from the desktop layout. */
+  .mobile-menu{display:none !important;}
+
+  /* Keep the contact area clean black and separate the two lower panels. */
+  .desktop-contact-gallery{
+    gap:18px !important;
+    background:#080807 !important;
+    background-image:none !important;
+    border-bottom:0 !important;
+  }
+  .desktop-contact{
+    background:#080807 !important;
+    background-image:none !important;
+    border:1px solid #c89d6545 !important;
+    border-right:1px solid #c89d6545 !important;
+  }
+  .desktop-gallery-work{
+    background:#080807 !important;
+    border:1px solid #c89d6545 !important;
+  }
+}
+
+/* =========================================================
+   DESKTOP PATCH — HERO / GALLERY / CONTACT CONTROLS
+   801px+ ONLY. Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* Hero copy: move the text upward and tighten the composition. */
+  .hero-copy{
+    padding-top:48px !important;
+    max-width:560px !important;
+  }
+  .hero-copy .eyebrow{margin-bottom:2px !important;display:block !important}
+  .hero-copy h2{
+    font-size:42px !important;
+    line-height:.94 !important;
+    margin:8px 0 10px !important;
+    max-width:430px !important;
+  }
+  .hero-copy p{
+    font-size:12px !important;
+    line-height:1.45 !important;
+    max-width:390px !important;
+    margin:0 !important;
+  }
+
+  /* Gallery: make the work images visibly larger and reduce empty space. */
+  .desktop-gallery-work{
+    padding:28px 30px 28px !important;
+  }
+  .desktop-gallery-work-head{
+    margin-bottom:14px !important;
+  }
+  .desktop-gallery-work-head h2{
+    font-size:38px !important;
+  }
+  .desktop-gallery-work-grid{
+    grid-template-rows:92px 92px !important;
+    gap:8px !important;
+    height:192px !important;
+  }
+  .desktop-gallery-work-grid img{
+    border-radius:6px !important;
+  }
+
+  /* Contact fields: pill-shaped. */
+  .desktop-contact-form{
+    gap:8px !important;
+  }
+  .desktop-contact-form label{
+    min-height:38px !important;
+    border-radius:999px !important;
+    overflow:hidden !important;
+    border-color:#c89d6560 !important;
+    background:#090807 !important;
+  }
+  .desktop-contact-form label span{
+    width:38px !important;
+    height:26px !important;
+    margin-left:5px !important;
+    display:grid !important;
+    place-items:center !important;
+    border-right:1px solid #c89d6538 !important;
+  }
+  .desktop-contact-form textarea{
+    height:52px !important;
+    padding-top:10px !important;
+    padding-bottom:10px !important;
+  }
+  .desktop-contact-form label:has(textarea){
+    border-radius:24px !important;
+  }
+
+  /* Contact submit: premium 3D pill. */
+  .desktop-contact-form button{
+    height:42px !important;
+    border-radius:999px !important;
+    padding:0 18px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca965 100%) !important;
+    box-shadow:0 4px 0 #8f6738,0 8px 18px #0008,inset 0 1px 0 #fff8 !important;
+    font-size:8px !important;
+    font-weight:600 !important;
+    transition:transform .16s ease,box-shadow .16s ease !important;
+  }
+  .desktop-contact-form button:hover{
+    transform:translateY(-2px) !important;
+    box-shadow:0 6px 0 #8f6738,0 12px 22px #0009,inset 0 1px 0 #fff8 !important;
+  }
+  .desktop-contact-form button:active{
+    transform:translateY(2px) !important;
+    box-shadow:0 2px 0 #8f6738,0 5px 12px #0008,inset 0 1px 0 #fff8 !important;
+  }
+
+  /* Gallery CTA: premium 3D pill. */
+  .desktop-gallery-work-head a{
+    min-width:160px !important;
+    height:40px !important;
+    padding:0 16px !important;
+    align-items:center !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#17130f 0%,#0c0a08 100%) !important;
+    box-shadow:0 4px 0 #5f4428,0 8px 16px #0008,inset 0 1px 0 #ffffff16 !important;
+    transition:transform .16s ease,box-shadow .16s ease,background .16s ease !important;
+  }
+  .desktop-gallery-work-head a:hover{
+    transform:translateY(-2px) !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca965 100%) !important;
+    color:#17110b !important;
+    border-color:#e3b477 !important;
+    box-shadow:0 6px 0 #8f6738,0 12px 22px #0009,inset 0 1px 0 #fff8 !important;
+  }
+  .desktop-gallery-work-head a:active{
+    transform:translateY(2px) !important;
+    box-shadow:0 2px 0 #5f4428,0 5px 12px #0008 !important;
+  }
+}
+
+/* =========================================================
+   DESKTOP PATCH — HERO BRAND MARK
+   801px+ only. Mobile remains untouched.
+   ========================================================= */
+.desktop-hero-logo{display:none;}
+
+@media (min-width:801px){
+  .desktop-hero-logo{
+    display:flex !important;
+    position:absolute;
+    right:8.5%;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    color:#f5eee5;
+    font:500 30px/1 "Cormorant Garamond",serif;
+    letter-spacing:.035em;
+    text-shadow:0 2px 18px rgba(0,0,0,.7);
+    pointer-events:none;
+  }
+  .desktop-hero-logo-crown{
+    display:block;
+    color:#d8a96d;
+    font:400 72px/1 "Times New Roman",serif;
+    margin-bottom:8px;
+  }
+  .desktop-hero-logo small{
+    display:block;
+    margin-top:7px;
+    color:#c9beb3;
+    font:500 9px/1 Inter,sans-serif;
+    letter-spacing:.42em;
+  }
+}
+
+/* =========================================================
+   DESKTOP LANGUAGE + CENTERED HERO — 801px+ ONLY.
+   Mobile layout/styles remain untouched.
+   ========================================================= */
+@media (min-width:801px){
+  .desktop-lang-switch{
+    position:absolute;top:24px;right:4.2%;z-index:20;
+    min-width:54px;height:30px;padding:0 13px;
+    border:1px solid #c89d6575;border-radius:999px;
+    background:#080706aa;color:#f2e8dd;
+    font:600 9px/1 Inter,sans-serif;letter-spacing:.12em;
+    cursor:pointer;backdrop-filter:blur(8px);
+    box-shadow:0 4px 16px #0006,inset 0 1px 0 #ffffff12;
+    transition:.18s ease;
+  }
+  .desktop-lang-switch:hover{background:#d8a96d;color:#17110b;border-color:#e7bd84;transform:translateY(-1px)}
+
+  .hero{
+    height:430px !important;min-height:430px !important;
+  }
+  .hero-copy{
+    position:absolute !important;left:50% !important;top:57% !important;
+    transform:translate(-50%,-50%) !important;
+    width:min(760px,86%) !important;max-width:760px !important;
+    padding:0 !important;text-align:center !important;z-index:3 !important;
+  }
+  .hero-copy .eyebrow{display:block !important;font-size:9px !important;margin:0 0 12px !important;letter-spacing:.24em !important}
+  .hero-copy h2{font-size:40px !important;line-height:.96 !important;max-width:none !important;margin:0 0 12px !important}
+  .hero-copy p{max-width:520px !important;margin:0 auto !important;font-size:12px !important;line-height:1.5 !important}
+
+  .desktop-hero-logo{
+    right:auto !important;left:50% !important;top:31% !important;
+    transform:translate(-50%,-50%) !important;
+    align-items:center !important;text-align:center !important;
+    z-index:4 !important;
+  }
+  .desktop-hero-logo-crown{font-size:94px !important;margin-bottom:5px !important}
+  .desktop-hero-logo{font-size:39px !important}
+  .desktop-hero-logo small{font-size:10px !important;letter-spacing:.46em !important;margin-top:8px !important}
+}
+
+/* =========================================================
+   DESKTOP ABOUT PAGE REFERENCE — 801px+ ONLY.
+   ========================================================= */
+@media (min-width:801px){
+  .about-reference-page{min-height:0;background:#050504;color:#f5eee5;overflow-x:hidden}
+  .about-reference-canvas{position:relative;width:100%;max-width:1600px;margin:0 auto;line-height:1;aspect-ratio:1536 / 1024;overflow:hidden}
+  .about-reference-image{display:block;width:100%;height:auto}
+  .about-reference-copy,.about-reference-philosophy,.about-reference-,.about-reference-back,.about-reference-lang{position:absolute;z-index:2}
+  .about-reference-copy{left:8%;top:4.2%;width:38%;line-height:1.15}
+  .about-reference-copy .eyebrow,.about-reference-philosophy .eyebrow{display:block;color:#d8a96d;font:600 12px/1 Inter,sans-serif;letter-spacing:.22em;margin-bottom:20px}
+  .about-reference-copy h1{margin:0 0 20px;font:500 clamp(48px,5vw,82px)/.86 "Cormorant Garamond",serif;color:#f5eee5}
+  .about-reference-copy h1::first-line{color:#e2b477}
+  .about-reference-copy p{margin:0;max-width:600px;color:#eee7df;font:400 clamp(13px,1.15vw,18px)/1.45 Inter,sans-serif}
+  .about-reference-philosophy{left:55%;top:39.8%;width:38%}
+  .about-reference-philosophy h2{margin:0 0 22px;font:500 clamp(40px,4.1vw,68px)/.9 "Cormorant Garamond",serif;color:#f5eee5}
+  .about-reference-philosophy p{margin:0;max-width:610px;color:#eee7df;font:400 clamp(13px,1.05vw,17px)/1.55 Inter,sans-serif}
+  .about-reference-{top:84.5%;width:17.8%;line-height:1.1}
+  .about-reference-.card1{left:5.3%}.about-reference-.card2{left:30.7%}.about-reference-.card3{left:55.5%}.about-reference-.card4{left:80.5%}
+  .about-reference- .num{display:block;color:#e2b477;font:500 18px/1 "Cormorant Garamond",serif;margin-bottom:14px}
+  .about-reference- strong{display:block;color:#f5eee5;font:600 16px/1 Inter,sans-serif;letter-spacing:.06em;margin-bottom:8px}
+  .about-reference- p{margin:0;color:#eee7df;font:400 13px/1.45 Inter,sans-serif}
+  .about-reference-back{top:24px;right:4.2%;height:38px;padding:0 16px;border:1px solid #c89d6575;border-radius:999px;background:#080706cc;color:#f5eee5;text-decoration:none;display:flex;align-items:center;gap:8px;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;box-shadow:0 5px 18px #0008,inset 0 1px 0 #ffffff12;transition:.18s ease}
+  .about-reference-back:hover{background:#e2b477;color:#17110b;border-color:#e2b477;transform:translateY(-1px)}
+  .about-reference-lang{top:24px;right:17%;height:38px;min-width:50px;padding:0 13px;border:1px solid #c89d6575;border-radius:999px;background:#080706cc;color:#f5eee5;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;cursor:pointer}
+  .about-reference-lang:hover{background:#e2b477;color:#17110b;border-color:#e2b477}
+}
+@media (max-width:800px){.about-reference-page{display:none !important}}
+
+
+/* =========================================================
+   DESKTOP FINAL CLEANUP — 801px+ ONLY
+   Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  /* HERO: one centered brand mark, one centered copy block. */
+  .hero-copy > h1,
+  .hero-copy > .sub{
+    display:none !important;
+  }
+  .hero-copy{
+    top:63% !important;
+    width:min(720px,84%) !important;
+    max-width:720px !important;
+  }
+  .hero-copy .eyebrow{
+    margin-bottom:8px !important;
+  }
+  .hero-copy h2{
+    font-size:34px !important;
+    line-height:1 !important;
+    margin-bottom:9px !important;
+    text-shadow:0 2px 16px #000b;
+  }
+  .hero-copy p{
+    max-width:500px !important;
+    font-size:10px !important;
+    line-height:1.45 !important;
+    text-shadow:0 1px 8px #000b;
+  }
+  .hero-btn{
+    display:none !important;
+  }
+  .desktop-hero-logo{
+    top:34% !important;
+    left:50% !important;
+    right:auto !important;
+    transform:translate(-50%,-50%) !important;
+    font-size:34px !important;
+  }
+  .desktop-hero-logo-crown{
+    font-size:82px !important;
+    margin-bottom:2px !important;
+  }
+  .desktop-hero-logo small{
+    font-size:9px !important;
+    margin-top:6px !important;
+  }
+  .hero-logo-right{
+    display:none !important;
+  }
+
+  /* ABOUT banner CTA: clickable 3D pill over the supplied banner. */
+  .desktop-about-banner{
+    position:relative !important;
+    overflow:hidden !important;
+    cursor:pointer !important;
+  }
+  .desktop-about-cta{
+    position:absolute;
+    left:8%;
+    bottom:12%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:28px;
+    min-width:145px;
+    height:38px;
+    padding:0 15px;
+    border:1px solid #f0c98d;
+    border-radius:999px;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%);
+    color:#17110b;
+    font:600 8px/1 Inter,sans-serif;
+    letter-spacing:.12em;
+    box-shadow:0 5px 0 #8e6438,0 10px 18px #0008,inset 0 1px 0 #fff8;
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+    pointer-events:none;
+  }
+  .desktop-about-cta span{font-size:13px}
+  .desktop-about-banner:hover .desktop-about-cta{
+    transform:translateY(-2px);
+    box-shadow:0 7px 0 #8e6438,0 13px 22px #0009,inset 0 1px 0 #fff8;
+  }
+  .desktop-about-banner:active .desktop-about-cta{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #8e6438,0 4px 9px #0008,inset 0 1px 0 #fff5;
+  }
+
+  /* WORK GALLERY: remove the large empty lower area. */
+  .desktop-contact-gallery{
+    min-height:380px !important;
+  }
+  .desktop-gallery-work{
+    padding:28px 38px 28px !important;
+  }
+  .desktop-gallery-work-grid{
+    grid-template-rows:115px 115px !important;
+    height:236px !important;
+    gap:8px !important;
+  }
+  .desktop-gallery-work-grid img{
+    border-radius:5px !important;
+  }
+
+  /* CONTACT controls: cleaner tactile desktop treatment. */
+  .desktop-contact-form label{
+    border-radius:999px !important;
+    overflow:hidden !important;
+  }
+  .desktop-contact-form textarea{
+    min-height:50px !important;
+  }
+  .desktop-contact-form button{
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    box-shadow:0 4px 0 #8e6438,0 8px 16px #0007,inset 0 1px 0 #fff7 !important;
+    transition:transform .12s ease,box-shadow .12s ease !important;
+    cursor:pointer !important;
+  }
+  .desktop-contact-form button:active{
+    transform:translateY(3px);
+    box-shadow:0 1px 0 #8e6438,0 4px 9px #0007,inset 0 1px 0 #fff5 !important;
+  }
+
+  /* Gallery CTA stays clickable and tactile. */
+  .desktop-gallery-work-head a{
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#17130f 0%,#0c0a08 100%) !important;
+    box-shadow:0 4px 0 #5f4428,0 8px 16px #0008,inset 0 1px 0 #ffffff16 !important;
+  }
+}
+@media (max-width:800px){
+  .desktop-about-cta{display:none !important}
+}
+
+/* =========================================================
+   DESKTOP FINAL — ABOUT CTA OVERLAY
+   Covers the baked-in banner CTA with the new clickable 3D pill.
+   Mobile is intentionally untouched.
+   ========================================================= */
+@media (min-width:801px){
+  .desktop-about-cta{
+    left:43.8% !important;
+    bottom:7.5% !important;
+    min-width:222px !important;
+    height:38px !important;
+    padding:0 16px !important;
+    border:1px solid #f0c98d !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    color:#17110b !important;
+    box-shadow:0 5px 0 #8e6438,0 10px 18px #0008,inset 0 1px 0 #fff8 !important;
+    z-index:5 !important;
+    pointer-events:none !important;
+  }
+  .desktop-about-cta span{font-size:13px !important}
+  .desktop-about-banner:hover .desktop-about-cta{
+    transform:translateY(-2px) !important;
+    box-shadow:0 7px 0 #8e6438,0 13px 22px #0009,inset 0 1px 0 #fff8 !important;
+  }
+  .desktop-about-banner:active .desktop-about-cta{
+    transform:translateY(3px) !important;
+    box-shadow:0 2px 0 #8e6438,0 5px 12px #0008,inset 0 1px 0 #fff5 !important;
+  }
+}

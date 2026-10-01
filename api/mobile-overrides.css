@@ -1,0 +1,1368 @@
+/* Mobile-only final pass. Desktop layout is intentionally untouched. */
+@media (max-width:800px){
+  .hero-copy{
+    transform:none !important;
+    padding-top:18px !important;
+    padding-bottom:24px !important;
+    max-width:72% !important;
+  }
+  .hero{min-height:300px !important}
+
+  .mobile-menu-panel a,.mobile-menu-panel button{cursor:pointer}
+
+  .mobile-page{
+    min-height:100vh;
+    padding:24px 18px 40px;
+    background:#080807;
+  }
+  .mobile-page-back{
+    display:inline-block;
+    color:#d8a96d;
+    font-size:12px;
+    margin-bottom:28px;
+  }
+  .mobile-page .eyebrow{display:block;margin-bottom:8px}
+  .mobile-page h1{
+    font:500 42px/1 "Cormorant Garamond";
+    letter-spacing:-.02em;
+    margin:0 0 18px;
+  }
+  .mobile-page p{color:#cfc6bd;font-size:13px;line-height:1.7}
+  .mobile-form{display:grid;gap:12px;margin-top:24px}
+  .mobile-form input,.mobile-form textarea{
+    width:100%;
+    border:1px solid #ffffff20;
+    border-radius:8px;
+    background:#11110f;
+    color:#f5eee5;
+    padding:14px;
+    outline:none;
+  }
+  .mobile-form textarea{min-height:130px;resize:vertical}
+  .mobile-form button,.mobile-page .page-action,.mobile-page .page-action{
+    border:0;
+    background:#e2b477;
+    color:#17110b;
+    padding:14px 18px;
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+
+  /* Account logout — compact button, never inherit full-page dimensions. */
+  .mobile-account .page-action{
+    display:block;
+    width:100%;
+    min-height:0;
+    height:48px;
+    margin:18px 0 0;
+    padding:0 18px;
+    border:1px solid #f0c98d;
+    border-radius:12px;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%);
+    color:#17110b;
+    font-size:11px;
+    line-height:48px;
+    letter-spacing:.12em;
+    text-align:center;
+    box-shadow:0 4px 0 #8e6438,0 8px 16px #0007,inset 0 1px 0 #fff7;
+  }
+  .mobile-account .page-action:active{
+    transform:translateY(3px);
+    box-shadow:0 1px 0 #8e6438,0 4px 9px #0007,inset 0 1px 0 #fff5;
+  }
+  .support-list{display:grid;gap:10px;margin-top:24px}
+  .support-item{
+    border:1px solid #ffffff16;
+    background:#11110f;
+    border-radius:8px;
+    padding:15px;
+  }
+  .support-item strong{display:block;margin-bottom:6px}
+  .support-item span{color:#aaa19a;font-size:12px;line-height:1.5}
+}
+
+/* Desktop must remain unchanged. */
+@media(min-width:801px){
+  .mobile-page{display:none}
+}
+
+/* Service detail fixes. */
+.service-detail-page{min-height:100vh;background:#080807;color:#f5eee5}
+.service-detail{max-width:760px;margin:0 auto;padding:18px 20px 40px}
+.service-detail-back{display:inline-flex;align-items:center;gap:8px;color:#d8a96d;font-size:11px;letter-spacing:.08em;text-decoration:none;margin-bottom:18px}
+.service-detail-photo-wrap{width:100%;aspect-ratio:1/1;overflow:hidden;border:1px solid #c89d65;border-radius:14px;background:#11100f}
+.service-detail-photo-wrap .service-detail-photo{width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.25);border:0;border-radius:0;display:block}
+.service-detail .eyebrow{display:block;margin-top:22px}
+.service-detail h1{font-size:46px;line-height:.95;margin:8px 0 10px}
+.service-detail-price{color:#d8a96d;font-size:14px;margin-bottom:20px}
+.service-detail p{font-size:13px;line-height:1.7;color:#c9c0b8;margin:0 0 18px}
+.service-detail-book{display:block;text-align:center;background:#e2b477;color:#17110b;padding:15px;border:0;font-size:11px;letter-spacing:.08em;text-decoration:none}
+@media(min-width:801px){.service-detail-page{display:none}}
+
+/* Mobile-only footer and scrollable working hours. */
+@media(max-width:800px){
+  /* Compact, scrollable working-hours list — mobile only. */
+  .booking .times{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-height:148px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding-right:2px;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    scrollbar-width:none;
+  }
+  .booking .times::-webkit-scrollbar{display:none}
+
+  footer.mobile-footer{
+    display:block;
+    margin:0;
+    padding:22px 20px 18px;
+    border-top:1px solid #c89d6540;
+    background:#090807;
+    color:#9c9187;
+    text-align:center;
+  }
+  .mobile-footer-brand{display:flex;justify-content:center;margin-bottom:18px}
+  .mobile-footer-brand .logo{margin:0;gap:8px;font-size:16px;color:#f5eee5}
+  .mobile-footer-brand .logo>span{font-size:25px;color:var(--gold)}
+  .mobile-footer-brand .logo small{font-size:6px;letter-spacing:.32em}
+  .mobile-footer-nav{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+  .mobile-footer-nav a{color:#d8cfc5;text-decoration:none;font-size:9px;letter-spacing:.08em}
+  .mobile-footer-nav a:active{color:var(--gold)}
+  .mobile-footer-socials{display:flex;justify-content:center;gap:8px;margin-bottom:15px}
+  .mobile-footer-socials a{display:grid;place-items:center;min-width:42px;height:32px;padding:0 8px;border:1px solid #c89d6566;border-radius:8px;color:var(--gold);text-decoration:none;font-size:8px;letter-spacing:.04em}
+  .mobile-footer-meta{font-size:7px;letter-spacing:.12em;color:#716960}
+}
+
+
+/* Mobile date picker — compact like the working-hours scroller. */
+@media(max-width:800px){
+  .booking .month-picker{
+    position:relative;
+    display:grid;
+    grid-template-columns:42px minmax(0,1fr) 42px;
+    align-items:center;
+    gap:8px;
+    margin:3px 0 10px;
+    height:46px;
+  }
+  .booking .month-arrow{
+    width:42px;
+    height:42px;
+    border:1px solid #ffffff18;
+    border-radius:6px;
+    background:#10100f;
+    color:#d8a96d;
+    font:32px/1 "Cormorant Garamond";
+    padding:0;
+  }
+  .booking .month-current{
+    min-width:0;
+    height:42px;
+    border:1px solid #ffffff18;
+    border-radius:6px;
+    background:#10100f;
+    color:#d8cec5;
+    padding:0 12px;
+    font:16px "Cormorant Garamond";
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .booking .month-current:active,
+  .booking .month-current[aria-expanded="true"]{border-color:#e3b477;color:#e3b477}
+  .booking .month-popover{
+    position:absolute;
+    z-index:20;
+    left:50%;
+    top:50px;
+    transform:translateX(-50%);
+    width:min(250px,72vw);
+    max-height:180px;
+    padding:6px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    background:#11100f;
+    border:1px solid #c89d6566;
+    border-radius:8px;
+    box-shadow:0 18px 35px #000b;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .16s ease,transform .16s ease,visibility .16s ease;
+  }
+  .booking .month-popover::-webkit-scrollbar{display:none}
+  .booking .month-popover.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateX(-50%) translateY(2px);
+  }
+  /* Mobile calendar picker must stay above the booking content and accept taps. */
+  .booking .month-picker{isolation:isolate;z-index:50;}
+  .booking .month-current,
+  .booking .month-arrow{position:relative;z-index:51;pointer-events:auto;cursor:pointer;}
+  .booking .month-popover{z-index:9999;pointer-events:none;}
+  .booking .month-popover.open{pointer-events:auto;}
+  .booking .month-option{position:relative;z-index:10000;pointer-events:auto;cursor:pointer;}
+  .booking .month-option{
+    display:block;
+    width:100%;
+    min-height:38px;
+    border:1px solid transparent;
+    border-radius:6px;
+    background:transparent;
+    color:#d8d1ca;
+    text-align:left;
+    padding:8px 11px;
+    font:14px Inter,sans-serif;
+  }
+  .booking .month-option.active{
+    border-color:#e3b477;
+    background:#d8a96d12;
+    color:#e3b477;
+  }
+
+  /* Days stay in one compact horizontal strip — never a large calendar grid. */
+  .booking .dates{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:2px 1px 8px;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .booking .dates::-webkit-scrollbar{display:none}
+  .booking .dates button{
+    flex:0 0 58px;
+    width:58px;
+    height:58px;
+    padding:7px 2px;
+    scroll-snap-align:center;
+  }
+  .booking .dates small{font-size:9px}
+  .booking .dates b{font-size:14px;margin-top:5px}
+  .booking .dates .active{border:2px solid #e3b477;color:#e3b477}
+
+  /* Keep the time selector compact and vertically scrollable. */
+  .booking .times{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-height:148px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding-right:2px;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    scrollbar-width:none;
+  }
+}
+
+/* Final mobile polish — hero, booking spacing and confirmation feedback. */
+@media(max-width:800px){
+  /* Keep the hero copy strictly on the left so the chair stays visible. */
+  .hero-copy{
+    width:50% !important;
+    max-width:50% !important;
+    padding:42px 0 24px 22px !important;
+    margin:0 !important;
+    transform:none !important;
+    text-align:left !important;
+  }
+  .hero h2{
+    font-size:27px !important;
+    line-height:1.04 !important;
+    margin:0 0 12px !important;
+  }
+  .hero p{
+    font-size:11px !important;
+    line-height:1.55 !important;
+    margin:0 !important;
+  }
+
+  /* Visible breathing room between the hero image and Choose service. */
+  .booking{
+    margin:20px 14px 0 !important;
+  }
+
+  /* Rounded, tactile 3D booking button. */
+  .booking .confirm{
+    border:1px solid #f0c98d !important;
+    border-radius:12px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    box-shadow:0 5px 0 #8e6438,0 9px 18px #0008, inset 0 1px 0 #fff7 !important;
+    transform:translateY(0);
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+    cursor:pointer;
+  }
+  .booking .confirm:active{
+    transform:translateY(4px) !important;
+    box-shadow:0 1px 0 #8e6438,0 4px 10px #0008,inset 0 1px 0 #fff5 !important;
+    filter:brightness(.96);
+  }
+
+  /* Compact confirmation overlay. */
+  .booking-success{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:grid;
+    place-items:center;
+    padding:24px;
+    background:#0009;
+    backdrop-filter:blur(5px);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .18s ease,visibility .18s ease;
+  }
+  .booking-success.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .booking-success-{
+    position:relative;
+    width:min(310px,88vw);
+    padding:25px 22px 20px;
+    border:1px solid #c89d6577;
+    border-radius:18px;
+    background:linear-gradient(180deg,#171513,#0d0c0b);
+    color:#f5eee5;
+    text-align:center;
+    box-shadow:0 22px 55px #000b, inset 0 1px 0 #ffffff10;
+    transform:translateY(12px) scale(.97);
+    transition:transform .2s ease;
+  }
+  .booking-success.open .booking-success-{transform:translateY(0) scale(1)}
+  .booking-success-mark{
+    width:42px;
+    height:42px;
+    margin:0 auto 12px;
+    display:grid;
+    place-items:center;
+    border:1px solid #e3b477;
+    border-radius:50%;
+    color:#e3b477;
+    font-size:21px;
+  }
+  .booking-success- strong{
+    display:block;
+    font:500 23px/1.05 "Cormorant Garamond";
+  }
+  .booking-success- p{
+    margin:8px 0 17px;
+    color:#bdb4ab;
+    font:12px/1.5 Inter,sans-serif;
+  }
+  .booking-success-ok{
+    width:100%;
+    height:42px;
+    border:1px solid #f0c98d;
+    border-radius:10px;
+    background:#e2b477;
+    color:#17110b;
+    font-size:10px;
+    letter-spacing:.08em;
+  }
+  .booking-success-close{
+    position:absolute;
+    top:8px;
+    right:10px;
+    width:30px;
+    height:30px;
+    border:0;
+    background:none;
+    color:#a99f96;
+    font-size:24px;
+  }
+  body.booking-modal-open{overflow:hidden}
+}
+
+
+/* Mobile bilingual controls + tactile service actions. */
+@media(max-width:800px){
+  .mobile-menu-panel .lang-switch,
+  .mobile-footer-nav .lang-switch{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    width:auto;
+    min-width:62px;
+    min-height:34px;
+    padding:7px 11px;
+    margin:8px 0 0;
+    border:1px solid #c89d6566;
+    border-radius:999px;
+    background:linear-gradient(180deg,#191512,#0f0e0d);
+    color:#e3b477;
+    box-shadow:0 3px 0 #6f4e2d,0 7px 14px #0007,inset 0 1px 0 #fff2;
+    font-size:9px;
+    letter-spacing:.08em;
+    cursor:pointer;
+  }
+  .mobile-menu-panel .menu-lang{margin-top:10px}
+  .mobile-footer-nav .footer-lang{margin:0}
+  .lang-icon{font-size:12px;line-height:1}
+  .lang-code{font-weight:600}
+
+  .service-detail-book,
+  .mobile-form button,
+  .mobile-page .page-action{
+    border:1px solid #f0c98d !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%) !important;
+    box-shadow:0 5px 0 #8e6438,0 10px 18px #0008,inset 0 1px 0 #fff7 !important;
+    color:#17110b !important;
+    transform:translateY(0);
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+  }
+  .service-detail-book:active,
+  .mobile-form button:active,
+  .mobile-page .page-action:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #8e6438,0 4px 10px #0008,inset 0 1px 0 #fff5 !important;
+  }
+}
+
+
+/* Mobile availability states for dates and time slots. */
+@media(max-width:800px){
+  .booking .dates button{
+    position:relative;
+    min-height:70px;
+    transition:opacity .15s ease,border-color .15s ease,transform .12s ease;
+  }
+  .booking .dates button em{
+    display:block;
+    margin-top:3px;
+    font:7px/1 Inter,sans-serif;
+    letter-spacing:.03em;
+    font-style:normal;
+    opacity:.72;
+    white-space:nowrap;
+  }
+  .booking .dates button.is-available em{color:#d8a96d}
+  .booking .dates button.is-full,
+  .booking .dates button.is-past{opacity:.32;cursor:not-allowed}
+  .booking .dates button.is-full em{color:#a99f96}
+  .booking .dates button.is-past em{color:#77716b}
+  .booking .dates button:disabled{pointer-events:none}
+
+  .booking .times button{
+    min-height:50px;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:3px!important;
+    transition:opacity .15s ease,border-color .15s ease,transform .12s ease;
+  }
+  .booking .times button span{font:13px/1 Inter,sans-serif}
+  .booking .times button small{font:7px/1 Inter,sans-serif;letter-spacing:.04em;opacity:.68}
+  .booking .times button.is-available small{color:#d8a96d}
+  .booking .times button.is-booked{opacity:.28;cursor:not-allowed;text-decoration:line-through}
+  .booking .times button.is-booked small{color:#a99f96}
+  .booking .times button.active{border-color:#e3b477!important;color:#e3b477!important}
+}
+@media(max-width:800px){
+  .mobile-form .form-status{min-height:16px;margin:0;color:#d8a96d;font:10px/1.4 Inter,sans-serif;text-align:center}
+}
+
+
+/* Final mobile polish: smooth service action icons and stable language control. */
+@media(max-width:800px){
+  .services . i{
+    border-radius:999px !important;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+    width:30px !important;
+    height:30px !important;
+    line-height:1 !important;
+    bottom:9px !important;
+    right:9px !important;
+  }
+  .choice-icon{border-radius:999px;}
+  .lang-control{
+    flex:0 0 auto !important;
+    position:relative !important;
+    width:auto !important;
+    min-width:76px !important;
+    height:36px !important;
+    transform:none !important;
+  }
+  .mobile-footer-nav .lang-control{
+    margin-left:auto !important;
+    margin-right:0 !important;
+    flex-shrink:0 !important;
+  }
+  .mobile-footer-nav{
+    align-items:center !important;
+  }
+  .mobile-menu-panel .lang-control{
+    align-self:flex-start !important;
+  }
+  .mobile-account{
+    padding-bottom:48px;
+  }
+  .account-{
+    border:1px solid #ffffff18;
+    border-radius:18px;
+    background:linear-gradient(180deg,#141210,#0d0c0b);
+    padding:18px;
+    margin:18px 0;
+    box-shadow:0 14px 32px #0007,inset 0 1px 0 #ffffff08;
+  }
+  .account- h2{font:500 28px/1 "Cormorant Garamond";margin:0 0 8px;color:#f5eee5}
+  .account-muted{color:#9f958c;font:11px/1.5 Inter,sans-serif}
+  .account-booking{border-top:1px solid #ffffff12;padding:14px 0 0;margin-top:14px}
+  .account-booking:first-child{border-top:0;padding-top:0;margin-top:0}
+  .account-booking strong{display:block;font:500 19px/1.1 "Cormorant Garamond";color:#f5eee5}
+  .account-booking-meta{margin-top:6px;color:#c8bfb7;font:10px/1.5 Inter,sans-serif}
+  .account-booking-actions{display:flex;gap:8px;margin-top:12px}
+  .account-booking-actions button{flex:1;min-height:38px;border:1px solid #c89d6566;border-radius:999px;background:#151311;color:#e3b477;font:600 9px/1 Inter,sans-serif;letter-spacing:.05em}
+  .account-booking-actions button.primary{background:linear-gradient(180deg,#f0c98d,#dca866);color:#17110b;border-color:#f0c98d;box-shadow:0 3px 0 #8e6438}
+  .account-empty{padding:18px 0;color:#9f958c;font:11px/1.6 Inter,sans-serif;text-align:center}
+  .account-status{min-height:18px;margin:6px 0 0;color:#d8a96d;font:10px/1.4 Inter,sans-serif;text-align:center}
+}
+
+/* Mobile final lock: smooth controls, stable language control and rounded action icons. */
+@media(max-width:800px){
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  button,a,[role="button"]{touch-action:manipulation;}
+
+  /* All small service/action icons use the same soft circular treatment. */
+  .services . i,
+  .choice-icon,
+  .booking .month-arrow,
+  .booking .month-current,
+  .booking .dates button,
+  .booking .times button{
+    border-radius:999px !important;
+  }
+  .services . i{
+    border:1px solid #c89d65 !important;
+  }
+  .choice-icon{
+    min-width:28px;
+    min-height:28px;
+    display:inline-grid !important;
+    place-items:center !important;
+  }
+
+  /* Footer language control stays in one fixed grid cell regardless of label width. */
+  .mobile-footer-nav{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) 76px !important;
+    align-items:center !important;
+    justify-items:center !important;
+    gap:8px !important;
+    width:100%;
+  }
+  .mobile-footer-nav a{
+    min-width:0;
+    white-space:nowrap;
+  }
+  .mobile-footer-nav .lang-control{
+    grid-column:5;
+    grid-row:1;
+    width:76px !important;
+    min-width:76px !important;
+    margin:0 !important;
+    justify-self:end !important;
+    flex:none !important;
+  }
+  .mobile-footer-nav .lang-switch{
+    width:76px !important;
+    min-width:76px !important;
+  }
+
+  /* Keep the menu language control from moving when the menu text changes language. */
+  .mobile-menu-panel .lang-control{
+    width:76px !important;
+    min-width:76px !important;
+    flex:0 0 76px !important;
+  }
+  .mobile-menu-panel .lang-switch{
+    width:76px !important;
+    min-width:76px !important;
+  }
+
+  /* Smooth, lightweight  interactions without changing layout. */
+  .services .,
+  .service-choice,
+  .barber,
+  .booking .dates button,
+  .booking .times button{
+    transition:transform .16s ease,border-color .16s ease,opacity .16s ease,box-shadow .16s ease;
+  }
+  .services .:active,
+  .service-choice:active,
+  .barber:active{
+    transform:scale(.985);
+  }
+
+  /* Account booking status. */
+  .account-booking-status{
+    display:inline-flex;
+    align-items:center;
+    min-height:22px;
+    margin-top:8px;
+    padding:4px 9px;
+    border:1px solid #c89d6566;
+    border-radius:999px;
+    color:#e3b477;
+    background:#c89d6510;
+    font:600 8px/1 Inter,sans-serif;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+}
+
+/* Mobile account controls — final pass. */
+@media(max-width:800px){
+  .mobile-account{position:relative;padding-top:14px !important}
+  .mobile-account .compact-back{
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    width:auto !important;
+    min-width:74px;
+    height:34px;
+    margin:0 0 28px !important;
+    padding:0 12px !important;
+    border:1px solid #c89d6570;
+    border-radius:999px;
+    background:#11100f;
+    color:#d8a96d;
+    font:600 10px/1 Inter,sans-serif;
+    letter-spacing:.05em;
+    text-decoration:none;
+    box-shadow:none;
+  }
+  .mobile-account .compact-back:active{transform:translateY(1px)}
+  .mobile-account .password-field{position:relative}
+  .mobile-account .password-field input{padding-left:48px !important}
+  .mobile-account .password-toggle{
+    position:absolute !important;
+    left:10px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+    width:30px !important;
+    height:30px !important;
+    min-height:30px !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:50% !important;
+    background:transparent !important;
+    color:#d8a96d !important;
+    box-shadow:none !important;
+    font:16px/30px Inter,sans-serif !important;
+    letter-spacing:0 !important;
+  }
+  .mobile-account .password-toggle:active{transform:translateY(-50%) scale(.94)}
+  .mobile-account .compact-logout{
+    position:absolute !important;
+    top:14px;
+    right:18px;
+    width:auto !important;
+    min-width:68px;
+    height:32px !important;
+    margin:0 !important;
+    padding:0 11px !important;
+    border:1px solid #ffffff22 !important;
+    border-radius:999px !important;
+    background:#11100f !important;
+    color:#9f958c !important;
+    box-shadow:none !important;
+    font:600 8px/32px Inter,sans-serif !important;
+    letter-spacing:.08em !important;
+  }
+  .mobile-account .compact-logout:active{transform:translateY(1px);box-shadow:none !important}
+  .account-verification{
+    display:inline-flex;
+    margin-top:10px;
+    padding:5px 9px;
+    border-radius:999px;
+    font:600 8px/1 Inter,sans-serif;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+  .account-verification.pending{border:1px solid #c89d6544;color:#d8a96d;background:#c89d6510}
+  .account-verification.verified{border:1px solid #c89d6588;color:#f0c98d;background:#c89d6518}
+
+  /* Remove the broken/extra Maxim review cards only on mobile. */
+  .testimonials .testimonial-row > img:nth-child(1),
+  .testimonials .testimonial-row > img:nth-child(4){display:none !important}
+}
+
+/* Account page — final mobile controls. */
+@media(max-width:800px){
+  .mobile-account{position:relative;padding:18px 24px 52px !important}
+  .mobile-account .compact-back{
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:flex-start;
+    width:auto !important;
+    min-width:0 !important;
+    height:auto !important;
+    margin:0 0 38px !important;
+    padding:2px 0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:#d8a96d !important;
+    box-shadow:none !important;
+    font:500 13px/1 Inter,sans-serif !important;
+    letter-spacing:.02em !important;
+    text-decoration:none;
+  }
+  .mobile-account .compact-back:active{transform:translateX(-1px)}
+  .mobile-account .mobile-form{gap:14px}
+  .mobile-account .mobile-form input{box-sizing:border-box}
+  .mobile-account .password-field{position:relative;width:100%}
+  .mobile-account .password-field input{padding-right:54px !important;padding-left:18px !important}
+  .mobile-account .password-toggle{
+    position:absolute !important;
+    right:14px;
+    left:auto !important;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+    width:28px !important;
+    height:28px !important;
+    min-width:28px !important;
+    min-height:28px !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:#c89d65 !important;
+    box-shadow:none !important;
+    font:inherit !important;
+    letter-spacing:0 !important;
+  }
+  .mobile-account .password-toggle svg{display:block;width:20px;height:20px;margin:auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .mobile-account .password-toggle:active{transform:translateY(-50%) scale(.94)}
+  .mobile-account .account-primary-action{width:100% !important}
+  .mobile-account .account-secondary-actions{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:0}
+  .mobile-account .account-secondary-actions button{
+    width:auto !important;
+    min-height:26px !important;
+    margin:0 !important;
+    padding:4px 8px !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:#d8a96d !important;
+    box-shadow:none !important;
+    font:600 10px/1.2 Inter,sans-serif !important;
+    letter-spacing:.08em !important;
+  }
+  .mobile-account .account-secondary-actions button:last-child{color:#8f877f !important;font-size:9px !important;letter-spacing:.02em !important;text-transform:none}
+  .mobile-account .account-status{min-height:18px;margin-top:4px}
+  /* The hidden resend control must remain truly hidden; otherwise the browser
+     renders an empty white button because the base mobile button rule is broad. */
+  .mobile-account .account-secondary-link[hidden]{display:none !important;}
+  .mobile-account .account-secondary-link{
+    display:block !important;
+    width:auto !important;
+    min-height:0 !important;
+    margin:10px 0 0 !important;
+    padding:2px 0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:#d8a96d !important;
+    box-shadow:none !important;
+    font:600 10px/1.4 Inter,sans-serif !important;
+    letter-spacing:.07em !important;
+    text-transform:uppercase;
+    text-align:left;
+    cursor:pointer;
+  }
+  .mobile-account .account-secondary-link:hover,
+  .mobile-account .account-secondary-link:focus-visible{
+    color:#f0c98d !important;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    outline:none;
+  }
+  .mobile-account .account-secondary-link:disabled{
+    opacity:.55;
+    cursor:default;
+    text-decoration:none;
+  }
+  .mobile-account .compact-logout{
+    position:absolute !important;
+    top:18px;
+    right:24px;
+    width:auto !important;
+    min-width:0 !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:4px 0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:#8f877f !important;
+    box-shadow:none !important;
+    font:600 9px/1 Inter,sans-serif !important;
+    letter-spacing:.08em !important;
+  }
+  .mobile-account .compact-logout:active{transform:translateY(1px);box-shadow:none !important}
+}
+
+
+/* Mobile stability lock: account verification control and month picker. */
+@media(max-width:800px){
+  /* A hidden resend button must never leave an empty/white box behind. */
+  .mobile-account .account-secondary-link[hidden],
+  .mobile-account button[hidden]{
+    display:none !important;
+    visibility:hidden !important;
+    width:0 !important;
+    min-width:0 !important;
+    height:0 !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+
+  /* Keep the month control above every booking layer and make it a real touch target. */
+  .booking .month-picker{
+    position:relative !important;
+    z-index:2000 !important;
+    overflow:visible !important;
+    touch-action:manipulation !important;
+  }
+  .booking .month-current,
+  .booking .month-arrow{
+    position:relative !important;
+    z-index:2001 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-appearance:none !important;
+    appearance:none !important;
+  }
+  .booking .month-popover{
+    position:absolute !important;
+    z-index:2002 !important;
+    pointer-events:none !important;
+    touch-action:pan-y !important;
+  }
+  .booking .month-popover.open{
+    pointer-events:auto !important;
+  }
+  .booking .month-option{
+    position:relative !important;
+    z-index:2003 !important;
+    display:block !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-appearance:none !important;
+    appearance:none !important;
+  }
+}
+
+/* Mobile-only premium motion layer — visual design unchanged. */
+@media (max-width:800px){
+  @keyframes cb-mobile-rise{
+    from{opacity:0;transform:translate3d(0,14px,0)}
+    to{opacity:1;transform:translate3d(0,0,0)}
+  }
+  @keyframes cb-mobile-soft-glow{
+    0%,100%{box-shadow:0 0 0 rgba(226,180,119,0)}
+    50%{box-shadow:0 0 18px rgba(226,180,119,.10)}
+  }
+
+  /* Subtle entrance motion; no dimensions, colors or layout are changed. */
+  .booking,
+  .services,
+  .mobile-page,
+  .service-detail-page,
+  footer.mobile-footer{
+    animation:cb-mobile-rise .55s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .booking .service-choice,
+  .booking .barber,
+  .booking .dates button,
+  .booking .times button,
+  .,
+  .support-item{
+    transition:transform .18s cubic-bezier(.22,1,.36,1),
+                border-color .18s ease,
+                box-shadow .18s ease,
+                filter .18s ease;
+  }
+
+  /* Tactile mobile interaction without changing the existing design. */
+  .booking .service-choice:active,
+  .booking .barber:active,
+  .booking .dates button:active,
+  .booking .times button:active,
+  .:active,
+  .support-item:active{
+    transform:translateY(-2px) scale(.992);
+    filter:brightness(1.05);
+  }
+
+  .booking .service-choice.active,
+  .booking .barber.active .avatar,
+  .booking .dates button.active,
+  .booking .times button.active,
+  ..active{
+    animation:cb-mobile-soft-glow 2.4s ease-in-out infinite;
+  }
+
+  .booking button,
+  .mobile-page button,
+  .mobile-page a.page-action,
+  .service-detail-book,
+  .mobile-footer a{
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .booking .confirm,
+  .mobile-page .page-action,
+  .service-detail-book{
+    transition:transform .16s ease,box-shadow .18s ease,filter .18s ease;
+  }
+
+  .booking .confirm:active,
+  .mobile-page .page-action:active,
+  .service-detail-book:active{
+    transform:translateY(2px) scale(.995);
+    filter:brightness(1.06);
+  }
+
+  /* Gold focus treatment for keyboard/accessibility without altering layout. */
+  .booking button:focus-visible,
+  .mobile-page button:focus-visible,
+  .mobile-page a:focus-visible,
+  .service-detail-book:focus-visible{
+    outline:1px solid #d8a96d;
+    outline-offset:3px;
+  }
+}
+
+@media (max-width:800px) and (prefers-reduced-motion:reduce){
+  .booking,
+  .services,
+  .mobile-page,
+  .service-detail-page,
+  footer.mobile-footer,
+  .booking .service-choice.active,
+  .booking .barber.active .avatar,
+  .booking .dates button.active,
+  .booking .times button.active,
+  ..active{
+    animation:none !important;
+  }
+  .booking .service-choice,
+  .booking .barber,
+  .booking .dates button,
+  .booking .times button,
+  .,
+  .support-item,
+  .booking .confirm,
+  .mobile-page .page-action,
+  .service-detail-book{
+    transition:none !important;
+  }
+}
+
+/* Mobile-only bug fixes: keep the confirmation modal above the calendar controls
+   and remove any hidden control that could render as an empty white square. */
+@media (max-width:800px){
+  .booking-success{
+    z-index:3000 !important;
+  }
+  .booking-success-{
+    position:relative;
+    z-index:3001 !important;
+  }
+  .mobile-account [hidden],
+  .mobile-account button[hidden]{
+    display:none !important;
+    visibility:hidden !important;
+    width:0 !important;
+    min-width:0 !important;
+    height:0 !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    background:none !important;
+    box-shadow:none !important;
+  }
+}
+
+
+/* Mobile account + booking workflow — functional layer, visual style preserved. */
+@media(max-width:800px){
+  .mobile-account .account-tabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;margin:4px 0 16px!important;padding:5px!important;border:1px solid #ffffff12!important;border-radius:18px!important;background:#0e0d0c!important;overflow:visible!important}
+  .mobile-account .account-tab{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-width:0!important;min-height:44px!important;padding:8px 6px!important;border:1px solid transparent!important;border-radius:14px!important;background:transparent!important;color:#8f877f!important;box-shadow:none!important;appearance:none!important;-webkit-appearance:none!important;font:600 9px/1.2 Inter,sans-serif!important;letter-spacing:.05em!important;white-space:nowrap!important}
+  .mobile-account .account-tab.active{background:#c89d6518!important;color:#e3b477!important;border-color:#c89d6544!important}
+  .mobile-account .account-tab:active{transform:translateY(1px)!important}
+  .account-tab-panel{animation:cb-mobile-rise .22s ease both}
+  .account-profile-head{display:flex;align-items:center;gap:14px}
+  .account-avatar{position:relative!important;flex:0 0 62px;width:62px!important;height:62px!important;min-width:62px!important;min-height:62px!important;padding:0!important;border:1px solid #c89d6580!important;border-radius:50%!important;background:#171311!important;color:#d8a96d!important;box-shadow:0 8px 20px #0007!important;overflow:hidden!important}
+  .account-avatar img{display:block;width:100%;height:100%;object-fit:cover}
+  .account-avatar span{font:300 28px/1 Inter,sans-serif}
+  .account-profile-copy{min-width:0}
+  .account-profile-copy h2{margin-bottom:7px!important}
+  .account-edit-trigger{display:block!important;width:auto!important;min-height:0!important;margin:14px 0 0!important;padding:2px 0!important;border:0!important;background:transparent!important;color:#d8a96d!important;box-shadow:none!important;font:600 9px/1.4 Inter,sans-serif!important;letter-spacing:.07em!important}
+  .account-edit-form{display:grid;gap:10px;margin-top:14px}
+  .account-edit-form input{width:100%;box-sizing:border-box;min-height:44px;padding:0 14px;border:1px solid #ffffff18;border-radius:10px;background:#11100f;color:#f5eee5;outline:none;font:11px Inter,sans-serif}
+  .account-edit-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .account-edit-actions button{min-height:40px!important;border:1px solid #c89d6566!important;border-radius:999px!important;background:#151311!important;color:#e3b477!important;font:600 9px/1 Inter,sans-serif!important}
+  .account-edit-actions .primary{background:linear-gradient(180deg,#f0c98d,#dca866)!important;color:#17110b!important;border-color:#f0c98d!important;box-shadow:0 3px 0 #8e6438!important}
+  .account-toggle{display:grid;grid-template-columns:1fr 46px;gap:10px;align-items:center;padding:13px 0;border-top:1px solid #ffffff12;cursor:pointer}
+  .account-toggle:first-of-type{border-top:0}
+  .account-toggle span{display:grid;gap:4px}.account-toggle strong{font:500 12px/1.2 Inter,sans-serif;color:#f0e8df}.account-toggle small{font:9px/1.4 Inter,sans-serif;color:#8f877f}
+  .account-toggle input{position:absolute;opacity:0;pointer-events:none}.account-toggle i{position:relative;width:42px;height:24px;border:1px solid #ffffff22;border-radius:999px;background:#11100f;justify-self:end}.account-toggle i:after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#8f877f;transition:.18s ease}.account-toggle input:checked+i{background:#c89d6520;border-color:#c89d6577}.account-toggle input:checked+i:after{transform:translateX(18px);background:#e3b477}
+
+  .account-promo,.mobile-account-gate,.mobile-payment{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:22px;background:#000b;backdrop-filter:blur(6px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease}
+  .account-promo.open,.mobile-account-gate.open,.mobile-payment.open{opacity:1;visibility:visible;pointer-events:auto}
+  .account-promo-,.mobile-account-gate-,.mobile-payment-{position:relative;width:min(330px,88vw);padding:26px 20px 20px;border:1px solid #c89d6577;border-radius:20px;background:linear-gradient(180deg,#171513,#0d0c0b);color:#f5eee5;text-align:center;box-shadow:0 24px 60px #000c,inset 0 1px 0 #ffffff10}
+  .account-promo- h2,.mobile-account-gate- h2,.mobile-payment- h2{margin:8px 0 8px;font:500 28px/1.05 "Cormorant Garamond"}
+  .account-promo- p,.mobile-account-gate- p,.mobile-payment- p{margin:0 0 16px;color:#bdb4ab;font:11px/1.55 Inter,sans-serif}
+  .promo-code{display:inline-block;margin:3px auto 8px;padding:10px 15px;border:1px solid #c89d6588;border-radius:10px;background:#c89d6512;color:#e3b477;font:700 14px/1 Inter,sans-serif;letter-spacing:.16em}
+  .account-promo- small{display:block;color:#8f877f;font:9px/1.4 Inter,sans-serif}
+  .account-promo->button:last-child{width:100%!important;min-height:42px!important;margin-top:18px!important;border:1px solid #f0c98d!important;border-radius:10px!important;background:#e2b477!important;color:#17110b!important;font:600 10px/1 Inter,sans-serif!important}
+  .account-promo-close,.mobile-account-gate-close,.mobile-payment-close{position:absolute!important;top:8px!important;right:10px!important;width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;padding:0!important;border:0!important;background:none!important;color:#a99f96!important;box-shadow:none!important;font:400 24px/30px Inter,sans-serif!important}
+  .mobile-account-gate- .mobile-form{display:grid;gap:10px;text-align:left}.mobile-account-gate- .mobile-form input{box-sizing:border-box;width:100%;min-height:44px;padding:0 14px;border:1px solid #ffffff18;border-radius:10px;background:#11100f;color:#f5eee5;font:11px Inter,sans-serif}.mobile-account-gate- .account-primary-action{width:100%!important;margin-top:2px!important}
+  .mobile-payment-{text-align:left}.mobile-payment- .eyebrow{display:block}.payment-method{display:grid;grid-template-columns:24px 1fr;gap:3px 8px;padding:13px;border:1px solid #c89d6577;border-radius:12px;background:#c89d6510;margin-bottom:14px}.payment-method span{grid-row:1/3;color:#e3b477}.payment-method strong{font:600 10px Inter,sans-serif}.payment-method small{color:#8f877f;font:9px Inter,sans-serif}.mobile-payment- .booking-success-ok{width:100%;margin-top:2px}
+  .booking-success{z-index:6000!important}.booking-success-{z-index:6001!important}
+  .mobile-account-gate .account-status,.mobile-payment .account-status{min-height:18px}
+}
+
+
+
+/* MOBILE ONLY — keep all intended scrolling, make the account gate reachable, and avoid white scrollbar artifacts. */
+@media(max-width:800px){
+  .mobile-account-gate{
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(14px + env(safe-area-inset-bottom,0px)) !important;
+  }
+
+  .mobile-account-gate-{
+    flex:0 0 auto;
+    width:min(330px,92vw) !important;
+    max-height:calc(100dvh - 28px) !important;
+    margin:0 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+  }
+
+  .mobile-account-gate- .mobile-form{
+    max-height:none !important;
+    overflow:visible !important;
+    padding-right:2px;
+  }
+
+  /* Preserve scrolling everywhere, but make the scrollbar dark/gold instead of a white block. */
+  .mobile-account-gate,
+  .mobile-account-gate-,
+  .booking .times,
+  .booking .dates,
+  .booking .service-row,
+  .booking .barber-row,
+  .booking .month-popover,
+  .testimonial-row{
+    scrollbar-width:thin;
+    scrollbar-color:#6f5539 transparent;
+  }
+
+  .mobile-account-gate::-webkit-scrollbar,
+  .mobile-account-gate-::-webkit-scrollbar,
+  .booking .times::-webkit-scrollbar,
+  .booking .dates::-webkit-scrollbar,
+  .booking .service-row::-webkit-scrollbar,
+  .booking .barber-row::-webkit-scrollbar,
+  .booking .month-popover::-webkit-scrollbar,
+  .testimonial-row::-webkit-scrollbar{
+    width:5px;
+    height:5px;
+  }
+  .mobile-account-gate::-webkit-scrollbar-track,
+  .mobile-account-gate-::-webkit-scrollbar-track,
+  .booking .times::-webkit-scrollbar-track,
+  .booking .dates::-webkit-scrollbar-track,
+  .booking .service-row::-webkit-scrollbar-track,
+  .booking .barber-row::-webkit-scrollbar-track,
+  .booking .month-popover::-webkit-scrollbar-track,
+  .testimonial-row::-webkit-scrollbar-track{
+    background:transparent;
+  }
+  .mobile-account-gate::-webkit-scrollbar-thumb,
+  .mobile-account-gate-::-webkit-scrollbar-thumb,
+  .booking .times::-webkit-scrollbar-thumb,
+  .booking .dates::-webkit-scrollbar-thumb,
+  .booking .service-row::-webkit-scrollbar-thumb,
+  .booking .barber-row::-webkit-scrollbar-thumb,
+  .booking .month-popover::-webkit-scrollbar-thumb,
+  .testimonial-row::-webkit-scrollbar-thumb{
+    background:#6f5539;
+    border-radius:999px;
+  }
+
+  .mobile-account-gate- input,
+  .mobile-account-gate- button{
+    scroll-margin-top:24px;
+    scroll-margin-bottom:24px;
+  }
+}
+
+
+/* Mobile account promo tab — additive only. */
+@media (max-width: 767px){
+  .mobile-account .account-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important;overflow:visible!important;justify-content:stretch!important;}
+  .mobile-account .account-tab{white-space:nowrap!important;}
+  .mobile-account .account-promos- .account-muted{margin:0 0 14px;}
+  .mobile-account #account-promos-list{display:grid;gap:10px;}
+  .mobile-account .account-promo-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 12px;border:1px solid #c89d6538;border-radius:14px;background:#11100f;}
+  .mobile-account .account-promo-item strong{display:block;color:#f5eee5;font:600 16px/1 Inter,sans-serif;letter-spacing:.08em;}
+  .mobile-account .account-promo-item small{display:block;margin-top:5px;color:#9d958d;font:10px/1.35 Inter,sans-serif;}
+  .mobile-account .account-promo-copy{flex:0 0 auto;min-height:34px;padding:0 11px;border:1px solid #c89d6577;border-radius:9px;background:transparent;color:#e3b477;font:600 9px/1 Inter,sans-serif;}
+  .mobile-account .account-promo-copy:active{background:#e3b477;color:#17110b;}
+}
+
+
+/* V10 mobile-only additions: payment choices, expiring promos and app reminders. */
+@media (max-width:800px){
+  .payment-methods{display:grid;gap:8px;margin-bottom:14px}
+  .payment-method{width:100%;display:grid;grid-template-columns:24px 1fr;gap:3px 8px;padding:13px;border:1px solid #c89d6544;border-radius:12px;background:#11100f;color:#f5eee5;text-align:left}
+  .payment-method.active{border-color:#c89d65aa;background:#c89d6510}
+  .payment-method span{grid-row:1/3;color:#e3b477}
+  .payment-method strong{font:600 10px Inter,sans-serif}
+  .payment-method small{color:#8f877f;font:9px Inter,sans-serif}
+  .account-payment-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;padding:10px 0;border-top:1px solid #ffffff10;color:#bdb4ab;font:10px/1.4 Inter,sans-serif}
+  .account-payment-row strong{color:#e3b477}
+  .account-pay-{border:1px solid #c89d6566;border-radius:999px;background:#151311;color:#e3b477;padding:8px 11px;font:600 8px/1 Inter,sans-serif;letter-spacing:.04em}
+  .account-promo-item.expired{opacity:.45}
+  .account-promo-item button:disabled{opacity:.45;pointer-events:none}
+  .mobile-account .account-notification-enable{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:54px!important;margin:0 0 6px!important;padding:0 18px!important;border:1px solid #f0c98d!important;border-radius:14px!important;background:linear-gradient(180deg,#f0c98d 0%,#dca866 100%)!important;color:#17110b!important;box-shadow:0 4px 0 #8e6438,0 10px 22px #0008,inset 0 1px 0 #fff8!important;appearance:none!important;-webkit-appearance:none!important;outline:none!important;font:700 10px/1.25 Inter,sans-serif!important;letter-spacing:.07em!important;text-align:center!important;cursor:pointer!important}
+  .mobile-account .account-notification-enable:active{transform:translateY(2px)!important;box-shadow:0 2px 0 #8e6438,0 6px 14px #0007,inset 0 1px 0 #fff8!important}
+  .mobile-account .account-notification-enable[disabled]{opacity:.7!important;cursor:default!important}
+  .mobile-account #notification-status{display:block!important;min-height:20px!important;margin:2px 0 8px!important;padding:0 6px!important;color:#d8a96d!important;font:500 10px/1.45 Inter,sans-serif!important;text-align:center!important;background:transparent!important;border:0!important;box-shadow:none!important}
+}
+
+
+/* MOBILE ONLY — hide the desktop language control that otherwise renders as a default white button. */
+@media (max-width:800px){
+  .desktop-lang-switch{
+    display:none !important;
+  }
+
+  /* Service cards stay swipeable, but each card itself remains a real tap target. */
+  .services .cards article{
+    cursor:pointer !important;
+    touch-action:manipulation;
+  }
+
+  /* Prices are shown in the booking selector, not in the lower service cards. */
+  .services .cards article b{
+    display:none !important;
+  }
+}
+
+
+/* MOBILE ONLY — registration gate opens at the top of the visible viewport. */
+@media (max-width:800px){
+  .mobile-account-gate{
+    align-items:flex-start !important;
+    justify-content:center !important;
+    min-height:100dvh !important;
+    box-sizing:border-box !important;
+    padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px)) !important;
+  }
+  .mobile-account-gate-{
+    width:min(330px,92vw) !important;
+    max-height:calc(100dvh - 24px) !important;
+    margin:0 auto !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    scroll-behavior:auto !important;
+  }
+  .mobile-account-gate- .mobile-form{overflow:visible !important;}
+}
+
+/* MOBILE FINAL LOCK — the desktop language control must never render as a white/default browser square. */
+@media (max-width:800px){
+  button.desktop-lang-switch,
+  .desktop-lang-switch{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    width:0 !important;
+    height:0 !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:0 !important;
+    max-height:0 !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    pointer-events:none !important;
+    overflow:hidden !important;
+  }
+}
+
+
+/* MOBILE FINAL — services are real tap targets; no prices in the lower service cards. */
+@media (max-width:800px){
+  .services .cards{
+    position:relative !important;
+    z-index:2 !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    pointer-events:auto !important;
+  }
+  .services .cards .service-card{
+    position:relative !important;
+    display:block !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:1px solid #ffffff18 !important;
+    border-radius:8px !important;
+    background:#11100f !important;
+    color:#f5eee5 !important;
+    cursor:pointer !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent !important;
+    transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease !important;
+  }
+  .services .cards .service-card .service-card-photo{
+    width:100% !important;
+    aspect-ratio:1/1 !important;
+    height:auto !important;
+    background-size:125% 125% !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+    background-color:#11100f !important;
+  }
+  .services .cards .service-card-copy{
+    position:relative !important;
+    min-height:58px !important;
+    height:auto !important;
+    box-sizing:border-box !important;
+    padding:12px 40px 12px 11px !important;
+    display:flex !important;
+    align-items:center !important;
+  }
+  .services .cards .service-card-copy span{
+    display:block !important;
+    margin:0 !important;
+    color:#f5eee5 !important;
+    font:500 12px/1.25 Inter,sans-serif !important;
+    letter-spacing:0 !important;
+  }
+  .services .cards .service-card-copy b{display:none !important;}
+  .services .cards .service-card-copy i{
+    position:absolute !important;
+    right:10px !important;
+    top:50% !important;
+    bottom:auto !important;
+    transform:translateY(-50%) !important;
+    width:24px !important;
+    height:24px !important;
+    display:grid !important;
+    place-items:center !important;
+    box-sizing:border-box !important;
+    border:1px solid #c9995e !important;
+    border-radius:50% !important;
+    color:#e3b477 !important;
+    font:400 13px/1 Inter,sans-serif !important;
+    font-style:normal !important;
+  }
+  .services .cards .service-card.active,
+  .services .cards .service-card.is-tapped,
+  .services .cards .service-card:focus-visible{
+    border:2px solid #e3b477 !important;
+    box-shadow:0 0 0 1px #e3b47733 !important;
+    outline:none !important;
+  }
+  .services .cards .service-card:active{
+    transform:translateY(1px) scale(.995) !important;
+    filter:brightness(1.05) !important;
+  }
+
+  /* Keep every booking selector above decorative layers and actually tappable. */
+  .booking .service-row,
+  .booking .barber-row,
+  .booking .dates,
+  .booking .times{
+    position:relative !important;
+    z-index:20 !important;
+    pointer-events:auto !important;
+  }
+  .booking .service-choice,
+  .booking .barber,
+  .booking .dates button,
+  .booking .times button{
+    position:relative !important;
+    z-index:21 !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent !important;
+  }
+}
+
+/* MOBILE FINAL — permanently suppress the stray desktop language/default button artifact. */
+@media (max-width:800px){
+  .desktop-lang-switch,
+  button.desktop-lang-switch,
+  .hero > .desktop-lang-switch{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    position:absolute !important;
+    width:0 !important;
+    height:0 !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:0 !important;
+    max-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+    overflow:hidden !important;
+  }
+}
