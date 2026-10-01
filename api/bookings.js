@@ -2,7 +2,9 @@ function config() {
   return {
     url: (process.env.SUPABASE_URL || '').replace(/\/$/, ''),
     key: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-    table: process.env.SUPABASE_BOOKINGS_TABLE || 'bookings'
+    table: process.env.SUPABASE_BOOKINGS_TABLE || 'bookings',
+    barbersTable: process.env.SUPABASE_BARBERS_TABLE || 'barbers',
+    servicesTable: process.env.SUPABASE_SERVICES_TABLE || 'services',
   };
 }
 
@@ -11,38 +13,34 @@ function headers(key, extra = {}) {
     apikey: key,
     Authorization: `Bearer ${key}`,
     'Content-Type': 'application/json',
-    ...extra
+    ...extra,
   };
 }
 
 async function rest(url, key, path, options = {}) {
   const response = await fetch(`${url}/rest/v1/${path}`, {
     ...options,
-    headers: headers(key, options.headers || {})
+    headers: headers(key, options.headers || {}),
   });
   const data = await response.json().catch(() => null);
   return { response, data };
 }
 
 function normalize(value) {
-  return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
 }
 
-function normalizeLegacy(row) {
-  return {
-    id: row.id,
-    barber: row.barber || '',
-    service: row.service || row.serviceKey || '',
-    serviceKey: row.serviceKey || '',
-    price: row.price || '',
-    date: row.date || '',
-    time: String(row.time || '').slice(0, 5),
-    language: row.language || 'uk',
-    createdAt: row.createdAt || row.created_at || null,
-    accountId: row.account_id || '',
-    customerEmail: row.customer_email || '',
-    status: row.status || 'confirmed'
-  };
+function isUuid(value) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    String(value || '')
+  );
+}
+
+function errorDetail(data) {
+  return data?.message || data?.hint || data?.details || '';
 }
 
 function isDuplicate(response, data) {
@@ -51,269 +49,484 @@ function isDuplicate(response, data) {
   return response.status === 409 || code === '23505' || /duplicate|unique/i.test(message);
 }
 
-function schemaError(data) {
-  const message = String(data?.message || data?.hint || data?.details || '');
-  return /column|relation|schema cache|does not exist|not found/i.test(message);
+const SERVICE_ALIASES = {
+  classic: ['Classic Haircut', 'Класична стрижка', 'Haircut'],
+  hairBeard: ['Hair + Beard', 'Стрижка + борода'],
+  beardTrim: ['Beard Trim', 'Оформлення бороди'],
+  royalShave: ['Royal Shave', 'Королівське гоління'],
+  kidsHaircut: ['Kids Haircut', 'Дитяча стрижка'],
+};
+
+function serviceMatches(row, service, serviceKey) {
+  const wanted = new Set([
+    normalize(service),
+    normalize(serviceKey),
+    ...(SERVICE_ALIASES[serviceKey] || []).map(normalize),
+  ].filter(Boolean));
+
+  return wanted.has(normalize(row.name));
+}
+
+async function findBarber(url, key, table, barberId, barberName) {
+  if (isUuid(barberId)) {
+    const result = await rest(
+      url,
+      key,
+      `${table}?select=id,name&id=eq.${encodeURIComponent(barberId)}&limit=1`
+    );
+    if (result.response.ok && Array.isArray(result.data) && result.data[0]) {
+      return result.data[0];
+    }
+  }
+
+  const name = String(barberName || '').trim();
+  if (!name) return null;
+
+  const result = await rest(
+    url,
+    key,
+    `${table}?select=id,name&name=eq.${encodeURIComponent(name)}&limit=1`
+  );
+
+  if (!result.response.ok || !Array.isArray(result.data)) return null;
+  return result.data[0] || null;
+}
+
+async function findService(url, key, table, serviceId, service, serviceKey) {
+  if (isUuid(serviceId)) {
+    const result = await rest(
+      url,
+      key,
+      `${table}?select=id,name,price,duration_minutes&id=eq.${encodeURIComponent(serviceId)}&limit=1`
+    );
+    if (result.response.ok && Array.isArray(result.data) && result.data[0]) {
+      return result.data[0];
+    }
+  }
+
+  const result = await rest(
+    url,
+    key,
+    `${table}?select=id,name,price,duration_minutes&is_active=eq.true&order=name.asc`
+  );
+
+  if (!result.response.ok || !Array.isArray(result.data)) return null;
+
+  return (
+    result.data.find(row => serviceMatches(row, service, serviceKey)) ||
+    null
+  );
+}
+
+async function loadReferenceMaps(url, key, barbersTable, servicesTable) {
+  const [barbersResult, servicesResult] = await Promise.all([
+    rest(
+      url,
+      key,
+      `${barbersTable}?select=id,name,is_active&order=name.asc`
+    ),
+    rest(
+      url,
+      key,
+      `${servicesTable}?select=id,name,price,duration_minutes,is_active&order=name.asc`
+    ),
+  ]);
+
+  return {
+    barbers: barbersResult.response.ok && Array.isArray(barbersResult.data)
+      ? barbersResult.data
+      : [],
+    services: servicesResult.response.ok && Array.isArray(servicesResult.data)
+      ? servicesResult.data
+      : [],
+  };
+}
+
+function serializeBooking(row, barberMap, serviceMap) {
+  const barber = barberMap.get(String(row.barber_id)) || {};
+  const service = serviceMap.get(String(row.service_id)) || {};
+
+  return {
+    id: row.id,
+    barberId: row.barber_id,
+    serviceId: row.service_id,
+    barber: barber.name || '',
+    service: service.name || '',
+    serviceKey: '',
+    price: service.price ?? '',
+    customerName: row.customer_name || '',
+    customerPhone: row.customer_phone || '',
+    customerEmail: row.customer_email || '',
+    date: row.booking_date || '',
+    time: String(row.booking_time || '').slice(0, 5),
+    status: row.status || 'confirmed',
+    notes: row.notes || null,
+    createdAt: row.created_at || null,
+  };
 }
 
 async function sendBookingEmail(b) {
   if (!b.customerEmail || !process.env.RESEND_API_KEY) return false;
-  const from = process.env.CONTACT_FROM || process.env.RESEND_FROM || 'Crown & Blade <onboarding@resend.dev>';
+
+  const from =
+    process.env.CONTACT_FROM ||
+    process.env.RESEND_FROM ||
+    'Crown & Blade <onboarding@resend.dev>';
+
   try {
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from,
         to: [b.customerEmail],
         subject: 'Crown & Blade — бронювання підтверджено',
-        text: `Ваш запис підтверджено.\n\nПослуга: ${b.service || b.serviceKey || ''}\nБарбер: ${b.barber || ''}\nДата: ${b.date || ''}\nЧас: ${b.time || ''}`
-      })
+        text:
+          `Ваш запис підтверджено.\n\n` +
+          `Послуга: ${b.service || ''}\n` +
+          `Барбер: ${b.barber || ''}\n` +
+          `Дата: ${b.date || ''}\n` +
+          `Час: ${b.time || ''}\n\n` +
+          `Дякуємо, що обрали Crown & Blade.`,
+      }),
     });
+
     return response.ok;
   } catch {
     return false;
   }
 }
 
-async function readLegacyBookings(url, key, table, { month = '', email = '', accountId = '' } = {}) {
-  const params = new URLSearchParams();
-  params.set('select', '*');
-  params.set('order', 'date.asc,time.asc');
+export default async function handler(req, res) {
+  const { url, key, table, barbersTable, servicesTable } = config();
 
-  if (/^\d{4}-\d{2}$/.test(month)) {
-    const [year, mon] = month.split('-').map(Number);
-    const from = `${month}-01`;
-    const next = new Date(year, mon, 1);
-    const to = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-01`;
-    params.append('date', `gte.${from}`);
-    params.append('date', `lt.${to}`);
-  }
-
-  const result = await rest(url, key, `${table}?${params.toString()}`);
-  if (!result.response.ok) return result;
-
-  let rows = Array.isArray(result.data) ? result.data : [];
-  if (email || accountId) {
-    rows = rows.filter(row => {
-      const sameEmail = email && normalize(row.customer_email) === email;
-      const sameAccount = accountId && String(row.account_id || '').trim() === accountId;
-      return sameEmail || sameAccount;
+  if (!url || !key) {
+    return res.status(503).json({
+      ok: false,
+      error: 'Booking database is not configured',
     });
   }
 
-  result.data = rows
-    .filter(row => String(row.status || 'confirmed').toLowerCase() !== 'cancelled')
-    .map(normalizeLegacy);
-  return result;
-}
+  // =========================
+  // GET — отримати бронювання
+  // =========================
 
-export default async function handler(req, res) {
-  const { url, key, table } = config();
-  if (!url || !key) {
-    return res.status(503).json({ ok: false, error: 'Booking database is not configured' });
-  }
-
-  // The public mobile booking system is built around the documented legacy
-  // schema: service, serviceKey, price, barber, date, time, language, createdAt.
-  // Keep that path first. Relational support is only a fallback.
   if (req.method === 'GET') {
-    const month = String(req.query.month || '');
+    const month = String(req.query.month || '').trim();
     const email = normalize(req.query.email || '');
-    const accountId = String(req.query.accountId || '').trim();
+    const barberName = String(req.query.barber || '').trim();
 
-    if (!/^\d{4}-\d{2}$/.test(month) && !email && !accountId) {
-      return res.status(400).json({ ok: false, error: 'Month or account filter is required' });
+    if (!/^\d{4}-\d{2}$/.test(month) && !email) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Month or email filter is required',
+      });
     }
 
     try {
-      const legacy = await readLegacyBookings(url, key, table, { month, email, accountId });
-      if (legacy.response.ok) {
-        return res.status(200).json({ ok: true, bookings: legacy.data || [] });
+      const refs = await loadReferenceMaps(
+        url,
+        key,
+        barbersTable,
+        servicesTable
+      );
+
+      const barberMap = new Map(
+        refs.barbers.map(row => [String(row.id), row])
+      );
+      const serviceMap = new Map(
+        refs.services.map(row => [String(row.id), row])
+      );
+
+      let selectedBarberId = '';
+      if (barberName) {
+        const wanted = normalize(barberName);
+        const barber = refs.barbers.find(
+          row => normalize(row.name) === wanted
+        );
+
+        if (barber) {
+          selectedBarberId = String(barber.id);
+        }
       }
 
-      // Only if the documented legacy schema is unavailable, try the relational schema.
       const params = new URLSearchParams();
-      params.set('select', 'id,barber_id,service_id,customer_name,customer_phone,customer_email,account_id,booking_date,booking_time,status,notes,created_at,updated_at');
+      params.set(
+        'select',
+        'id,barber_id,service_id,customer_name,customer_phone,customer_email,booking_date,booking_time,status,notes,created_at'
+      );
+
       if (/^\d{4}-\d{2}$/.test(month)) {
         const [year, mon] = month.split('-').map(Number);
         const from = `${month}-01`;
         const next = new Date(year, mon, 1);
-        const to = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-01`;
-        params.append('booking_date', `gte.${from}`);
+        const to =
+          `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-01`;
+
+        params.set('booking_date', `gte.${from}`);
         params.append('booking_date', `lt.${to}`);
       }
-      if (email) params.set('customer_email', `eq.${email}`);
-      else if (accountId) params.set('account_id', `eq.${accountId}`);
+
+      if (selectedBarberId) {
+        params.set('barber_id', `eq.${selectedBarberId}`);
+      }
+
+      if (email) {
+        params.set('customer_email', `eq.${email}`);
+      }
+
       params.set('status', 'neq.cancelled');
       params.set('order', 'booking_date.asc,booking_time.asc');
 
-      const relational = await rest(url, key, `${table}?${params.toString()}`);
-      if (!relational.response.ok) {
+      const result = await rest(
+        url,
+        key,
+        `${table}?${params.toString()}`
+      );
+
+      if (!result.response.ok) {
         return res.status(502).json({
           ok: false,
           error: 'Database read failed',
-          detail: relational.data?.message || legacy.data?.message || ''
+          detail: errorDetail(result.data),
         });
       }
 
-      const bookings = (Array.isArray(relational.data) ? relational.data : []).map(row => ({
-        id: row.id,
-        barberId: row.barber_id,
-        serviceId: row.service_id,
-        barber: row.barber || '',
-        service: row.service || '',
-        serviceKey: row.serviceKey || '',
-        customerName: row.customer_name || '',
-        customerPhone: row.customer_phone || '',
-        customerEmail: row.customer_email || '',
-        accountId: row.account_id || '',
-        date: row.booking_date || '',
-        time: String(row.booking_time || '').slice(0, 5),
-        status: row.status || 'confirmed',
-        notes: row.notes || null,
-        createdAt: row.created_at || null
-      }));
-      return res.status(200).json({ ok: true, bookings });
+      const bookings = (Array.isArray(result.data) ? result.data : []).map(
+        row => serializeBooking(row, barberMap, serviceMap)
+      );
+
+      return res.status(200).json({
+        ok: true,
+        bookings,
+      });
     } catch (error) {
-      return res.status(502).json({ ok: false, error: 'Database read failed', detail: error.message || '' });
+      return res.status(502).json({
+        ok: false,
+        error: 'Database read failed',
+        detail: error.message || '',
+      });
     }
   }
+
+  // =========================
+  // POST — створити бронювання
+  // =========================
 
   if (req.method === 'POST') {
     const b = req.body || {};
-    const service = String(b.service || b.serviceKey || '').trim();
+
+    const barberName = String(b.barber || '').trim();
+    const service = String(b.service || '').trim();
     const serviceKey = String(b.serviceKey || '').trim();
-    const barber = String(b.barber || '').trim();
     const date = String(b.date || '').trim();
-    const time = String(b.time || '').trim();
+    const time = String(b.time || '').trim().slice(0, 5);
     const customerName = String(b.customerName || '').trim();
     const customerPhone = String(b.customerPhone || '').trim();
     const customerEmail = String(b.customerEmail || '').trim().toLowerCase();
-    const accountId = String(b.accountId || '').trim();
 
-    if (!service || !serviceKey || !barber || !date || !time || !customerName || !customerPhone) {
-      return res.status(400).json({ ok: false, error: 'Missing booking fields' });
+    if (
+      !barberName ||
+      (!service && !serviceKey) ||
+      !date ||
+      !time ||
+      !customerName ||
+      !customerPhone
+    ) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Missing booking fields',
+      });
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}$/.test(time)) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Invalid booking date or time',
+      });
     }
 
     try {
-      // Prevent duplicate slots without depending on a database unique index.
-      const existing = await readLegacyBookings(url, key, table, { month: date.slice(0, 7) });
-      if (existing.response.ok) {
-        const duplicate = (existing.data || []).some(row =>
-          normalize(row.barber) === normalize(barber) &&
-          String(row.date) === date &&
-          String(row.time).slice(0, 5) === time.slice(0, 5)
-        );
-        if (duplicate) {
-          return res.status(409).json({ ok: false, error: 'That time may already be booked' });
-        }
+      const [barber, serviceRow] = await Promise.all([
+        findBarber(
+          url,
+          key,
+          barbersTable,
+          b.barberId,
+          barberName
+        ),
+        findService(
+          url,
+          key,
+          servicesTable,
+          b.serviceId,
+          service,
+          serviceKey
+        ),
+      ]);
+
+      if (!barber) {
+        return res.status(422).json({
+          ok: false,
+          error: 'Barber not found',
+          detail: barberName,
+        });
       }
 
-      // PRIMARY INSERT: exact documented mobile schema.
-      const base = {
-        service,
-        serviceKey,
-        price: String(b.price || '').trim(),
-        barber,
-        date,
-        time,
-        language: String(b.language || 'uk').trim(),
-        createdAt: b.createdAt || new Date().toISOString()
-      };
+      if (!serviceRow) {
+        return res.status(422).json({
+          ok: false,
+          error: 'Service not found',
+          detail: service || serviceKey,
+        });
+      }
 
-      let payload = { ...base };
-      if (customerEmail) payload.customer_email = customerEmail;
-      if (accountId) payload.account_id = accountId;
-
-      let result = await rest(url, key, table, {
-        method: 'POST',
-        headers: { Prefer: 'return=representation' },
-        body: JSON.stringify(payload)
+      // Check the exact slot before INSERT. The unique index in Supabase
+      // remains the final protection against two simultaneous requests.
+      const duplicateQuery = new URLSearchParams({
+        select: 'id',
+        barber_id: `eq.${barber.id}`,
+        booking_date: `eq.${date}`,
+        booking_time: `eq.${time}:00`,
+        status: 'neq.cancelled',
+        limit: '1',
       });
 
-      // account_id/customer_email are optional columns. If either is missing,
-      // retry with the guaranteed booking columns only.
-      if (!result.response.ok && schemaError(result.data)) {
-        result = await rest(url, key, table, {
-          method: 'POST',
-          headers: { Prefer: 'return=representation' },
-          body: JSON.stringify(base)
+      const duplicate = await rest(
+        url,
+        key,
+        `${table}?${duplicateQuery.toString()}`
+      );
+
+      if (duplicate.response.ok && Array.isArray(duplicate.data) && duplicate.data.length) {
+        return res.status(409).json({
+          ok: false,
+          error: 'That time may already be booked',
         });
       }
 
-      // Fallback only for a genuinely relational-only table.
-      if (!result.response.ok && schemaError(result.data)) {
-        const relational = {
-          barber_id: b.barberId,
-          service_id: b.serviceId,
-          customer_name: customerName,
-          customer_phone: customerPhone,
-          customer_email: customerEmail || null,
-          account_id: accountId || null,
-          booking_date: date,
-          booking_time: time,
-          status: 'confirmed',
-          notes: b.notes || null
-        };
-        if (!relational.barber_id || !relational.service_id) {
-          return res.status(502).json({ ok: false, error: 'Booking database schema does not match the site', detail: result.data?.message || '' });
-        }
-        result = await rest(url, key, table, {
-          method: 'POST',
-          headers: { Prefer: 'return=representation' },
-          body: JSON.stringify(relational)
-        });
-      }
+      const payload = {
+        barber_id: barber.id,
+        service_id: serviceRow.id,
+        customer_name: customerName,
+        customer_phone: customerPhone,
+        customer_email: customerEmail || null,
+        booking_date: date,
+        booking_time: `${time}:00`,
+        status: 'confirmed',
+        notes: b.notes || null,
+      };
+
+      const result = await rest(url, key, table, {
+        method: 'POST',
+        headers: {
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (!result.response.ok) {
         const conflict = isDuplicate(result.response, result.data);
+
         return res.status(conflict ? 409 : 502).json({
           ok: false,
-          error: conflict ? 'That time may already be booked' : 'Booking creation failed',
-          detail: result.data?.message || result.data?.hint || result.data?.details || ''
+          error: conflict
+            ? 'That time may already be booked'
+            : 'Booking creation failed',
+          detail: errorDetail(result.data),
         });
       }
 
-      const raw = Array.isArray(result.data) ? result.data[0] : result.data;
-      const booking = raw?.booking_date
-        ? {
-            id: raw.id,
-            barber: b.barber,
-            service,
-            serviceKey,
-            date: raw.booking_date,
-            time: String(raw.booking_time || '').slice(0, 5),
-            accountId: raw.account_id || accountId,
-            customerEmail: raw.customer_email || customerEmail,
-            status: raw.status || 'confirmed'
-          }
-        : normalizeLegacy({ ...base, ...raw, account_id: raw?.account_id || accountId, customer_email: raw?.customer_email || customerEmail });
+      const raw = Array.isArray(result.data)
+        ? result.data[0]
+        : result.data;
 
-      const emailSent = await sendBookingEmail({ ...b, customerEmail });
-      return res.status(201).json({ ok: true, booking, emailSent });
+      const booking = {
+        id: raw?.id,
+        barberId: barber.id,
+        serviceId: serviceRow.id,
+        barber: barber.name || barberName,
+        service: serviceRow.name || service || serviceKey,
+        serviceKey,
+        price: serviceRow.price ?? b.price ?? '',
+        customerName,
+        customerPhone,
+        customerEmail: raw?.customer_email || customerEmail,
+        date: raw?.booking_date || date,
+        time: String(raw?.booking_time || time).slice(0, 5),
+        status: raw?.status || 'confirmed',
+        notes: raw?.notes || b.notes || null,
+        createdAt: raw?.created_at || new Date().toISOString(),
+      };
+
+      const emailSent = await sendBookingEmail(booking);
+
+      return res.status(201).json({
+        ok: true,
+        booking,
+        emailSent,
+      });
     } catch (error) {
-      return res.status(502).json({ ok: false, error: 'Booking creation failed', detail: error.message || '' });
+      return res.status(502).json({
+        ok: false,
+        error: 'Booking creation failed',
+        detail: error.message || '',
+      });
     }
   }
+
+  // =========================
+  // DELETE — скасувати запис
+  // =========================
 
   if (req.method === 'DELETE') {
     const id = String(req.query.id || '').trim();
-    if (!id) return res.status(400).json({ ok: false, error: 'Missing booking id' });
-    try {
-      const result = await rest(url, key, `${table}?id=eq.${encodeURIComponent(id)}`, {
-        method: 'DELETE',
-        headers: { Prefer: 'return=minimal' }
+
+    if (!id) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Missing booking id',
       });
-      if (!result.response.ok) return res.status(502).json({ ok: false, error: 'Booking cancellation failed', detail: result.data?.message || '' });
-      return res.status(200).json({ ok: true });
+    }
+
+    try {
+      const result = await rest(
+        url,
+        key,
+        `${table}?id=eq.${encodeURIComponent(id)}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Prefer: 'return=minimal',
+          },
+        }
+      );
+
+      if (!result.response.ok) {
+        return res.status(502).json({
+          ok: false,
+          error: 'Booking cancellation failed',
+          detail: errorDetail(result.data),
+        });
+      }
+
+      return res.status(200).json({
+        ok: true,
+      });
     } catch (error) {
-      return res.status(502).json({ ok: false, error: 'Database connection failed', detail: error.message || '' });
+      return res.status(502).json({
+        ok: false,
+        error: 'Database connection failed',
+        detail: error.message || '',
+      });
     }
   }
 
-  return res.status(405).json({ ok: false, error: 'Method not allowed' });
+  return res.status(405).json({
+    ok: false,
+    error: 'Method not allowed',
+  });
 }
