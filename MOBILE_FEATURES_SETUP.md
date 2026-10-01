@@ -12,6 +12,11 @@ alter table bookings add column if not exists account_id text;
 alter table bookings add column if not exists payment_status text default 'confirmed';
 alter table bookings add column if not exists reminder_24_sent boolean default false;
 alter table bookings add column if not exists reminder_2_sent boolean default false;
+alter table bookings add column if not exists status text default 'confirmed';
+
+-- Prevent two clients from booking the same barber/time. Run only if this constraint does not already exist.
+create unique index if not exists bookings_barber_date_time_unique
+on bookings (barber, date, time);
 ```
 
 Set `CRON_SECRET` in Vercel if you want the reminder endpoint protected. Vercel Cron calls `/api/reminders` every 15 minutes.

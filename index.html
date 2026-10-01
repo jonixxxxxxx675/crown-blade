@@ -522,6 +522,7 @@ const bookingSuccessText=document.querySelector('#booking-success-text');
 const closeBookingSuccess=()=>{bookingSuccess.classList.remove('open');bookingSuccess.setAttribute('aria-hidden','true');document.body.classList.remove('booking-modal-open')};
 function createMobileBooking(){
   const selectedService=services.find(x=>x.name===service)||services[0];
+  const account=getMobileAccount()||{};
   return {
     id:'CB-'+Date.now()+'-'+Math.random().toString(36).slice(2,8).toUpperCase(),
     service:currentLang==='en'?selectedService.name:t('service_'+selectedService.key),
@@ -532,8 +533,10 @@ function createMobileBooking(){
     time,
     language:currentLang,
     createdAt:new Date().toISOString(),
-    accountId:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.id||null}catch{return null}})(),
-    customerEmail:(()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')?.email||null}catch{return null}})(),
+    accountId:account.id||null,
+    customerName:String(account.name||'').trim(),
+    customerPhone:String(account.phone||'').trim(),
+    customerEmail:String(account.email||'').trim().toLowerCase()||null,
   };
 }
 function storeLocalBooking(booking,editingId=''){
@@ -577,16 +580,24 @@ function finishMobileBooking(booking){
   bookingSuccess.classList.add('open');bookingSuccess.setAttribute('aria-hidden','false');document.body.classList.add('booking-modal-open');
 }
 async function saveMobileBookingAfterAccount(booking){
-  let serverSaved=false;
   try{
     const response=await fetch(BOOKING_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
-    if(response.ok)serverSaved=true;
-    else if(response.status===409){
-      mobileAccountStatus.textContent=currentLang==='en'?'This time is already booked.':'Цей час уже заброньований.';return false;
+    const data=await response.json().catch(()=>({}));
+    if(response.status===409){
+      mobileAccountStatus.textContent=currentLang==='en'?'This time is already booked. Please choose another time.':'Цей час уже заброньований. Оберіть інший час.';
+      await loadRemoteBookings();
+      return false;
     }
-  }catch(e){}
-  if(serverSaved){remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber})}
-  return true;
+    if(!response.ok){
+      mobileAccountStatus.textContent=data.error|| (currentLang==='en'?'Booking could not be completed.':'Не вдалося створити бронювання.');
+      return false;
+    }
+    remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber});
+    return true;
+  }catch(e){
+    mobileAccountStatus.textContent=currentLang==='en'?'Database connection failed. Please try again.':'Не вдалося підключитися до бази даних. Спробуйте ще раз.';
+    return false;
+  }
 }
 async function continueBookingFlow(){
   if(!time || isSlotBooked(selectedMonth.getFullYear(),selectedMonth.getMonth(),selectedDay,time)){
@@ -600,7 +611,8 @@ async function continueBookingFlow(){
     openMobileGate();return;
   }
   pendingMobileBooking=booking;
-  finishMobileBooking(booking);
+  const saved=await saveMobileBookingAfterAccount(booking);
+  if(saved)finishMobileBooking(booking);
 }
 document.querySelector('#confirm').onclick=()=>{if(!isMobile()){return;}continueBookingFlow()};
 mobileGateClose?.addEventListener('click',closeMobileGate);
