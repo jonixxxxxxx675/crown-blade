@@ -2,7 +2,7 @@ function config() {
   return {
     url: (process.env.SUPABASE_URL || '').replace(/\/$/, ''),
     key: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-    table: process.env.SUPABASE_BOOKINGS_TABLE || 'bookings'
+    table: process.env.SUPABASE_BOOKINGS_TABLE || 'bookings',
   };
 }
 
@@ -10,7 +10,7 @@ function headers(key) {
   return {
     apikey: key,
     Authorization: `Bearer ${key}`,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
 }
 
@@ -29,8 +29,8 @@ async function sendBookingEmail(b) {
 
 Послуга: ${b.service || ''}
 Барбер: ${b.barber || ''}
-Дата: ${b.date}
-Час: ${b.time}
+Дата: ${b.date || ''}
+Час: ${b.time || ''}
 
 Дякуємо, що обрали Crown & Blade.
 `;
@@ -40,14 +40,14 @@ async function sendBookingEmail(b) {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from,
         to: [b.customerEmail],
         subject,
-        text
-      })
+        text,
+      }),
     });
   } catch {}
 }
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
   if (!url || !key) {
     return res.status(503).json({
       ok: false,
-      error: 'Booking database is not configured'
+      error: 'Booking database is not configured',
     });
   }
 
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
     if (!/^\d{4}-\d{2}$/.test(month)) {
       return res.status(400).json({
         ok: false,
-        error: 'Invalid month'
+        error: 'Invalid month',
       });
     }
 
@@ -101,13 +101,13 @@ export default async function handler(req, res) {
       r = await fetch(
         `${url}/rest/v1/${table}?${params.toString()}`,
         {
-          headers: headers(key)
+          headers: headers(key),
         }
       );
     } catch {
       return res.status(502).json({
         ok: false,
-        error: 'Database connection failed'
+        error: 'Database connection failed',
       });
     }
 
@@ -117,13 +117,13 @@ export default async function handler(req, res) {
       return res.status(502).json({
         ok: false,
         error: 'Database read failed',
-        detail: data?.message || ''
+        detail: data?.message || '',
       });
     }
 
     return res.status(200).json({
       ok: true,
-      bookings: Array.isArray(data) ? data : []
+      bookings: Array.isArray(data) ? data : [],
     });
   }
 
@@ -144,7 +144,7 @@ export default async function handler(req, res) {
     ) {
       return res.status(400).json({
         ok: false,
-        error: 'Missing booking fields'
+        error: 'Missing booking fields',
       });
     }
 
@@ -157,27 +157,24 @@ export default async function handler(req, res) {
       booking_date: b.date,
       booking_time: b.time,
       status: 'confirmed',
-      notes: b.notes || null
+      notes: b.notes || null,
     };
 
     let r;
 
     try {
-      r = await fetch(
-        `${url}/rest/v1/${table}`,
-        {
-          method: 'POST',
-          headers: {
-            ...headers(key),
-            Prefer: 'return=representation'
-          },
-          body: JSON.stringify(payload)
-        }
-      );
+      r = await fetch(`${url}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: {
+          ...headers(key),
+          Prefer: 'return=representation',
+        },
+        body: JSON.stringify(payload),
+      });
     } catch {
       return res.status(502).json({
         ok: false,
-        error: 'Database connection failed'
+        error: 'Database connection failed',
       });
     }
 
@@ -189,18 +186,22 @@ export default async function handler(req, res) {
       ).json({
         ok: false,
         error: 'That time may already be booked',
-        detail: data?.message || ''
+        detail: data?.message || '',
       });
     }
 
-    await sendBookingEmail(b);
+    await sendBookingEmail({
+      ...b,
+      date: b.date,
+      time: b.time,
+    });
 
     return res.status(201).json({
       ok: true,
       booking: Array.isArray(data) ? data[0] : data,
       emailSent: Boolean(
         b.customerEmail && process.env.RESEND_API_KEY
-      )
+      ),
     });
   }
 
@@ -214,35 +215,44 @@ export default async function handler(req, res) {
     if (!id) {
       return res.status(400).json({
         ok: false,
-        error: 'Missing booking id'
+        error: 'Missing booking id',
       });
     }
 
-    const r = await fetch(
-      `${url}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`,
-      {
-        method: 'DELETE',
-        headers: {
-          ...headers(key),
-          Prefer: 'return=minimal'
+    let r;
+
+    try {
+      r = await fetch(
+        `${url}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`,
+        {
+          method: 'DELETE',
+          headers: {
+            ...headers(key),
+            Prefer: 'return=minimal',
+          },
         }
-      }
-    );
+      );
+    } catch {
+      return res.status(502).json({
+        ok: false,
+        error: 'Database connection failed',
+      });
+    }
 
     if (!r.ok) {
       return res.status(502).json({
         ok: false,
-        error: 'Booking cancellation failed'
+        error: 'Booking cancellation failed',
       });
     }
 
     return res.status(200).json({
-      ok: true
+      ok: true,
     });
   }
 
   return res.status(405).json({
     ok: false,
-    error: 'Method not allowed'
+    error: 'Method not allowed',
   });
 }
