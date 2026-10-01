@@ -39,7 +39,7 @@ const SERVICES = {
 };
 
 function normalize(value) {
-  return String(value || '').trim().toLowerCase().replace(/\\s+/g, ' ');
+  return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
 async function rest(url, key, path, options = {}) {
@@ -166,8 +166,8 @@ export default async function handler(req, res) {
         return res.status(400).json({ ok: false, error: 'Month or account filter is required' });
       }
 
-      if (email) params.set('customer_email', `eq.${encodeURIComponent(email)}`);
-      if (accountId) params.set('account_id', `eq.${encodeURIComponent(accountId)}`);
+      if (email) params.set('customer_email', `eq.${email}`);
+      if (accountId) params.set('account_id', `eq.${accountId}`);
       params.set('status', 'neq.cancelled');
       params.set('order', 'booking_date.asc,booking_time.asc');
 
