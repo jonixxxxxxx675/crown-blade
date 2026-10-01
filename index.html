@@ -628,19 +628,22 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   if(!/^\+?[0-9 ()-]{9,20}$/.test(phone)){mobileAccountStatus.textContent=t('accountPhoneInvalid');return;}
   if(password.length<6){mobileAccountStatus.textContent=t('accountPasswordShort');return;}
   const digest=await (async()=>{const data=new TextEncoder().encode(password);if(window.crypto?.subtle){const d=await crypto.subtle.digest('SHA-256',data);return Array.from(new Uint8Array(d)).map(b=>b.toString(16).padStart(2,'0')).join('')}let h=0;for(let i=0;i<password.length;i++)h=((h<<5)-h)+password.charCodeAt(i)|0;return String(h)})();
-  const accountId='CBU-'+btoa(unescape(encodeURIComponent(email))).replace(/[^a-zA-Z0-9]/g,'').slice(0,18);const account={id:accountId,name,email,phone,passwordHash:digest,emailVerified:false,createdAt:new Date().toISOString(),reminders:{reminder24:true,reminder2:true,reminderCancel:true}};
+  const account={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash:digest,emailVerified:false,createdAt:new Date().toISOString(),reminders:{reminder24:true,reminder2:true,reminderCancel:true}};
   localStorage.setItem(ACCOUNT_KEY,JSON.stringify(account));localStorage.setItem('crown_blade_account_profile',JSON.stringify(account));
   mobileAccountStatus.textContent=t('accountCreating');
   try{
     const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok){
-      mobileAccountStatus.textContent=(d.error||'Акаунт збережено локально. Бронювання продовжується.')+(d.detail?' — '+d.detail:'');
+      // Account creation must never block an otherwise valid booking.
+      // The local account is already saved above, so continue with booking.
+      mobileAccountStatus.textContent=(d.error||'Акаунт не синхронізовано із сервером.')+(d.detail?' — '+d.detail:'')+' Зберігаємо бронювання…';
     }else{
       mobileAccountStatus.textContent=d.verificationSent?t('accountVerificationSent'):(d.warning||'Акаунт створено. Email-підтвердження можна надіслати пізніше.');
     }
   }catch{
-    mobileAccountStatus.textContent='Акаунт збережено локально. Бронювання продовжується.';
+    // Do not abort the booking when the account service is unavailable.
+    mobileAccountStatus.textContent='Сервіс акаунта недоступний. Зберігаємо бронювання…';
   }
   const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);
   if(saved){closeMobileGate();finishMobileBooking(pendingMobileBooking);} else {mobileAccountStatus.textContent=mobileAccountStatus.textContent||t('accountBookingFailed');}

@@ -160,7 +160,7 @@
     try{
       const params=new URLSearchParams();
       if(account.email) params.set('email',account.email);
-      else if(account.id) params.set('accountId',account.id);
+      if(account.id) params.set('accountId',account.id);
       const response=await fetch('./api/bookings?'+params.toString(),{headers:{'Accept':'application/json'}});
       const data=await response.json().catch(()=>({}));
       if(!response.ok || !Array.isArray(data.bookings)) return [];
