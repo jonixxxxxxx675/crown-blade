@@ -1,9 +1,0 @@
-{
-  "name": "crown-blade-site",
-  "private": true,
-  "type": "module",
-  "engines": { "node": ">=20" },
-  "dependencies": {
-    "web-push": "^3.6.7"
-  }
-}
