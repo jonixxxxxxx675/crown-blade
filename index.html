@@ -592,6 +592,7 @@ async function saveMobileBookingAfterAccount(booking){
       mobileAccountStatus.textContent=data.error|| (currentLang==='en'?'Booking could not be completed.':'Не вдалося створити бронювання.');
       return false;
     }
+    if(data.booking?.id) booking.id=data.booking.id;
     remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber});
     return true;
   }catch(e){
