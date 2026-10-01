@@ -16,31 +16,14 @@ function headers(key, extra = {}) {
 }
 
 const SERVICES = {
-  classic: {
-    names: ['Класична стрижка', 'Classic Haircut'],
-    priceUA: '80 грн', priceEN: '80 UAH'
-  },
-  hairBeard: {
-    names: ['Стрижка + борода', 'Hair + Beard'],
-    priceUA: '130 грн', priceEN: '130 UAH'
-  },
-  beardTrim: {
-    names: ['Оформлення бороди', 'Beard Trim'],
-    priceUA: '60 грн', priceEN: '60 UAH'
-  },
-  royalShave: {
-    names: ['Королівське гоління', 'Royal Shave'],
-    priceUA: '70 грн', priceEN: '70 UAH'
-  },
-  kidsHaircut: {
-    names: ['Дитяча стрижка', 'Kids Haircut'],
-    priceUA: '60 грн', priceEN: '60 UAH'
-  }
+  classic: { names: ['Класична стрижка', 'Classic Haircut'], priceUA: '80 грн', priceEN: '80 UAH' },
+  hairBeard: { names: ['Стрижка + борода', 'Hair + Beard'], priceUA: '130 грн', priceEN: '130 UAH' },
+  beardTrim: { names: ['Оформлення бороди', 'Beard Trim'], priceUA: '60 грн', priceEN: '60 UAH' },
+  royalShave: { names: ['Королівське гоління', 'Royal Shave'], priceUA: '70 грн', priceEN: '70 UAH' },
+  kidsHaircut: { names: ['Дитяча стрижка', 'Kids Haircut'], priceUA: '60 грн', priceEN: '60 UAH' }
 };
 
-function normalize(value) {
-  return String(value || '').trim().toLowerCase().replace(/\\s+/g, ' ');
-}
+const normalize = value => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 
 async function rest(url, key, path, options = {}) {
   const response = await fetch(`${url}/rest/v1/${path}`, {
@@ -51,63 +34,40 @@ async function rest(url, key, path, options = {}) {
   return { response, data };
 }
 
-async function findBarberId(url, key, barber) {
-  const name = normalize(barber);
-  if (!name) return null;
+function isDuplicate(response, data) {
+  const code = String(data?.code || '');
+  const message = String(data?.message || '');
+  return response.status === 409 || code === '23505' || /duplicate|unique/i.test(message);
+}
 
-  const first = await rest(url, key, `barbers?select=id,name&limit=100`);
-  if (!first.response.ok) throw new Error(first.data?.message || 'Failed to read barbers');
-  const row = (Array.isArray(first.data) ? first.data : []).find(x => normalize(x.name) === name);
+function missingColumn(data, name) {
+  const text = String(data?.message || data?.details || '');
+  return new RegExp(`column[^\\n]*${name}|${name}[^\\n]*column`, 'i').test(text);
+}
+
+async function findBarberId(url, key, barber) {
+  const wanted = normalize(barber);
+  if (!wanted) return null;
+  const { response, data } = await rest(url, key, 'barbers?select=id,name&limit=100');
+  if (!response.ok) return null;
+  const row = (Array.isArray(data) ? data : []).find(x => normalize(x.name) === wanted);
   return row?.id || null;
 }
 
-async function findService(url, key, serviceKey, serviceLabel) {
-  const wanted = SERVICES[serviceKey];
-  const aliases = wanted ? wanted.names : [serviceLabel || serviceKey];
-
-  // Prefer a schema with a `key` column, but gracefully fall back to the
-  // user's simpler id/name schema.
-  let rows = [];
-  let response = await rest(url, key, 'services?select=id,name,key&limit=100');
-  if (response.response.ok) {
-    rows = Array.isArray(response.data) ? response.data : [];
-    const byKey = rows.find(x => serviceKey && normalize(x.key) === normalize(serviceKey));
-    if (byKey) return byKey.id;
-  } else {
-    response = await rest(url, key, 'services?select=id,name&limit=100');
-    if (!response.response.ok) throw new Error(response.data?.message || 'Failed to read services');
-    rows = Array.isArray(response.data) ? response.data : [];
-  }
-
+async function findServiceId(url, key, serviceKey, serviceLabel) {
+  const aliases = SERVICES[serviceKey]?.names || [serviceLabel || serviceKey];
+  let result = await rest(url, key, 'services?select=id,name,key&limit=100');
+  if (!result.response.ok) result = await rest(url, key, 'services?select=id,name&limit=100');
+  if (!result.response.ok) return null;
+  const rows = Array.isArray(result.data) ? result.data : [];
+  const byKey = rows.find(x => serviceKey && normalize(x.key) === normalize(serviceKey));
+  if (byKey) return byKey.id || null;
   for (const alias of aliases) {
     const match = rows.find(x => normalize(x.name) === normalize(alias));
-    if (match) return match.id;
+    if (match) return match.id || null;
   }
-
-  // Last fallback: partial match, useful when the DB has a slightly longer label.
-  const normalizedAliases = aliases.map(normalize).filter(Boolean);
-  const partial = rows.find(x => normalizedAliases.some(a => normalize(x.name).includes(a) || a.includes(normalize(x.name))));
-  return partial?.id || null;
-}
-
-async function getBarbersMap(url, key) {
-  const { response, data } = await rest(url, key, 'barbers?select=id,name&limit=100');
-  if (!response.ok) throw new Error(data?.message || 'Failed to read barbers');
-  const map = new Map();
-  for (const row of Array.isArray(data) ? data : []) map.set(String(row.id), row.name);
-  return map;
-}
-
-async function getServicesMap(url, key) {
-  let response = await rest(url, key, 'services?select=id,name,key&limit=100');
-  if (!response.response.ok) response = await rest(url, key, 'services?select=id,name&limit=100');
-  if (!response.response.ok) throw new Error(response.data?.message || 'Failed to read services');
-  const map = new Map();
-  for (const row of Array.isArray(response.data) ? response.data : []) {
-    const keyValue = row.key || Object.keys(SERVICES).find(k => SERVICES[k].names.some(n => normalize(n) === normalize(row.name))) || '';
-    map.set(String(row.id), { name: row.name || '', key: keyValue });
-  }
-  return map;
+  const normalized = aliases.map(normalize).filter(Boolean);
+  return rows.find(x => normalized.some(a => normalize(x.name).includes(a) || a.includes(normalize(x.name))))?.id || null;
 }
 
 async function sendBookingEmail(b) {
@@ -125,21 +85,29 @@ async function sendBookingEmail(b) {
       })
     });
     return response.ok;
-  } catch { return false; }
+  } catch {
+    return false;
+  }
 }
 
-function isDuplicate(response, data) {
-  const code = String(data?.code || '');
-  const message = String(data?.message || '');
-  return response.status === 409 || code === '23505' || /duplicate|unique/i.test(message);
-}
-
-async function insertBooking(url, key, table, payload) {
-  return rest(url, key, table, {
-    method: 'POST',
-    headers: { Prefer: 'return=representation' },
-    body: JSON.stringify(payload)
-  });
+function normalizeBooking(row) {
+  return {
+    id: row.id,
+    service: row.service || row.service_name || row.serviceKey || row.service_key || '',
+    serviceKey: row.serviceKey || row.service_key || '',
+    price: row.price || '',
+    barber: row.barber || '',
+    date: row.date || row.booking_date || '',
+    time: String(row.time || row.booking_time || '').slice(0, 5),
+    language: row.language || 'uk',
+    createdAt: row.createdAt || row.created_at || null,
+    accountId: row.account_id || row.accountId || '',
+    customerName: row.customer_name || '',
+    customerPhone: row.customer_phone || '',
+    customerEmail: row.customer_email || '',
+    status: row.status || 'confirmed',
+    notes: row.notes || null
+  };
 }
 
 export default async function handler(req, res) {
@@ -147,60 +115,40 @@ export default async function handler(req, res) {
   if (!url || !key) return res.status(503).json({ ok: false, error: 'Booking database is not configured' });
 
   if (req.method === 'GET') {
-    const month = String(req.query.month || '');
-    const email = normalize(req.query.email || '');
-    const accountId = String(req.query.accountId || '').trim();
-
-    const params = new URLSearchParams();
-    params.set('select', 'id,barber_id,service_id,customer_name,customer_phone,customer_email,account_id,booking_date,booking_time,status,notes,created_at,updated_at');
-
     try {
+      const month = String(req.query.month || '');
+      const email = normalize(req.query.email || '');
+      const accountId = String(req.query.accountId || '').trim();
+      const barber = String(req.query.barber || '').trim();
+      const params = new URLSearchParams();
+      params.set('select', '*');
+
       if (/^\d{4}-\d{2}$/.test(month)) {
         const [year, mon] = month.split('-').map(Number);
         const from = `${month}-01`;
         const next = new Date(year, mon, 1);
         const to = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-01`;
-        params.append('booking_date', `gte.${from}`);
-        params.append('booking_date', `lt.${to}`);
+        params.set('date', `gte.${from}`);
+        params.append('date', `lt.${to}`);
       } else if (!email && !accountId) {
         return res.status(400).json({ ok: false, error: 'Month or account filter is required' });
       }
 
-      // Email is the stable lookup key. Do not require both email and accountId.
-      // URLSearchParams already encodes values, so do not double-encode them.
-      if (email) params.set('customer_email', `eq.${email}`);
-      else if (accountId) params.set('account_id', `eq.${accountId}`);
-      params.set('status', 'neq.cancelled');
-      params.set('order', 'booking_date.asc,booking_time.asc');
-
-      const { response, data } = await rest(url, key, `${table}?${params.toString()}`);
-      if (!response.ok) {
-        return res.status(502).json({ ok: false, error: 'Database read failed', detail: data?.message || data?.hint || '' });
+      if (barber) params.set('barber', `eq.${barber}`);
+      const result = await rest(url, key, `${table}?${params.toString()}`);
+      if (!result.response.ok) {
+        return res.status(502).json({ ok: false, error: 'Database read failed', detail: result.data?.message || result.data?.hint || '' });
       }
 
-      const [barberMap, serviceMap] = await Promise.all([getBarbersMap(url, key), getServicesMap(url, key)]);
-      const bookings = (Array.isArray(data) ? data : []).map(row => {
-        const service = serviceMap.get(String(row.service_id)) || {};
-        return {
-          id: row.id,
-          barberId: row.barber_id,
-          serviceId: row.service_id,
-          barber: barberMap.get(String(row.barber_id)) || '',
-          service: service.name || '',
-          serviceKey: service.key || '',
-          customerName: row.customer_name || '',
-          customerPhone: row.customer_phone || '',
-          customerEmail: row.customer_email || '',
-          accountId: row.account_id || '',
-          date: row.booking_date,
-          time: String(row.booking_time || '').slice(0, 5),
-          status: row.status || 'confirmed',
-          notes: row.notes || null,
-          createdAt: row.created_at || null,
-          updatedAt: row.updated_at || null
-        };
-      });
-
+      let bookings = (Array.isArray(result.data) ? result.data : []).map(normalizeBooking);
+      if (email || accountId) {
+        bookings = bookings.filter(b =>
+          (email && normalize(b.customerEmail) === email) ||
+          (accountId && String(b.accountId) === accountId)
+        );
+      }
+      bookings = bookings.filter(b => String(b.status).toLowerCase() !== 'cancelled');
+      bookings.sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
       return res.status(200).json({ ok: true, bookings });
     } catch (error) {
       return res.status(502).json({ ok: false, error: 'Database read failed', detail: error.message || '' });
@@ -209,36 +157,85 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     const b = req.body || {};
-    if (!b.barber || !b.serviceKey || !b.date || !b.time || !b.customerName || !b.customerPhone) {
+    const customerName = String(b.customerName || '').trim();
+    const customerPhone = String(b.customerPhone || '').trim();
+    const customerEmail = String(b.customerEmail || '').trim().toLowerCase();
+    if (!b.barber || !b.serviceKey || !b.date || !b.time || !customerName || !customerPhone) {
       return res.status(400).json({ ok: false, error: 'Missing booking fields' });
     }
 
     try {
-      const barberId = b.barberId || await findBarberId(url, key, b.barber);
-      const serviceId = b.serviceId || await findService(url, key, b.serviceKey, b.service);
-      if (!barberId) return res.status(400).json({ ok: false, error: `Barber not found: ${b.barber}` });
-      if (!serviceId) return res.status(400).json({ ok: false, error: `Service not found: ${b.serviceKey || b.service}` });
-
-      const payload = {
-        barber_id: barberId,
-        service_id: serviceId,
-        customer_name: String(b.customerName).trim(),
-        customer_phone: String(b.customerPhone).trim(),
-        customer_email: b.customerEmail ? String(b.customerEmail).trim().toLowerCase() : null,
-        account_id: b.accountId ? String(b.accountId).trim() : null,
-        booking_date: b.date,
-        booking_time: b.time,
-        status: 'confirmed',
-        notes: b.notes || null
+      // PRIMARY SCHEMA: this is the schema documented by the project itself.
+      // Do not require barber_id/service_id for the booking table.
+      const basePayload = {
+        service: String(b.service || b.serviceKey).trim(),
+        serviceKey: String(b.serviceKey).trim(),
+        price: String(b.price || '').trim(),
+        barber: String(b.barber).trim(),
+        date: String(b.date).trim(),
+        time: String(b.time).trim(),
+        language: String(b.language || 'uk').trim(),
+        createdAt: b.createdAt || new Date().toISOString()
       };
 
-      let result = await insertBooking(url, key, table, payload);
+      // Only use columns documented by this project. The optional account
+      // columns are explicitly documented as nullable additions. Do not send
+      // undocumented customer_name/customer_phone/status/notes columns.
+      const accountPayload = {
+        ...basePayload,
+        customer_email: customerEmail || null,
+        account_id: b.accountId ? String(b.accountId).trim() : null
+      };
 
-      // Some existing DBs do not yet have account_id. Booking must still work.
-      if (!result.response.ok && /account_id|column .*account_id/i.test(String(result.data?.message || ''))) {
-        const fallbackPayload = { ...payload };
-        delete fallbackPayload.account_id;
-        result = await insertBooking(url, key, table, fallbackPayload);
+      let result = await rest(url, key, table, {
+        method: 'POST',
+        headers: { Prefer: 'return=representation' },
+        body: JSON.stringify(accountPayload)
+      });
+
+      // The project documents account_id/customer_email as optional nullable
+      // columns. If an existing Supabase table has not added them yet, retry
+      // using the exact documented base schema.
+      if (!result.response.ok && (
+        missingColumn(result.data, 'account_id') ||
+        missingColumn(result.data, 'customer_email')
+      )) {
+        result = await rest(url, key, table, {
+          method: 'POST',
+          headers: { Prefer: 'return=representation' },
+          body: JSON.stringify(basePayload)
+        });
+      }
+
+      // Compatibility fallback for a relational bookings table, only if the
+      // actual Supabase project uses that newer schema.
+      if (!result.response.ok && (
+        missingColumn(result.data, 'service') ||
+        missingColumn(result.data, 'serviceKey') ||
+        missingColumn(result.data, 'barber') ||
+        missingColumn(result.data, 'date')
+      )) {
+        const barberId = b.barberId || await findBarberId(url, key, b.barber);
+        const serviceId = b.serviceId || await findServiceId(url, key, b.serviceKey, b.service);
+        if (!barberId || !serviceId) {
+          return res.status(400).json({ ok: false, error: 'Booking schema mismatch', detail: result.data?.message || '' });
+        }
+        result = await rest(url, key, table, {
+          method: 'POST',
+          headers: { Prefer: 'return=representation' },
+          body: JSON.stringify({
+            barber_id: barberId,
+            service_id: serviceId,
+            customer_name: customerName,
+            customer_phone: customerPhone,
+            customer_email: customerEmail || null,
+            account_id: b.accountId ? String(b.accountId).trim() : null,
+            booking_date: b.date,
+            booking_time: b.time,
+            status: 'confirmed',
+            notes: b.notes || null
+          })
+        });
       }
 
       if (!result.response.ok) {
@@ -250,8 +247,8 @@ export default async function handler(req, res) {
         });
       }
 
-      const booking = Array.isArray(result.data) ? result.data[0] : result.data;
-      const emailSent = await sendBookingEmail(b);
+      const booking = normalizeBooking(Array.isArray(result.data) ? result.data[0] : result.data || basePayload);
+      const emailSent = await sendBookingEmail({ ...b, customerEmail });
       return res.status(201).json({ ok: true, booking, emailSent });
     } catch (error) {
       return res.status(502).json({ ok: false, error: 'Booking creation failed', detail: error.message || '' });
@@ -262,14 +259,14 @@ export default async function handler(req, res) {
     const id = String(req.query.id || '').trim();
     if (!id) return res.status(400).json({ ok: false, error: 'Missing booking id' });
     try {
-      const { response, data } = await rest(url, key, `${table}?id=eq.${encodeURIComponent(id)}`, {
+      const result = await rest(url, key, `${table}?id=eq.${encodeURIComponent(id)}`, {
         method: 'DELETE',
         headers: { Prefer: 'return=minimal' }
       });
-      if (!response.ok) return res.status(502).json({ ok: false, error: 'Booking cancellation failed', detail: data?.message || '' });
+      if (!result.response.ok) return res.status(502).json({ ok: false, error: 'Booking cancellation failed', detail: result.data?.message || '' });
       return res.status(200).json({ ok: true });
-    } catch {
-      return res.status(502).json({ ok: false, error: 'Database connection failed' });
+    } catch (error) {
+      return res.status(502).json({ ok: false, error: 'Booking cancellation failed', detail: error.message || '' });
     }
   }
 
