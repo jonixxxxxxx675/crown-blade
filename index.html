@@ -581,6 +581,18 @@ function finishMobileBooking(booking){
 }
 async function saveMobileBookingAfterAccount(booking){
   try{
+    // Always hydrate the booking from the current local account. This also
+    // covers the first-booking flow where the booking was created before
+    // the account gate was submitted.
+    const account=getMobileAccount()||{};
+    booking.accountId=String(account.id||booking.accountId||'').trim()||null;
+    booking.customerName=String(account.name||booking.customerName||'').trim();
+    booking.customerPhone=String(account.phone||booking.customerPhone||'').trim();
+    booking.customerEmail=String(account.email||booking.customerEmail||'').trim().toLowerCase()||null;
+    if(!booking.customerName || !booking.customerPhone){
+      mobileAccountStatus.textContent=currentLang==='en'?'Your account details are incomplete. Please enter your name and phone.':'Дані акаунта неповні. Вкажіть ім’я та номер телефону.';
+      return false;
+    }
     mobileAccountStatus.textContent=currentLang==='en'?'Saving your booking…':'Зберігаємо бронювання…';
     const response=await fetch(BOOKING_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
     const data=await response.json().catch(()=>({}));
@@ -630,6 +642,9 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   const digest=await (async()=>{const data=new TextEncoder().encode(password);if(window.crypto?.subtle){const d=await crypto.subtle.digest('SHA-256',data);return Array.from(new Uint8Array(d)).map(b=>b.toString(16).padStart(2,'0')).join('')}let h=0;for(let i=0;i<password.length;i++)h=((h<<5)-h)+password.charCodeAt(i)|0;return String(h)})();
   const account={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash:digest,emailVerified:false,createdAt:new Date().toISOString(),reminders:{reminder24:true,reminder2:true,reminderCancel:true}};
   localStorage.setItem(ACCOUNT_KEY,JSON.stringify(account));localStorage.setItem('crown_blade_account_profile',JSON.stringify(account));
+  // The booking object was created before the account existed. Refresh its
+  // customer/account fields now so the API receives the required values.
+  pendingMobileBooking={...pendingMobileBooking,accountId:account.id,customerName:name,customerPhone:phone,customerEmail:email};
   mobileAccountStatus.textContent=t('accountCreating');
   try{
     const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
