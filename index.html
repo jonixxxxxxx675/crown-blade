@@ -628,10 +628,22 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   const account={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash:digest,emailVerified:false,createdAt:new Date().toISOString(),reminders:{reminder24:true,reminder2:true,reminderCancel:true}};
   localStorage.setItem(ACCOUNT_KEY,JSON.stringify(account));localStorage.setItem('crown_blade_account_profile',JSON.stringify(account));
   mobileAccountStatus.textContent=t('accountCreating');
-  try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});const d=await r.json().catch(()=>({}));mobileAccountStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист підтвердження.');}catch{mobileAccountStatus.textContent='Email-сервіс недоступний.';}
-  closeMobileGate();
+  try{
+    const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
+    const d=await r.json().catch(()=>({}));
+    mobileAccountStatus.textContent=r.ok
+      ? t('accountVerificationSent')
+      : (d.error || 'Не вдалося створити акаунт.');
+  }catch{
+    mobileAccountStatus.textContent='Email-сервіс недоступний.';
+  }
+
   const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);
-  if(saved)finishMobileBooking(pendingMobileBooking);
+
+  if(saved){
+    closeMobileGate();
+    finishMobileBooking(pendingMobileBooking);
+  }
 });
 document.querySelector('#booking-success-close').onclick=closeBookingSuccess;
 document.querySelector('#booking-success-ok').onclick=closeBookingSuccess;
