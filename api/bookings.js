@@ -187,7 +187,6 @@ export default async function handler(req, res) {
       }
 
       const payload = {
-        id: b.id || undefined,
         barber_id: barberId,
         service_id: serviceId,
         customer_name: b.customerName,
