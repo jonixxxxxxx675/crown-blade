@@ -634,11 +634,16 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   try{
     const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
     const d=await r.json().catch(()=>({}));
-    if(!r.ok){mobileAccountStatus.textContent=(d.error||'Не вдалося створити акаунт.')+(d.detail?' — '+d.detail:'');return;}
-    mobileAccountStatus.textContent=d.verificationSent?t('accountVerificationSent'):(d.warning||'Акаунт створено. Email-підтвердження можна надіслати пізніше.');
+    if(!r.ok){
+      // Account creation must never block an otherwise valid booking.
+      // The local account is already stored above, so continue to bookings.
+      mobileAccountStatus.textContent=(d.error||'Акаунт не вдалося синхронізувати.')+(d.detail?' — '+d.detail:'')+' Бронювання продовжується…';
+    }else{
+      mobileAccountStatus.textContent=d.verificationSent?t('accountVerificationSent'):(d.warning||'Акаунт створено. Email-підтвердження можна надіслати пізніше.');
+    }
   }catch{
-    mobileAccountStatus.textContent='Не вдалося підключитися до сервісу акаунта.';
-    return;
+    // Do not abort booking if the account endpoint is temporarily unavailable.
+    mobileAccountStatus.textContent='Сервіс акаунта тимчасово недоступний. Бронювання продовжується…';
   }
   const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);
   if(saved){closeMobileGate();finishMobileBooking(pendingMobileBooking);} else {mobileAccountStatus.textContent=mobileAccountStatus.textContent||t('accountBookingFailed');}
