@@ -581,6 +581,7 @@ function finishMobileBooking(booking){
 }
 async function saveMobileBookingAfterAccount(booking){
   try{
+    mobileAccountStatus.textContent=currentLang==='en'?'Saving your booking…':'Зберігаємо бронювання…';
     const response=await fetch(BOOKING_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)});
     const data=await response.json().catch(()=>({}));
     if(response.status===409){
@@ -597,6 +598,7 @@ async function saveMobileBookingAfterAccount(booking){
     remoteBookings.push({id:booking.id,date:booking.date,time:booking.time,barber:booking.barber});
     return true;
   }catch(e){
+    console.error('Crown & Blade booking error:', e);
     mobileAccountStatus.textContent=currentLang==='en'?'Database connection failed. Please try again.':'Не вдалося підключитися до бази даних. Спробуйте ще раз.';
     return false;
   }
@@ -629,7 +631,15 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   const account={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash:digest,emailVerified:false,createdAt:new Date().toISOString(),reminders:{reminder24:true,reminder2:true,reminderCancel:true}};
   localStorage.setItem(ACCOUNT_KEY,JSON.stringify(account));localStorage.setItem('crown_blade_account_profile',JSON.stringify(account));
   mobileAccountStatus.textContent=t('accountCreating');
-  try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});const d=await r.json().catch(()=>({}));if(!r.ok){mobileAccountStatus.textContent=(d.error||'Не вдалося створити акаунт.')+(d.detail?' — '+d.detail:'');return;}mobileAccountStatus.textContent=t('accountVerificationSent');}catch{mobileAccountStatus.textContent='Email-сервіс недоступний.';return;}
+  try{
+    const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok){mobileAccountStatus.textContent=(d.error||'Не вдалося створити акаунт.')+(d.detail?' — '+d.detail:'');return;}
+    mobileAccountStatus.textContent=d.verificationSent?t('accountVerificationSent'):(d.warning||'Акаунт створено. Email-підтвердження можна надіслати пізніше.');
+  }catch{
+    mobileAccountStatus.textContent='Не вдалося підключитися до сервісу акаунта.';
+    return;
+  }
   const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);
   if(saved){closeMobileGate();finishMobileBooking(pendingMobileBooking);} else {mobileAccountStatus.textContent=mobileAccountStatus.textContent||t('accountBookingFailed');}
 });
