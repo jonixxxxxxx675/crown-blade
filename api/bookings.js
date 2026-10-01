@@ -39,7 +39,7 @@ const SERVICES = {
 };
 
 function normalize(value) {
-  return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  return String(value || '').trim().toLowerCase().replace(/\\s+/g, ' ');
 }
 
 async function rest(url, key, path, options = {}) {
@@ -72,7 +72,7 @@ async function findService(url, key, serviceKey, serviceLabel) {
   if (response.response.ok) {
     rows = Array.isArray(response.data) ? response.data : [];
     const byKey = rows.find(x => serviceKey && normalize(x.key) === normalize(serviceKey));
-    if (byKey) return byKey;
+    if (byKey) return byKey.id;
   } else {
     response = await rest(url, key, 'services?select=id,name&limit=100');
     if (!response.response.ok) throw new Error(response.data?.message || 'Failed to read services');
@@ -81,7 +81,7 @@ async function findService(url, key, serviceKey, serviceLabel) {
 
   for (const alias of aliases) {
     const match = rows.find(x => normalize(x.name) === normalize(alias));
-    if (match) return match;
+    if (match) return match.id;
   }
 
   // Last fallback: partial match, useful when the DB has a slightly longer label.
@@ -166,8 +166,10 @@ export default async function handler(req, res) {
         return res.status(400).json({ ok: false, error: 'Month or account filter is required' });
       }
 
+      // Email is the stable lookup key. Do not require both email and accountId.
+      // URLSearchParams already encodes values, so do not double-encode them.
       if (email) params.set('customer_email', `eq.${email}`);
-      if (accountId) params.set('account_id', `eq.${accountId}`);
+      else if (accountId) params.set('account_id', `eq.${accountId}`);
       params.set('status', 'neq.cancelled');
       params.set('order', 'booking_date.asc,booking_time.asc');
 
