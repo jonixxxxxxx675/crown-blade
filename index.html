@@ -306,18 +306,17 @@
 
 <script>
 const services=[
-{key:'classic',id:'8e2e45e9-ac05-4d3b-9376-b57414509153',name:'Classic Haircut',short:'Haircut',priceUA:'80 грн',priceEN:'80 UAH',icon:'✂'},
-{key:'hairBeard',id:'361f38dc-89ab-4af5-8726-d5f922c9ce29',name:'Hair + Beard',short:'Hair + Beard',priceUA:'130 грн',priceEN:'130 UAH',icon:'♜'},
-{key:'beardTrim',id:'11a58872-148e-44a1-ae00-b0cd3ba9b403',name:'Beard Trim',priceUA:'60 грн',priceEN:'60 UAH',icon:'◈'},
-{key:'royalShave',id:'704ae3a8-0ca8-4197-ba0b-4cf5b19fb7ae',name:'Royal Shave',priceUA:'70 грн',priceEN:'70 UAH',icon:'⌁'},
-{key:'kidsHaircut',id:'19c90a6c-d4c8-4527-93dd-a90e9ff14d8',name:'Kids Haircut',priceUA:'60 грн',priceEN:'60 UAH',icon:'✦'}];
+{key:'classic',name:'Classic Haircut',short:'Haircut',priceUA:'80 грн',priceEN:'80 UAH',icon:'✂',id:'8e2e45e9-ac05-4d3b-9376-b57414509153'},
+{key:'hairBeard',name:'Hair + Beard',short:'Hair + Beard',priceUA:'130 грн',priceEN:'130 UAH',icon:'♜',id:'361f38dc-89ab-4af5-8726-d5f922c9ce29'},
+{key:'beardTrim',name:'Beard Trim',priceUA:'60 грн',priceEN:'60 UAH',icon:'◈',id:'11a58872-148e-44a1-ae00-b0cd3ba9b403'},
+{key:'royalShave',name:'Royal Shave',priceUA:'70 грн',priceEN:'70 UAH',icon:'⌁',id:'704ae3a8-0ca8-4197-ba0b-4cf5b19fb7ae'},
+{key:'kidsHaircut',name:'Kids Haircut',priceUA:'60 грн',priceEN:'60 UAH',icon:'✦',id:'19c90a6c-d4c8-4527-93dd-a90e9ff14d8'}];
 const barbers=[
 {id:'fbbbe2c9-eb3a-42f3-96e3-08fd268e8128',name:'Alex'},
-{id:'4a97d8c3-d331-42de-a32d-ad345dd0d8fc',name:'Mia'},
+{id:'79996699-346b-49c3-9cfb-b41aa5130d2a',name:'Mia'},
 {id:'5d52a195-03b9-49a9-b633-7026aff66b27',name:'Daniel'},
 {id:'0ee4d407-bba4-4f50-80da-6c476356377f',name:'Emma'},
-{id:'501d2ca9-2fcf-48aa-af9b-783cef066abc',name:'Max'}
-];
+{id:'501d2ca9-2fcf-48aa-af9b-783cef066abc',name:'Max'}];
 const times=Array.from({length:21},(_,i)=>{const m=600+i*30;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')});
 const MOBILE_BOOKINGS_DB='crown_blade_mobile_bookings';
 const ACCOUNT_KEY='crown_blade_account';
@@ -332,7 +331,7 @@ const scrollToStep=(selector)=>{if(!isMobile()) return; const el=document.queryS
 const serviceRow=document.querySelector('#service-row');
 services.slice(0,4).forEach(s=>{const b=document.createElement('button');b.type='button';b.className='service-choice '+(service===s.name?'active':'');b.innerHTML='<div class="choice-img service-img-'+services.indexOf(s)+'"></div><span class="choice-icon">'+s.icon+'</span><strong data-service-name="'+s.key+'">'+t('service_'+s.key)+'</strong><small>'+servicePrice(s)+'</small>';b.onclick=()=>{service=s.name;render();scrollToStep('.booking .step:nth-child(2)')};serviceRow.appendChild(b)});
 const barberRow=document.querySelector('#barber-row');
-barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b.name;el.dataset.barberId=b.id;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b.name+'</small>';el.onclick=()=>{barber=b.name;renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
+barbers.forEach((b,i)=>{const el=document.createElement('button');el.type='button';el.className='barber';el.dataset.name=b.name;el.dataset.id=b.id;el.innerHTML='<div class="avatar avatar-'+i+'"></div><small>'+b.name+'</small>';el.onclick=()=>{barber=b.name;renderDates();syncAvailableTime();renderTimes();render();loadRemoteBookings();scrollToStep('.booking .step:nth-child(3)')};barberRow.appendChild(el)});
 const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const today=new Date();today.setHours(0,0,0,0);
 const monthStart=new Date(today.getFullYear(),today.getMonth(),1);
