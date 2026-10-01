@@ -15,7 +15,9 @@ function headers(key) {
 }
 
 async function sendBookingEmail(b) {
-  if (!b.customerEmail || !process.env.RESEND_API_KEY) return;
+  if (!b.customerEmail || !process.env.RESEND_API_KEY) {
+    return false;
+  }
 
   const from =
     process.env.CONTACT_FROM ||
@@ -36,7 +38,7 @@ async function sendBookingEmail(b) {
 `;
 
   try {
-    await fetch('https://api.resend.com/emails', {
+    const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
@@ -49,7 +51,11 @@ async function sendBookingEmail(b) {
         text,
       }),
     });
-  } catch {}
+
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 export default async function handler(req, res) {
@@ -92,8 +98,9 @@ export default async function handler(req, res) {
       'id,barber_id,service_id,booking_date,booking_time,status'
     );
 
-    params.set('booking_date', `gte.${from}`);
-    params.set('booking_date', `lt.${to}`);
+    // ВАЖНО: append, а не set
+    params.append('booking_date', `gte.${from}`);
+    params.append('booking_date', `lt.${to}`);
 
     let r;
 
@@ -190,7 +197,7 @@ export default async function handler(req, res) {
       });
     }
 
-    await sendBookingEmail({
+    const emailSent = await sendBookingEmail({
       ...b,
       date: b.date,
       time: b.time,
@@ -199,9 +206,7 @@ export default async function handler(req, res) {
     return res.status(201).json({
       ok: true,
       booking: Array.isArray(data) ? data[0] : data,
-      emailSent: Boolean(
-        b.customerEmail && process.env.RESEND_API_KEY
-      ),
+      emailSent,
     });
   }
 
