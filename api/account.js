@@ -101,8 +101,38 @@ export default async function handler(req, res) {
   const normalizedEmail = email.trim().toLowerCase();
   const createdAt = new Date().toISOString();
   const clientId = `CBU-${Buffer.from(normalizedEmail).toString('base64url').slice(0, 18)}`;
-  await storeClient({ id: clientId, name: normalizedName, email: normalizedEmail, phone: phone.trim(), createdAt });
+
+  const clientStored = await storeClient({
+    id: clientId,
+    name: normalizedName,
+    email: normalizedEmail,
+    phone: phone.trim(),
+    createdAt
+  });
+
+  // Email verification is optional for creating a booking. A missing/broken
+  // Resend configuration must never block the booking itself.
+  if (!clientStored) {
+    return res.status(502).json({
+      ok: false,
+      error: 'Account database could not be updated'
+    });
+  }
+
   const result = await sendVerificationEmail({ name: normalizedName, email: normalizedEmail, req });
-  if (!result.ok) return res.status(503).json(result);
-  return res.status(200).json({ ok: true, verificationSent: true, id: result.id, clientStored: true });
+  if (!result.ok) {
+    return res.status(200).json({
+      ok: true,
+      verificationSent: false,
+      clientStored: true,
+      warning: result.error || 'Verification email is not available'
+    });
+  }
+
+  return res.status(200).json({
+    ok: true,
+    verificationSent: true,
+    id: result.id,
+    clientStored: true
+  });
 }
