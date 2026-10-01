@@ -589,8 +589,8 @@ async function saveMobileBookingAfterAccount(booking){
       return false;
     }
     if(!response.ok){
-      mobileAccountStatus.textContent=(data.error ? data.error + (data.detail ? ': ' + data.detail : '') : (currentLang==='en'?'Booking could not be completed.':'Не вдалося створити бронювання.'));
-      console.error('Booking API error:', data);
+      const detail=data.detail?` — ${data.detail}`:'';
+      mobileAccountStatus.textContent=(data.error|| (currentLang==='en'?'Booking could not be completed.':'Не вдалося створити бронювання.'))+detail;
       return false;
     }
     if(data.booking?.id) booking.id=data.booking.id;
@@ -598,7 +598,6 @@ async function saveMobileBookingAfterAccount(booking){
     return true;
   }catch(e){
     mobileAccountStatus.textContent=currentLang==='en'?'Database connection failed. Please try again.':'Не вдалося підключитися до бази даних. Спробуйте ще раз.';
-    console.error('Booking API request failed:', e);
     return false;
   }
 }
@@ -630,10 +629,9 @@ mobileAccountForm?.addEventListener('submit',async e=>{
   const account={id:'CBU-'+Date.now().toString(36).toUpperCase(),name,email,phone,passwordHash:digest,emailVerified:false,createdAt:new Date().toISOString(),reminders:{reminder24:true,reminder2:true,reminderCancel:true}};
   localStorage.setItem(ACCOUNT_KEY,JSON.stringify(account));localStorage.setItem('crown_blade_account_profile',JSON.stringify(account));
   mobileAccountStatus.textContent=t('accountCreating');
-  try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});const d=await r.json().catch(()=>({}));mobileAccountStatus.textContent=r.ok?t('accountVerificationSent'):(d.error||'Не вдалося надіслати лист підтвердження.');}catch{mobileAccountStatus.textContent='Email-сервіс недоступний.';}
-  closeMobileGate();
+  try{const r=await fetch('./api/account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',name,email,phone})});const d=await r.json().catch(()=>({}));if(!r.ok){mobileAccountStatus.textContent=(d.error||'Не вдалося створити акаунт.')+(d.detail?' — '+d.detail:'');return;}mobileAccountStatus.textContent=t('accountVerificationSent');}catch{mobileAccountStatus.textContent='Email-сервіс недоступний.';return;}
   const saved=await saveMobileBookingAfterAccount(pendingMobileBooking);
-  if(saved)finishMobileBooking(pendingMobileBooking);
+  if(saved){closeMobileGate();finishMobileBooking(pendingMobileBooking);} else {mobileAccountStatus.textContent=mobileAccountStatus.textContent||t('accountBookingFailed');}
 });
 document.querySelector('#booking-success-close').onclick=closeBookingSuccess;
 document.querySelector('#booking-success-ok').onclick=closeBookingSuccess;
