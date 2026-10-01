@@ -319,6 +319,8 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const b = req.body || {};
 
+    const barberId = String(b.barberId || '').trim();
+    const serviceId = String(b.serviceId || '').trim();
     const barberName = String(b.barber || '').trim();
     const service = String(b.service || '').trim();
     const serviceKey = String(b.serviceKey || '').trim();
@@ -329,8 +331,8 @@ export default async function handler(req, res) {
     const customerEmail = String(b.customerEmail || '').trim().toLowerCase();
 
     if (
-      !barberName ||
-      (!service && !serviceKey) ||
+      !isUuid(barberId) ||
+      !isUuid(serviceId) ||
       !date ||
       !time ||
       !customerName ||
@@ -338,7 +340,7 @@ export default async function handler(req, res) {
     ) {
       return res.status(400).json({
         ok: false,
-        error: 'Missing booking fields',
+        error: 'Missing or invalid booking references',
       });
     }
 
@@ -355,16 +357,16 @@ export default async function handler(req, res) {
           url,
           key,
           barbersTable,
-          b.barberId,
-          barberName
+          barberId,
+          ''
         ),
         findService(
           url,
           key,
           servicesTable,
-          b.serviceId,
-          service,
-          serviceKey
+          serviceId,
+          '',
+          ''
         ),
       ]);
 
