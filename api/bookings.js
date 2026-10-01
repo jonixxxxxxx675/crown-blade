@@ -318,12 +318,8 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     const b = req.body || {};
-
     const barberId = String(b.barberId || '').trim();
     const serviceId = String(b.serviceId || '').trim();
-    const barberName = String(b.barber || '').trim();
-    const service = String(b.service || '').trim();
-    const serviceKey = String(b.serviceKey || '').trim();
     const date = String(b.date || '').trim();
     const time = String(b.time || '').trim().slice(0, 5);
     const customerName = String(b.customerName || '').trim();
@@ -340,7 +336,7 @@ export default async function handler(req, res) {
     ) {
       return res.status(400).json({
         ok: false,
-        error: 'Missing or invalid booking references',
+        error: 'Missing or invalid booking fields',
       });
     }
 
@@ -352,45 +348,11 @@ export default async function handler(req, res) {
     }
 
     try {
-      const [barber, serviceRow] = await Promise.all([
-        findBarber(
-          url,
-          key,
-          barbersTable,
-          barberId,
-          ''
-        ),
-        findService(
-          url,
-          key,
-          servicesTable,
-          serviceId,
-          '',
-          ''
-        ),
-      ]);
-
-      if (!barber) {
-        return res.status(422).json({
-          ok: false,
-          error: 'Barber not found',
-          detail: barberName,
-        });
-      }
-
-      if (!serviceRow) {
-        return res.status(422).json({
-          ok: false,
-          error: 'Service not found',
-          detail: service || serviceKey,
-        });
-      }
-
-      // Check the exact slot before INSERT. The unique index in Supabase
-      // remains the final protection against two simultaneous requests.
+      // Only the booking table is touched on the critical write path.
+      // barber_id/service_id are already real UUIDs from the frontend.
       const duplicateQuery = new URLSearchParams({
         select: 'id',
-        barber_id: `eq.${barber.id}`,
+        barber_id: `eq.${barberId}`,
         booking_date: `eq.${date}`,
         booking_time: `eq.${time}:00`,
         status: 'neq.cancelled',
@@ -403,7 +365,15 @@ export default async function handler(req, res) {
         `${table}?${duplicateQuery.toString()}`
       );
 
-      if (duplicate.response.ok && Array.isArray(duplicate.data) && duplicate.data.length) {
+      if (!duplicate.response.ok) {
+        return res.status(502).json({
+          ok: false,
+          error: 'Booking availability check failed',
+          detail: errorDetail(duplicate.data),
+        });
+      }
+
+      if (Array.isArray(duplicate.data) && duplicate.data.length) {
         return res.status(409).json({
           ok: false,
           error: 'That time may already be booked',
@@ -411,8 +381,8 @@ export default async function handler(req, res) {
       }
 
       const payload = {
-        barber_id: barber.id,
-        service_id: serviceRow.id,
+        barber_id: barberId,
+        service_id: serviceId,
         customer_name: customerName,
         customer_phone: customerPhone,
         customer_email: customerEmail || null,
@@ -432,7 +402,6 @@ export default async function handler(req, res) {
 
       if (!result.response.ok) {
         const conflict = isDuplicate(result.response, result.data);
-
         return res.status(conflict ? 409 : 502).json({
           ok: false,
           error: conflict
@@ -442,18 +411,16 @@ export default async function handler(req, res) {
         });
       }
 
-      const raw = Array.isArray(result.data)
-        ? result.data[0]
-        : result.data;
+      const raw = Array.isArray(result.data) ? result.data[0] : result.data;
 
       const booking = {
         id: raw?.id,
-        barberId: barber.id,
-        serviceId: serviceRow.id,
-        barber: barber.name || barberName,
-        service: serviceRow.name || service || serviceKey,
-        serviceKey,
-        price: serviceRow.price ?? b.price ?? '',
+        barberId,
+        serviceId,
+        barber: String(b.barber || '').trim(),
+        service: String(b.service || '').trim(),
+        serviceKey: String(b.serviceKey || '').trim(),
+        price: b.price ?? '',
         customerName,
         customerPhone,
         customerEmail: raw?.customer_email || customerEmail,
