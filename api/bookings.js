@@ -326,14 +326,7 @@ export default async function handler(req, res) {
     const customerPhone = String(b.customerPhone || '').trim();
     const customerEmail = String(b.customerEmail || '').trim().toLowerCase();
 
-    if (
-      !isUuid(barberId) ||
-      !isUuid(serviceId) ||
-      !date ||
-      !time ||
-      !customerName ||
-      !customerPhone
-    ) {
+    if (!isUuid(barberId) || !isUuid(serviceId) || !date || !time || !customerName || !customerPhone) {
       return res.status(400).json({
         ok: false,
         error: 'Missing or invalid booking fields',
@@ -348,38 +341,8 @@ export default async function handler(req, res) {
     }
 
     try {
-      // Only the booking table is touched on the critical write path.
-      // barber_id/service_id are already real UUIDs from the frontend.
-      const duplicateQuery = new URLSearchParams({
-        select: 'id',
-        barber_id: `eq.${barberId}`,
-        booking_date: `eq.${date}`,
-        booking_time: `eq.${time}:00`,
-        status: 'neq.cancelled',
-        limit: '1',
-      });
-
-      const duplicate = await rest(
-        url,
-        key,
-        `${table}?${duplicateQuery.toString()}`
-      );
-
-      if (!duplicate.response.ok) {
-        return res.status(502).json({
-          ok: false,
-          error: 'Booking availability check failed',
-          detail: errorDetail(duplicate.data),
-        });
-      }
-
-      if (Array.isArray(duplicate.data) && duplicate.data.length) {
-        return res.status(409).json({
-          ok: false,
-          error: 'That time may already be booked',
-        });
-      }
-
+      // The frontend sends real Supabase UUIDs. Do not resolve them by name.
+      // The unique index in Supabase is the final protection against races.
       const payload = {
         barber_id: barberId,
         service_id: serviceId,
@@ -402,19 +365,26 @@ export default async function handler(req, res) {
 
       if (!result.response.ok) {
         const conflict = isDuplicate(result.response, result.data);
-        return res.status(conflict ? 409 : 502).json({
+        const detail = errorDetail(result.data);
+        return res.status(conflict ? 409 : result.response.status >= 400 && result.response.status < 500 ? result.response.status : 502).json({
           ok: false,
-          error: conflict
-            ? 'That time may already be booked'
-            : 'Booking creation failed',
-          detail: errorDetail(result.data),
+          error: conflict ? 'That time may already be booked' : 'Booking creation failed',
+          detail,
+          code: result.data?.code || null,
         });
       }
 
       const raw = Array.isArray(result.data) ? result.data[0] : result.data;
 
+      if (!raw?.id) {
+        return res.status(502).json({
+          ok: false,
+          error: 'Booking was not returned by database',
+        });
+      }
+
       const booking = {
-        id: raw?.id,
+        id: raw.id,
         barberId,
         serviceId,
         barber: String(b.barber || '').trim(),
@@ -423,12 +393,12 @@ export default async function handler(req, res) {
         price: b.price ?? '',
         customerName,
         customerPhone,
-        customerEmail: raw?.customer_email || customerEmail,
-        date: raw?.booking_date || date,
-        time: String(raw?.booking_time || time).slice(0, 5),
-        status: raw?.status || 'confirmed',
-        notes: raw?.notes || b.notes || null,
-        createdAt: raw?.created_at || new Date().toISOString(),
+        customerEmail: raw.customer_email || customerEmail,
+        date: raw.booking_date || date,
+        time: String(raw.booking_time || time).slice(0, 5),
+        status: raw.status || 'confirmed',
+        notes: raw.notes || b.notes || null,
+        createdAt: raw.created_at || new Date().toISOString(),
       };
 
       const emailSent = await sendBookingEmail(booking);
